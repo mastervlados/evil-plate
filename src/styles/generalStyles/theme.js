@@ -1,36 +1,35 @@
 // ************
 // **** BG ****
 // ************
-const themeBase = '#24323F'
-const themeLevelOne = '#324458'
+const base = '#24323F'
+const levelOne = '#324458'
 // **************
 // **** TEXT ****
 // **************
-const themeTextCommon = '#FFFFFF'
-const themeTextValidationFailing = '#FF355E'
+const textCommon = '#FFFFFF'
+const textValidationFailing = '#FF355E'
 // **************
 // **** MOOD ****
 // **************
-const themePositive = '#02DAC5'
-const themeAgressive = '#BB86FC'
-const themeRelaxing = '#9195C1'
+const positive = '#02DAC5'
+const agressive = '#BB86FC'
+const relaxing = '#9195C1'
 // ***************
 // **** OTHER ****
 // ***************
-const themeItemMono = '#5E6D7D'
-const themeItemStereo = '#85929D'
-const themeItemSelf = '#AEB6BE'
-
+const itemMono = '#5E6D7D'
+const itemStereo = '#85929D'
+const itemSelf = '#AEB6BE'
 
 export {
-    themeBase,
-    themeLevelOne,
-    themeTextCommon,
-    themeTextValidationFailing,
-    themePositive,
-    themeAgressive,
-    themeRelaxing,
-    themeItemMono,
-    themeItemStereo,
-    themeItemSelf,
+    base,
+    levelOne,
+    textCommon,
+    textValidationFailing,
+    positive,
+    agressive,
+    relaxing,
+    itemMono,
+    itemStereo,
+    itemSelf,
 }

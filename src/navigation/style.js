@@ -1,33 +1,29 @@
-import { 
-    themeBase, 
-    themeLevelOne, 
-    themeTextCommon 
-} from '../styles/generalStyles/theme'
+import { Theme } from "../styles"
 
 const headerStyles = {
     headerStyle: {
         height: 88,
-        backgroundColor: themeLevelOne,
+        backgroundColor: Theme.levelOne,
     },
     headerTitleStyle: {
-        color: themeTextCommon,
+        color: Theme.textCommon,
         fontWeight: 400,
         fontFamily: 'roboto-regular',
         fontSize: 20,
     },
-    headerTintColor: themeTextCommon,
+    headerTintColor: Theme.textCommon,
 }
 
 const drawerStyles = {
     ...headerStyles,
     drawerStyle: {
-        backgroundColor: themeLevelOne,
+        backgroundColor: Theme.levelOne,
         paddingTop: 60,
     },
-    drawerActiveBackgroundColor: themeBase,
-    drawerActiveTintColor: themeTextCommon,
+    drawerActiveBackgroundColor: Theme.base,
+    drawerActiveTintColor: Theme.textCommon,
     drawerLabelStyle: {
-        color: themeTextCommon,
+        color: Theme.textCommon,
         fontFamily: 'roboto-regular',
         fontWeight: 400,
         fontSize: 14,
