@@ -1,3 +1,5 @@
-export { default as BookmarkSvg } from './BookmarkSvg.jsx'
-export { default as CogSvg } from './CogSvg.jsx'
+export { default as BookmarkSvg } from './BookmarkSvg'
+export { default as CogSvg } from './CogSvg'
 export { default as HumanBarbellSvg } from './HumanBarbellSvg'
+export { default as AddSvg } from './AddSvg'
+export { default as CancelSvg } from './CancelSvg'

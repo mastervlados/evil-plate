@@ -4,6 +4,7 @@ import * as SplashScreen from 'expo-splash-screen'
 import * as Font from 'expo-font'
 import { StatusBar } from 'expo-status-bar'
 import AppNavigation from './src/navigation'
+import { Theme } from './src/styles'
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false)
@@ -40,7 +41,10 @@ export default function App() {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={{flex: 1}} onLayout={onLayoutRootView}>
+      <View 
+        style={{ flex: 1, backgroundColor: Theme.base }} 
+        onLayout={onLayoutRootView}
+      >
         <StatusBar style="light" />
         <AppNavigation />
       </View>
