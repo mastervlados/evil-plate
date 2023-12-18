@@ -1,7 +1,9 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { View, TouchableWithoutFeedback, Keyboard } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
-
+import * as SplashScreen from 'expo-splash-screen'
+import * as Font from 'expo-font'
 import { StatusBar } from 'expo-status-bar'
+import AppNavigation from './src/navigation'
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false)
@@ -38,22 +40,10 @@ export default function App() {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={styles.container} onLayout={onLayoutRootView}>
-        {/* <AppNavigation/> */}
+      <View style={{flex: 1}} onLayout={onLayoutRootView}>
+        <StatusBar style="light" />
+        <AppNavigation />
       </View>
     </TouchableWithoutFeedback>
-    // <View style={styles.container}>
-    //   <Text>Open up App.js to start working on your app!</Text>
-    //   <StatusBar style="light" />
-    // </View>
-  );
+  )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
