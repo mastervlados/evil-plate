@@ -2,6 +2,12 @@ import { StyleSheet } from 'react-native'
 import { Theme } from '../../styles'
 
 export const styles = StyleSheet.create({
+    container: {
+        flex: 1, 
+        margin: 3, 
+        alignItems: 'center', 
+        justifyContent: 'center',
+    },
     itemBox: {
         width: 165,
         height: 64,
@@ -21,4 +27,9 @@ export const styles = StyleSheet.create({
     itemSelf: {
         borderColor: Theme.itemSelf,
     },
+    itemInvisible: {
+        borderLeftWidth: 0,
+        borderRightWidth: 0,
+        backgroundColor: 'transperent',
+    }
 })

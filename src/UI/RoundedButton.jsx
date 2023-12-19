@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { TouchableOpacity } from 'react-native'
 
-export default function RoundedButton({ children, styles, size, onPress }) {
+export default function RoundedButton({ children, styles, size, onPressFunc }) {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPressFunc ? onPressFunc : null}>
         <View style={{
             ...styles,
             width: size, 

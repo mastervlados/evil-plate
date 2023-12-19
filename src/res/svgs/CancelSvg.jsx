@@ -10,6 +10,7 @@ export default function HumanBarbellSvg({ size, fill }) {
     >
         <Path 
             d='M5.63165 14.3692L10.0008 10L14.37 14.3692M14.37 5.63086L9.99999 10L5.63165 5.63086'
+            fill='none'
             stroke={fill}
             strokeWidth='1.5'
             strokeLinecap='round'

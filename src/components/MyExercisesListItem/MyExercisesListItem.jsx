@@ -2,6 +2,7 @@ import { View, Text } from 'react-native'
 import React from 'react'
 import { styles } from './style'
 import { AppTextStyles } from '../../styles'
+import { TouchableHighlight } from 'react-native'
 
 export default function MyExercisesListItem({ title, type }) {
   
@@ -14,14 +15,29 @@ export default function MyExercisesListItem({ title, type }) {
     case 'self':
       boxStyles = {...boxStyles, ...styles.itemSelf}
       break
-    default:
+    case 'mono':
       boxStyles = {...boxStyles, ...styles.itemMono}
+      break
+    default:
+      boxStyles = {...boxStyles, ...styles.itemInvisible}
       break
   }
 
+  if (type === 'empty') {
+    return (
+      <View style={styles.container}>
+        <View style={boxStyles}></View>
+      </View>
+    )
+  }
+
   return (
-    <View style={boxStyles}>
-      <Text style={AppTextStyles.styles.textCommon}>{title}</Text>
+    <View style={styles.container}>
+      <TouchableHighlight onPress={() => console.log({type})}>
+        <View style={boxStyles}>
+          <Text style={AppTextStyles.styles.textCommon}>{title}</Text>
+        </View>
+      </TouchableHighlight>
     </View>
   )
 }
