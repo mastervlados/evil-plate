@@ -17,12 +17,13 @@ export const styles = StyleSheet.create({
         // borderWidth: 3,
     },
     headerLeft: {
-        flex: 4,
-        borderWidth: 3,
+        flex: 1,
+        // borderWidth: 3,
     },
     headerRight: {
-        flex: 1,
-        borderWidth: 3,
+        // flex: 1,
+        // borderWidth: 3,
+        justifyContent: 'center',
     },
     headerTextContainer: {
         marginHorizontal: 30,
@@ -50,4 +51,14 @@ export const styles = StyleSheet.create({
         marginLeft: 30,
         marginBottom: 10,
     },
+    headerTab: {
+          width: 70,
+          height: 60,
+    },
+    headerTopTab: {
+        borderTopLeftRadius: 20
+    },
+    headerBottomTab: {
+        borderBottomLeftRadius: 20
+    }
 })

@@ -3,10 +3,14 @@ import React, { useState } from 'react'
 import { styles } from './style'
 import RoundedButton from '../../UI/RoundedButton'
 import { CancelSvg } from '../../res/svgs'
-import { Buttons, Theme } from '../../styles'
+import { AppFormStyles, Buttons, Theme } from '../../styles'
 import TabsPannel from '../../components/TabsPannel'
 import { AppTextStyles } from '../../styles'
 import LazyButton from '../../UI/LazyButton'
+import SmartBlock from '../../UI/SmartBlock'
+import BodySvg from '../../res/svgs/BodySvg'
+import DumbbellsSvg from '../../res/svgs/DumbbellsSvg'
+import KettlebellSvg from '../../res/svgs/KettleBellSvg'
 
 export default function MyExercisesForm() {
     
@@ -30,10 +34,27 @@ export default function MyExercisesForm() {
                     </View>
                 </View>
                 <View style={styles.headerRight}>
-                    <TabsPannel isVertical={true}>
-                        <View>Tab 1</View>
-                        <View>Tab 2</View>
-                        <View>Tab 3</View>
+                    <TabsPannel 
+                        isVertical={true}
+                        activeTabIndex={2}
+                        defaultTabStyles={AppFormStyles.styles.formDefaultViewBox}
+                        activeTabStyles={AppFormStyles.styles.formActiveViewBox}
+                        defaultIconSize={42}
+                        defaultIconColor={Theme.relaxing}
+                        activeIconColor={Theme.agressive}
+                    >
+                        <SmartBlock 
+                            iconSvg={<BodySvg/>} 
+                            ownBoxStyles={{...styles.headerTab, ...styles.headerTopTab}}
+                        />
+                        <SmartBlock 
+                            iconSvg={<DumbbellsSvg/>} 
+                            ownBoxStyles={styles.headerTab}
+                        />
+                        <SmartBlock 
+                            iconSvg={<KettlebellSvg/>} 
+                            ownBoxStyles={{...styles.headerTab, ...styles.headerBottomTab}}
+                        />
                     </TabsPannel>
                 </View>
             </View>

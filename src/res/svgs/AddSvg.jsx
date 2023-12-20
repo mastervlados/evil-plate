@@ -1,7 +1,7 @@
 import React from 'react'
 import { Path, Svg } from 'react-native-svg'
 
-export default function HumanBarbellSvg({ size, fill }) {
+export default function AddSvg({ size, fill }) {
   return (
     <Svg 
         width={size ? size : 100} 

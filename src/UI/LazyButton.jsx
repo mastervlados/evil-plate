@@ -4,7 +4,10 @@ import { TouchableHighlight } from 'react-native'
 
 export default function LazyButton({buttonStyles, textStyles, text, onPressFunc}) {
   return (
-    <TouchableHighlight onPress={onPressFunc ? onPressFunc : null}>
+    <TouchableHighlight 
+      onPress={onPressFunc ? onPressFunc : null} 
+      underlayColor={'transperent'}
+    >
         <View style={{
             ...buttonStyles,
             height: 50,

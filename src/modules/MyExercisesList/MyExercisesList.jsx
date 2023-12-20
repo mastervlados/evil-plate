@@ -28,26 +28,23 @@ export default function MyExercisesList() {
   ])
 
   
-  const formatData = () => {
-    const numColumns = 2
-    // delete all previous created dummy blocks (filter)
-    let exercisesLength = exercises.length
+  const formatData = (data, numColumns) => {
+    const formatedData = data
+    let formatedDataLength = data.length
     let isCorrect = false
+
     while (!isCorrect) {
-      if (exercisesLength % numColumns === 0) {
+      if (formatedDataLength % numColumns === 0) {
         isCorrect = true
       } else {
-        setExercises([
-          ...exercises,
-          { 
-            key: `blank-${exercisesLength}`,
-            type: 'empty',
-          }
-        ])
-        exercisesLength += 1
+        formatedData.push({ 
+          key: `blank-${formatedDataLength}`,
+          type: 'empty',
+        })
+        formatedDataLength += 1
       }
     }
-    return exercises
+    return formatedData
   }
 
   return (
@@ -64,7 +61,7 @@ export default function MyExercisesList() {
       <View style={{flex: 1, alignItems: 'center'}}>
         <View style={styles.flatListPosition}>
           <FlatList 
-            data={formatData()}
+            data={formatData(exercises, 2)}
             style={{flex: 1}}
             numColumns={2}
             renderItem={({ item }) => <MyExercisesListItem {...item}/>}
