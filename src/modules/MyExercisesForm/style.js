@@ -8,33 +8,38 @@ export const styles = StyleSheet.create({
         backgroundColor: Theme.levelOne,
     },
     header: {
-        flex: 1,
+        // flex: 1,
         flexDirection: 'row',
     },
     body: {
         flex: 1,
-        borderWidth: 4,
+        // borderWidth: 4,
+        paddingLeft: 10,
+    },
+    insideBodyContainer: {
+        paddingRight: 10,
+        // borderWidth: 5,
     },
     footer: {
-        borderWidth: 3,
+        // borderWidth: 3,
     },
     headerLeft: {
         flex: 1,
-        borderWidth: 3,
+        // borderWidth: 3,
+        paddingHorizontal: 10,
     },
     headerRight: {
         // flex: 1,
-        borderWidth: 3,
+        // borderWidth: 3,
         justifyContent: 'center',
     },
     headerTextContainer: {
         marginHorizontal: 30,
     },
     buttonPosition: {
-        alignItems: 'baseline',
-        marginLeft: 10,
-        marginTop: 10,
-        marginBottom: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 15,
     },
     buttonTextStyles: {
         color: Theme.base,
@@ -48,15 +53,20 @@ export const styles = StyleSheet.create({
         marginVertical: 10,
     },
     textHeaderInScrollPosition: {
-        marginLeft: 50,
+        marginLeft: 30,
+    },
+    textDescriptionPosition: {
+        marginTop: 'auto',
+        marginBottom: 10,
+        width: '90%',
     },
     textInfoPosition: {
-        marginLeft: 30,
+        marginLeft: 20,
         marginBottom: 10,
     },
     headerTab: {
-          width: 70,
-          height: 60,
+          width: 60,
+          height: 50,
     },
     headerTopTab: {
         borderTopLeftRadius: 20

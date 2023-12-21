@@ -8,6 +8,7 @@ const levelOne = '#324458'
 // **************
 const textCommon = '#FFFFFF'
 const textValidationFailing = '#FF355E'
+const textHint = '#F9D6A3'
 // **************
 // **** MOOD ****
 // **************
@@ -32,4 +33,5 @@ export {
     itemMono,
     itemStereo,
     itemSelf,
+    textHint,
 }

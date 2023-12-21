@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { itemSelf, textCommon, textValidationFailing } from './generalStyles/theme'
+import { itemSelf, textCommon, textHint, textValidationFailing } from './generalStyles/theme'
 
 export const styles = StyleSheet.create({
     textCommon: {
@@ -20,8 +20,8 @@ export const styles = StyleSheet.create({
         fontWeight: '400',
         fontFamily: 'roboto-regular',
     },
-    textDescription: {
-        color: textCommon,
+    textHint: {
+        color: textHint,
         fontSize: 14,
         fontWeight: '300',
         fontFamily: 'roboto-light',

@@ -5,10 +5,10 @@ export const styles = StyleSheet.create({
     textInput: {
         paddingVertical: 10,
         paddingHorizontal: 20,
-        width: 340,
+        width: '100%',
         borderRadius: 20,
-        marginLeft: 'auto',
-        marginRight: 'auto',
+        // marginLeft: 'auto',
+        // marginRight: 'auto',
     },
     textValidationPosition: {
         marginTop: 5,
