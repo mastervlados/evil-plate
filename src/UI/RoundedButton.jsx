@@ -1,18 +1,26 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View } from 'react-native'
+import React, { cloneElement } from 'react'
 import { TouchableOpacity } from 'react-native'
 
-export default function RoundedButton({ children, styles, size, onPressFunc }) {
+export default function RoundedButton({ 
+    styles, 
+    size, 
+    onPressFunc,
+    iconSvg,
+    iconSize,
+    iconColor,
+}) {
+  const IconSvg = cloneElement(iconSvg, { size: iconSize, fill: iconColor })
   return (
-    <TouchableOpacity onPress={onPressFunc ? onPressFunc : null}>
-        <View style={{
-            ...styles,
-            width: size, 
-            height: size,  
-            borderRadius: size,
-        }}>
-            {children}
-        </View>
-    </TouchableOpacity>
+      <TouchableOpacity onPress={onPressFunc ? onPressFunc : null}>
+          <View style={{
+              ...styles,
+              width: size, 
+              height: size,  
+              borderRadius: size,
+          }}>
+              { IconSvg }
+          </View>
+      </TouchableOpacity>
   )
 }

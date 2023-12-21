@@ -50,13 +50,16 @@ export default function MyExercisesList() {
   return (
     <View style={{ flex: 1 }}>
       <View style={{width: 360, alignItems: 'center'}}>
-        <RoundedButton 
-          styles={{...Buttons.styles.success, ...styles.buttonPosition}} 
-          size={56}
-          onPressFunc={() => console.log('pressed from the screen')}
-        >
-          <AddSvg size={16} fill={Theme.base}/>
-        </RoundedButton>
+        <View style={styles.buttonPosition}>
+          <RoundedButton 
+            styles={Buttons.styles.success} 
+            size={56}
+            onPressFunc={() => console.log('pressed from the screen')}
+            iconSvg={<AddSvg/>}
+            iconSize={16}
+            iconColor={Theme.base}
+          />
+        </View>
       </View>
       <View style={{flex: 1, alignItems: 'center'}}>
         <View style={styles.flatListPosition}>
