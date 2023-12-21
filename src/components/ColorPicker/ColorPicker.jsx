@@ -5,10 +5,52 @@ import TabsPannel from '../TabsPannel'
 import SmartBlock from '../../UI/SmartBlock'
 import { AppFormStyles } from '../../styles'
 
-export default function TimerPicker({ setValueFunc }) {
-  const [firstValue, setFirstValue] = useState(-1)
-  const [secondValue, setSecondValue] = useState(1)
-  const [thirdValue, setThirdValue] = useState(-1)
+export default function ColorPicker({ currentValue, setValueFunc }) {
+
+  const firstCheckCurrentValue = (value) => {
+    switch (value) {
+      case 'color-one':
+        return 0
+      case 'color-two':
+        return 1
+      case 'color-three':
+        return 2
+      default:
+        return -1
+    }
+  }
+
+  const secondCheckCurrentValue = (value) => {
+    switch (value) {
+      case 'color-four':
+        return 0
+      case 'color-five':
+        return 1
+      case 'color-six':
+        return 2
+      default:
+        return -1
+    }
+  }
+
+  const thirdCheckCurrentValue = (value) => {
+    switch (value) {
+      case 'color-seven':
+        return 0
+      case 'color-eight':
+        return 1
+      case 'color-nine':
+        return 2
+      default:
+        return -1
+    }
+  }
+
+  const [firstValue, setFirstValue] = useState(firstCheckCurrentValue(currentValue))
+  const [secondValue, setSecondValue] = useState(secondCheckCurrentValue(currentValue))
+  const [thirdValue, setThirdValue] = useState(thirdCheckCurrentValue(currentValue))
+
+
 
   const tabsProps = {
     defaultTabStyles: styles.defaultStyles,

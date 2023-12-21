@@ -16,6 +16,8 @@ export const styles = StyleSheet.create({
     commonBox: {
         width: 80,
         height: 60,
+        borderWidth: 3,
+        borderColor: Theme.base,
     },
     itemFirst: {
         backgroundColor: Theme.itemFirst,

@@ -21,7 +21,7 @@ export default function MyExercisesForm() {
   const [modalOpen, setModalOpen] = useState(true)
   const [exerceseName, setExerciseName] = useState('')
   const [pickedTimer, setPickedTimer] = useState(180)
-  const [pickedColor, setPickedColor] = useState('color-five')
+  const [pickedColor, setPickedColor] = useState('color-one')
 //   const [isKeyboardVisible, setKeyboardVisible] = useState(false)
   const [isFooterShowStyles, setFooterShowStyles] = useState(true)
   useEffect(() => {
@@ -110,7 +110,7 @@ export default function MyExercisesForm() {
 
                 <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition, ...styles.textHeaderInScrollPosition}}>4. Осталось выбрать цвет рамки:</Text>
                 <Text style={{...AppTextStyles.styles.textInfo, ...styles.textInfoPosition}}>(можно будет поменять значение в настройках)</Text>
-                <ColorPicker setValueFunc={setPickedColor}/>
+                <ColorPicker currentValue={pickedColor} setValueFunc={setPickedColor}/>
                 <View style={{height: Dimensions.get('window').height / 3}} />
             </View>
         </KeyboardAwareScrollView>
