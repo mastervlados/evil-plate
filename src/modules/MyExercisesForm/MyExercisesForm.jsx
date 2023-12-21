@@ -13,14 +13,17 @@ import DumbbellsSvg from '../../res/svgs/DumbbellsSvg'
 import KettlebellSvg from '../../res/svgs/KettlebellSvg'
 import ExerciseNameInput from '../../components/ExerciseNameInput/ExerciseNameInput'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import TimerPicker from '../../components/TimerPicker'
+import ColorPicker from '../../components/ColorPicker'
 
 export default function MyExercisesForm() {
     
   const [modalOpen, setModalOpen] = useState(true)
   const [exerceseName, setExerciseName] = useState('')
+  const [pickedTimer, setPickedTimer] = useState(180)
+  const [pickedColor, setPickedColor] = useState('color-five')
 //   const [isKeyboardVisible, setKeyboardVisible] = useState(false)
   const [isFooterShowStyles, setFooterShowStyles] = useState(true)
-
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
         'keyboardDidShow',
@@ -97,14 +100,18 @@ export default function MyExercisesForm() {
             </View>
             <View style={styles.insideBodyContainer}>
                 <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition, ...styles.textHeaderInScrollPosition}}>2. Напишите название упражнения:</Text>
-
+                <Text style={{...AppTextStyles.styles.textInfo, ...styles.textInfoPosition}}>(можно будет поменять значение в настройках)</Text>
                 <ExerciseNameInput exerceseName={exerceseName} setExerciseName={setExerciseName}/>
 
                 <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition, ...styles.textHeaderInScrollPosition}}>3. Сколько времени будет длиться отдых между подходами?</Text>
 
-                <Text style={{...AppTextStyles.styles.textInfo, ...styles.textInfoPosition}}>(можно поменять значение в настройках)</Text>
-                
-                
+                <Text style={{...AppTextStyles.styles.textInfo, ...styles.textInfoPosition}}>(можно будет поменять значение в настройках)</Text>
+                <TimerPicker setValueFunc={setPickedTimer}/>
+
+                <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition, ...styles.textHeaderInScrollPosition}}>4. Осталось выбрать цвет рамки:</Text>
+                <Text style={{...AppTextStyles.styles.textInfo, ...styles.textInfoPosition}}>(можно будет поменять значение в настройках)</Text>
+                <ColorPicker setValueFunc={setPickedColor}/>
+                <View style={{height: Dimensions.get('window').height / 3}} />
             </View>
         </KeyboardAwareScrollView>
 

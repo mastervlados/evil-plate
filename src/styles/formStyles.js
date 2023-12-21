@@ -13,6 +13,12 @@ export const styles = StyleSheet.create({
         fontWeight: '400',
         fontFamily: 'roboto-regular',
     },
+    formDefaultHeader: {
+        color: relaxing,
+        fontSize: 14,
+        fontWeight: '600',
+        fontFamily: 'roboto-bold',
+    },
     formActiveViewBox: {
         borderWidth: 2,
         borderColor: agressive,
@@ -23,6 +29,12 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: '400',
         fontFamily: 'roboto-regular',
+    },
+    formActiveHeader: {
+        color: agressive,
+        fontSize: 14,
+        fontWeight: '600',
+        fontFamily: 'roboto-bold',
     },
     formDefaultTextInput: {
         backgroundColor: base,

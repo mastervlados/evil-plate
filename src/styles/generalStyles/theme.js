@@ -21,6 +21,15 @@ const relaxing = '#9195C1'
 const itemMono = '#5E6D7D'
 const itemStereo = '#85929D'
 const itemSelf = '#AEB6BE'
+const itemFirst = 'red'
+const itemSecond = 'blue'
+const itemThird = 'orange'
+const itemFourth = 'skyblue'
+const itemFifth = 'lightgray'
+const itemSixth = 'lime'
+const itemSeventh = 'gray'
+const itemEight = 'pink'
+const itemNinth = 'purple'
 
 export {
     base,
@@ -34,4 +43,13 @@ export {
     itemStereo,
     itemSelf,
     textHint,
+    itemFirst,
+    itemSecond,
+    itemThird,
+    itemFourth,
+    itemFifth,
+    itemSixth,
+    itemSeventh,
+    itemEight,
+    itemNinth,
 }

@@ -14,6 +14,8 @@ export default function TabsPannel({
   activeIconSize = defaultIconSize,
   defaultIconColor,
   activeIconColor,
+  ownStyles,
+  customValueFunc,
 }) {
   
   const [activeTab, setActiveTab] = useState(activeTabIndex)
@@ -27,7 +29,7 @@ export default function TabsPannel({
   const tabs = children.map((child, index) => {
     
     let Tab = null
-    if (activeTab === index) {
+    if (customValueFunc ? activeTabIndex === index : activeTab === index) {
       Tab = cloneElement(child, { 
         iconSize: activeIconSize,
         iconColor: activeIconColor,
@@ -46,7 +48,7 @@ export default function TabsPannel({
     return (
       <TouchableHighlight 
         key={index} 
-        onPress={() => setActiveTab(index)}
+        onPress={customValueFunc ? () => customValueFunc(index) : () => setActiveTab(index)}
         underlayColor={'transperent'}
       >
         {Tab}
@@ -54,7 +56,7 @@ export default function TabsPannel({
     )
   })
   return (
-    <View style={containerStyles}>
+    <View style={{...containerStyles, ...ownStyles}}>
       {tabs}
     </View>
   )
