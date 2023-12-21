@@ -1,5 +1,5 @@
 import { Modal, View, Text, ScrollView, SafeAreaView, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Dimensions } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { styles } from './style'
 import RoundedButton from '../../UI/RoundedButton'
 import { CancelSvg } from '../../res/svgs'
@@ -12,11 +12,35 @@ import BodySvg from '../../res/svgs/BodySvg'
 import DumbbellsSvg from '../../res/svgs/DumbbellsSvg'
 import KettlebellSvg from '../../res/svgs/KettlebellSvg'
 import ExerciseNameInput from '../../components/ExerciseNameInput/ExerciseNameInput'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export default function MyExercisesForm() {
     
   const [modalOpen, setModalOpen] = useState(true)
   const [exerceseName, setExerciseName] = useState('')
+//   const [isKeyboardVisible, setKeyboardVisible] = useState(false)
+  const [isFooterShowStyles, setFooterShowStyles] = useState(true)
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+        'keyboardDidShow',
+        () => {
+            setFooterShowStyles(false);
+        }
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+        'keyboardDidHide',
+        () => {
+            setFooterShowStyles(true);
+        }
+    );
+        
+    return () => {
+        keyboardDidHideListener.remove();
+        keyboardDidShowListener.remove();
+    };
+  }, []);
+
   return (
     <Modal visible={modalOpen} animationType='slide'>
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -36,7 +60,7 @@ export default function MyExercisesForm() {
         
         
         
-        <ScrollView 
+        <KeyboardAwareScrollView
             style={styles.body}
             showsVerticalScrollIndicator={false}
         >
@@ -80,13 +104,11 @@ export default function MyExercisesForm() {
 
                 <Text style={{...AppTextStyles.styles.textInfo, ...styles.textInfoPosition}}>(можно поменять значение в настройках)</Text>
                 
-                <View style={{height: Dimensions.get('window').height / 2,}}/>
+                
             </View>
-        </ScrollView>
-        
-        
+        </KeyboardAwareScrollView>
 
-        <View style={styles.footer}>
+        <View style={isFooterShowStyles ? {...styles.footer, display: 'block'} : {...styles.footer, display: 'none'} }>
             <LazyButton
                 buttonStyles={Buttons.styles.success}
                 textStyles={styles.buttonTextStyles}

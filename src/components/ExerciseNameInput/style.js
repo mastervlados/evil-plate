@@ -12,6 +12,6 @@ export const styles = StyleSheet.create({
     },
     textValidationPosition: {
         marginTop: 5,
-        marginLeft: 30,
+        marginLeft: 22,
     }
 })

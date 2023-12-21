@@ -3,8 +3,8 @@ import { Theme } from '../../styles'
 
 export const styles = StyleSheet.create({
     container: {
-        // flex: 1,
-        height: Dimensions.get('window').height - 20,
+        flex: 1,
+        // height: Dimensions.get('window').height - 20,
         backgroundColor: Theme.levelOne,
     },
     header: {
@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     body: {
-        flex: 1,
+        // flex: 1,
         // borderWidth: 4,
         paddingLeft: 10,
     },
@@ -21,6 +21,7 @@ export const styles = StyleSheet.create({
         // borderWidth: 5,
     },
     footer: {
+        // display: 'none',
         // borderWidth: 3,
     },
     headerLeft: {

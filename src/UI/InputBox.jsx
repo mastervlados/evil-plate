@@ -22,10 +22,7 @@ export default function InputBox({
         style={isPressed ? {...activeStyles, ...ownStyles} : { ...defaultStyles, ...ownStyles}}
         placeholder={placeholder}
         onBlur={() => setPress(false)}
-        onFocus={() => {
-          setPress(true)
-          scrollTo({x: 0, y: 50, animated: true})
-        }}
+        onFocus={() => setPress(true)}
         onChangeText={(text) => updateValueFunc(text)}
         value={currentValue}
     />

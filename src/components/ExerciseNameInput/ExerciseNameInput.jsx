@@ -16,6 +16,7 @@ export default function ExerciseNameInput({exerceseName, setExerciseName}) {
             ownStyles={styles.textInput}
             currentValue={exerceseName}
             updateValueFunc={setExerciseName}
+            placeholder={'My Exercise is called ..'}
         />
         {reg.test(exerceseName) ? null : <Text style={{...AppTextStyles.styles.textValidationFailing, ...styles.textValidationPosition}}>Only letters and numbers are allowed.</Text>}
     </>
