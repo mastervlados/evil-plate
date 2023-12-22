@@ -1,10 +1,12 @@
-import { View, FlatList } from 'react-native'
+import { View, FlatList, Dimensions } from 'react-native'
 import React, { useState } from 'react'
 import RoundedButton from '../../UI/RoundedButton'
 import { Buttons, Theme } from '../../styles'
 import { AddSvg } from '../../res/svgs'
 import { styles } from './style'
 import MyExercisesListItem from '../../components/MyExercisesListItem'
+import { LinearGradient } from 'expo-linear-gradient'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export default function MyExercisesList() {
   const [exercises, setExercises] = useState([
@@ -61,15 +63,47 @@ export default function MyExercisesList() {
           />
         </View>
       </View>
-      <View style={{flex: 1, alignItems: 'center'}}>
-        <View style={styles.flatListPosition}>
-          <FlatList 
-            data={formatData(exercises, 2)}
-            style={{flex: 1}}
-            numColumns={2}
-            renderItem={({ item }) => <MyExercisesListItem {...item}/>}
-          />
-        </View>
+      <View style={styles.body}>
+          <LinearGradient
+                colors={[Theme.base, 'transparent']}
+                locations={[0, 1]}
+                start={{x: 0, y: 0}}
+                end={{x: 0, y: 1}}
+                style={{
+                    width: '100%',
+                    height: 30,
+                    position: 'absolute',
+                    top: 0,
+                    zIndex: 100,
+                }}/>
+
+          <LinearGradient
+              colors={[Theme.base, 'transparent']}
+              start={{x: 0, y: 1}}
+              end={{x: 0, y: 0}}
+              style={{
+                  width: '100%',
+                  height: 30,
+                  position: 'absolute',
+                  bottom: 0,
+                  zIndex: 101,
+              }}/>
+
+          <KeyboardAwareScrollView 
+            style={styles.scrollContainer}
+            showsVerticalScrollIndicator={false}
+          >
+           
+              <FlatList 
+                scrollEnabled={false}
+                data={formatData(exercises, 2)}
+                style={{flex: 1}}
+                numColumns={2}
+                renderItem={({ item }) => <MyExercisesListItem {...item}/>}
+              />
+            
+            <View style={{height: Dimensions.get('window').height / 3}} />
+          </KeyboardAwareScrollView>
       </View>
     </View>
   )

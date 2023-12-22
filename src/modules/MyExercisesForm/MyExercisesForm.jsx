@@ -1,4 +1,4 @@
-import { Modal, View, Text, ScrollView, SafeAreaView, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Dimensions } from 'react-native'
+import { Modal, View, Text, ScrollView, SafeAreaView, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Dimensions, ImageBackground } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { styles } from './style'
 import RoundedButton from '../../UI/RoundedButton'
@@ -15,10 +15,11 @@ import ExerciseNameInput from '../../components/ExerciseNameInput/ExerciseNameIn
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import TimerPicker from '../../components/TimerPicker'
 import ColorPicker from '../../components/ColorPicker'
+import { LinearGradient } from 'expo-linear-gradient'
 
 export default function MyExercisesForm() {
     
-  const [modalOpen, setModalOpen] = useState(true)
+  const [modalOpen, setModalOpen] = useState(false)
   const [exerceseName, setExerciseName] = useState('')
   const [pickedTimer, setPickedTimer] = useState(180)
   const [pickedColor, setPickedColor] = useState('color-one')
@@ -48,7 +49,6 @@ export default function MyExercisesForm() {
     <Modal visible={modalOpen} animationType='slide'>
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.container}>
-
         <View style={styles.buttonPosition}>
             <RoundedButton 
                 styles={Buttons.styles.formOutline} 
@@ -61,12 +61,38 @@ export default function MyExercisesForm() {
         </View>
 
         
-        
+
+  
+        <LinearGradient
+            colors={[Theme.levelOne, 'transparent']}
+            locations={[0, 1]}
+            start={{x: 0, y: 0}}
+            end={{x: 0, y: 1}}
+            style={{
+                width: '100%',
+                height: 30,
+                position: 'absolute',
+                top: 75,
+                zIndex: 100,
+            }}/>
+
+        {isFooterShowStyles ? <LinearGradient
+                                colors={[Theme.levelOne, 'transparent']}
+                                start={{x: 0, y: 1}}
+                                end={{x: 0, y: 0}}
+                                style={{
+                                    width: '100%',
+                                    height: 30,
+                                    position: 'absolute',
+                                    bottom: 55,
+                                    zIndex: 101,
+                                }}/> : null}
         
         <KeyboardAwareScrollView
             style={styles.body}
             showsVerticalScrollIndicator={false}
         >
+
             <View style={styles.header}>
                 <View style={styles.headerLeft}>
                         {/* choose mode and descripton */}
@@ -123,8 +149,8 @@ export default function MyExercisesForm() {
                 onPressFunc={() => console.log('Lazy button pressed')}
             />
         </View>
- 
     </View>
+    
     </TouchableWithoutFeedback>
     </Modal>
   )

@@ -25,7 +25,7 @@ function Root() {
                                         fill={Theme.textCommon}/>
                 }}
             />
-            <Drawer.Screen
+            {/* <Drawer.Screen
                 name='MyTrainingScreen'
                 component={MyTrainingScreen}
                 options={{
@@ -33,7 +33,7 @@ function Root() {
                                         size={24} 
                                         fill={Theme.textCommon}/>
                 }}
-            />
+            /> */}
             <Drawer.Screen
                 name='SettingsScreen'
                 component={SettingsScreen}

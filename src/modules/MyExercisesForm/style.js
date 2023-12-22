@@ -14,7 +14,9 @@ export const styles = StyleSheet.create({
     body: {
         // flex: 1,
         // borderWidth: 4,
+        position: 'relative',
         paddingLeft: 10,
+        paddingTop: 30,
     },
     insideBodyContainer: {
         paddingRight: 10,
@@ -23,6 +25,7 @@ export const styles = StyleSheet.create({
     footer: {
         // display: 'none',
         // borderWidth: 3,
+        marginTop: 5,
     },
     headerLeft: {
         flex: 1,
@@ -40,7 +43,9 @@ export const styles = StyleSheet.create({
     buttonPosition: {
         alignItems: 'center',
         justifyContent: 'center',
-        paddingVertical: 15,
+        // paddingVertical: 15,
+        paddingTop: 15,
+        paddingBottom: 5,
     },
     buttonTextStyles: {
         color: Theme.base,
