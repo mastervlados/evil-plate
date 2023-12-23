@@ -1,5 +1,5 @@
 import { View, FlatList, Dimensions } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import RoundedButton from '../../UI/RoundedButton'
 import { Buttons, Theme } from '../../styles'
 import { AddSvg } from '../../res/svgs'
@@ -7,29 +7,28 @@ import { styles } from './style'
 import MyExercisesListItem from '../../components/MyExercisesListItem'
 import { LinearGradient } from 'expo-linear-gradient'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { useDispatch, useSelector } from 'react-redux'
+import AppContext from '../../../AppContext'
 
 export default function MyExercisesList() {
-  const [exercises, setExercises] = useState([
-    {key: 1, title: '1 Exercise with a barbell for example', type: 'mono'},
-    {key: 2, title: '2 Exercise with dumbbells for example', type: 'stereo'},
-    {key: 3, title: 'Exercise with self body weight', type: 'self'},
-    {key: 4, title: 'Exercise with a barbell for example', type: 'mono'},
-    {key: 5, title: 'Exercise with dumbbells for example', type: 'stereo'},
-    {key: 6, title: 'Exercise with self body weight', type: 'self'},
-    {key: 7, title: 'Exercise with a barbell for example', type: 'mono'},
-    {key: 8, title: 'Exercise with dumbbells for example', type: 'stereo'},
-    {key: 9, title: 'Exercise with self body weight', type: 'self'},
-    {key: 10, title: 'Exercise with a barbell for example', type: 'mono'},
-    {key: 11, title: 'Exercise with dumbbells for example', type: 'stereo'},
-    {key: 12, title: 'Exercise with self body weight', type: 'self'},
-    {key: 13, title: 'Exercise with a barbell for example', type: 'mono'},
-    {key: 14, title: 'Exercise with dumbbells for example', type: 'stereo'},
-    {key: 15, title: 'Exercise with self body weight', type: 'self'},
-    {key: 16, title: '-2 Exercise with a barbell for example', type: 'mono'},
-    {key: 18, title: '-1 Exercise with self body weight (last)', type: 'self'},
-  ])
+  const dispatch = useDispatch()
+  const exercises = useSelector(state => state.myExercisesListReducer.exercises)
+  const areExercisesLoaded = useSelector(state => state.myExercisesListReducer.areExercisesLoaded)
+  const service = useContext(AppContext)
 
-  
+  // https://www.youtube.com/watch?v=Z1r8SzXtX8U&list=PL8p2I9GklV44NMx-i9-A0EN3X-s7cDdty&index=8
+
+  useEffect(() => {
+    const loadExercisesList = async () => {
+      await service.getExercisesList().then((result) => {
+        console.log(result)
+      });
+    };
+    if (!areExercisesLoaded) {
+      loadExercisesList();
+    }
+  }, []);
+
   const formatData = (data, numColumns) => {
     const formatedData = data
     let formatedDataLength = data.length

@@ -5,6 +5,10 @@ import * as Font from 'expo-font'
 import { StatusBar } from 'expo-status-bar'
 import AppNavigation from './src/navigation'
 import { Theme } from './src/styles'
+import { Provider } from 'react-redux'
+import store from './src/redux'
+import DummyAppService from './src/services/DummyAppService'
+import AppContext from './AppContext'
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false)
@@ -39,15 +43,21 @@ export default function App() {
     return null
   }
 
+  const appService = new DummyAppService()
+
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View 
-        style={{ flex: 1, backgroundColor: Theme.base }} 
-        onLayout={onLayoutRootView}
-      >
-        <StatusBar style="light" />
-        <AppNavigation />
-      </View>
-    </TouchableWithoutFeedback>
+    <Provider store={store}>
+      <AppContext.Provider value={appService}>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <View 
+            style={{ flex: 1, backgroundColor: Theme.base }} 
+            onLayout={onLayoutRootView}
+          >
+            <StatusBar style="light" />
+            <AppNavigation />
+          </View>
+        </TouchableWithoutFeedback>
+      </AppContext.Provider>
+    </Provider>
   )
 }
