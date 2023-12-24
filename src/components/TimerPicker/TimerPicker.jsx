@@ -5,10 +5,7 @@ import TabsPannel from '../TabsPannel'
 import SmartBlock from '../../UI/SmartBlock'
 import { AppFormStyles } from '../../styles'
 
-export default function TimerPicker({ setValueFunc }) {
-  const [firstValue, setFirstValue] = useState(-1)
-  const [secondValue, setSecondValue] = useState(1)
-  const [thirdValue, setThirdValue] = useState(-1)
+export default function TimerPicker({ currentValue, setValueFunc }) {
 
   const tabsProps = {
     defaultTabStyles: AppFormStyles.styles.formDefaultViewBox,
@@ -16,62 +13,34 @@ export default function TimerPicker({ setValueFunc }) {
     defaultTextStyles: AppFormStyles.styles.formDefaultHeader,
     activeTextStyles: AppFormStyles.styles.formActiveHeader,
   }
-  const firstValueController = (index) => {
-    setFirstValue(index)
-    setSecondValue(-1)
-    setThirdValue(-1)
-    switch (index) {
-        case 0:
-            setValueFunc(60)
-            break
-        case 1:
-            setValueFunc(90)
-            break
-        case 2:
-            setValueFunc(120)
-            break
-    }
-  }
-  const secondValueController = (index) => {
-    setFirstValue(-1)
-    setSecondValue(index)
-    setThirdValue(-1)
-    switch (index) {
-        case 0:
-            setValueFunc(150)
-            break
-        case 1:
-            setValueFunc(180)
-            break
-        case 2:
-            setValueFunc(210)
-            break
-    }
-  }
-  const thirdValueController = (index) => {
-    setFirstValue(-1)
-    setSecondValue(-1)
-    setThirdValue(index)
-    switch (index) {
-        case 0:
-            setValueFunc(240)
-            break
-        case 1:
-            setValueFunc(270)
-            break
-        case 2:
-            setValueFunc(300)
-            break
-    }
-  }
+
+  const timerTabsTopRow = [
+    { id: 0, name: 60, },
+    { id: 1, name: 90, },
+    { id: 2, name: 120, },
+  ]
+
+  const timerTabsMiddleRow = [
+    { id: 0, name: 150, },
+    { id: 1, name: 180, },
+    { id: 2, name: 210, },
+  ]
+
+  const timerTabsBottomRow = [
+    { id: 0, name: 240, },
+    { id: 1, name: 270, },
+    { id: 2, name: 300, },
+  ]
+
   return (
     <View style={styles.container}>
       {/* top */}
       <TabsPannel
         {...tabsProps}
-        activeTabIndex={firstValue}
+        listOfTabs={timerTabsTopRow}
+        activeTab={currentValue}
+        setActiveTabFunc={setValueFunc}
         ownStyles={styles.tabsRow}
-        customValueFunc={firstValueController}
       >
         <SmartBlock 
             blockText={'1 мин'}
@@ -89,9 +58,10 @@ export default function TimerPicker({ setValueFunc }) {
       {/* middle */}
       <TabsPannel
         {...tabsProps}
-        activeTabIndex={secondValue}
+        listOfTabs={timerTabsMiddleRow}
+        activeTab={currentValue}
+        setActiveTabFunc={setValueFunc}
         ownStyles={styles.tabsRow}
-        customValueFunc={secondValueController}
       >
         <SmartBlock 
             blockText={'2 мин\n30 сек'}
@@ -109,9 +79,10 @@ export default function TimerPicker({ setValueFunc }) {
       {/* bottom */}
       <TabsPannel
         {...tabsProps}
-        activeTabIndex={thirdValue}
+        listOfTabs={timerTabsBottomRow}
+        activeTab={currentValue}
+        setActiveTabFunc={setValueFunc}
         ownStyles={styles.tabsRow}
-        customValueFunc={thirdValueController}
       >
         <SmartBlock 
             blockText={'4 мин'}

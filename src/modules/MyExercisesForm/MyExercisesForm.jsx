@@ -25,11 +25,11 @@ export default function MyExercisesForm() {
 
   const initialState = {
     exerceseName: '',
-    pickedMode: 2,
+    pickedMode: 'mono',
     pickedTimer: 180,
     pickedColor: 'color-five',
   }
-  
+
   const [exerceseName, setExerciseName] = useState(initialState.exerceseName)
   const [pickedMode, setMode] = useState(initialState.pickedMode)
   const [pickedTimer, setTimer] = useState(initialState.pickedTimer)
@@ -93,6 +93,11 @@ export default function MyExercisesForm() {
     }
     
   }
+  const modeTabs = [
+    { id: 0, name: 'self', hint: 'Hint for self' },
+    { id: 1, name: 'stereo', hint: 'Hint for stereo' },
+    { id: 2, name: 'mono', hint: 'Hint for mono' },
+  ]
 
   return (
     <Modal visible={modalOpen} animationType='slide'>
@@ -146,12 +151,14 @@ export default function MyExercisesForm() {
                 <View style={styles.headerLeft}>
                         {/* choose mode and descripton */}
                         <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition}}>1. Выберите подходящий режим:</Text>
-                        <Text style={{...AppTextStyles.styles.textHint, ...styles.textDescriptionPosition}}>Режим.Описание режима в зависимости от нажатой кнопки. Всего 4 строки пояснительного текста</Text>
+                        <Text style={{...AppTextStyles.styles.textHint, ...styles.textDescriptionPosition}}>{modeTabs.find((tab) => tab.name === pickedMode).hint}</Text>
                 </View>
                 <View style={styles.headerRight}>
                     <TabsPannel 
                             isVertical={true}
-                            activeTabIndex={2}
+                            listOfTabs={modeTabs}
+                            activeTab={pickedMode}
+                            setActiveTabFunc={setMode}
                             defaultTabStyles={AppFormStyles.styles.formDefaultViewBox}
                             activeTabStyles={AppFormStyles.styles.formActiveViewBox}
                             defaultIconSize={38}
@@ -181,7 +188,7 @@ export default function MyExercisesForm() {
                 <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition, ...styles.textHeaderInScrollPosition}}>3. Сколько времени будет длиться отдых между подходами?</Text>
 
                 <Text style={{...AppTextStyles.styles.textInfo, ...styles.textInfoPosition}}>(можно будет поменять значение в настройках)</Text>
-                <TimerPicker setValueFunc={setTimer}/>
+                <TimerPicker currentValue={pickedTimer} setValueFunc={setTimer}/>
 
                 <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition, ...styles.textHeaderInScrollPosition}}>4. Осталось выбрать цвет рамки:</Text>
                 <Text style={{...AppTextStyles.styles.textInfo, ...styles.textInfoPosition}}>(можно будет поменять значение в настройках)</Text>

@@ -3,8 +3,10 @@ import React, { cloneElement, useState } from 'react'
 import { styles } from './style'
 
 export default function TabsPannel({ 
-  children, 
-  activeTabIndex = -1,
+  children,
+  listOfTabs,
+  activeTab, // hint: @name field!
+  setActiveTabFunc,
   isVertical = false, 
   defaultTabStyles, 
   activeTabStyles,
@@ -15,10 +17,7 @@ export default function TabsPannel({
   defaultIconColor,
   activeIconColor,
   ownStyles,
-  customValueFunc,
 }) {
-  
-  const [activeTab, setActiveTab] = useState(activeTabIndex)
 
   let containerStyles = styles.horizontalContainer
 
@@ -29,7 +28,8 @@ export default function TabsPannel({
   const tabs = children.map((child, index) => {
     
     let Tab = null
-    if (customValueFunc ? activeTabIndex === index : activeTab === index) {
+    const checked = listOfTabs.find((tab) => tab.name === activeTab)
+    if ((typeof(checked) === 'undefined' ? -1 : checked.id) === index) {
       Tab = cloneElement(child, { 
         iconSize: activeIconSize,
         iconColor: activeIconColor,
@@ -48,7 +48,7 @@ export default function TabsPannel({
     return (
       <TouchableHighlight 
         key={index} 
-        onPress={customValueFunc ? () => customValueFunc(index) : () => setActiveTab(index)}
+        onPress={() => setActiveTabFunc(listOfTabs.find((tab) => tab.id === index).name)}
         underlayColor={'transperent'}
       >
         {Tab}
