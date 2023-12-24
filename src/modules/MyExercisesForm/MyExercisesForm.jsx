@@ -1,4 +1,4 @@
-import { Modal, View, Text, ScrollView, SafeAreaView, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Dimensions, ImageBackground } from 'react-native'
+import { Modal, View, Text, ScrollView, SafeAreaView, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Dimensions, ImageBackground, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { styles } from './style'
 import RoundedButton from '../../UI/RoundedButton'
@@ -16,15 +16,26 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import TimerPicker from '../../components/TimerPicker'
 import ColorPicker from '../../components/ColorPicker'
 import { LinearGradient } from 'expo-linear-gradient'
+import { useDispatch, useSelector } from 'react-redux'
+import { onExercisesFormVisibleChanged } from '../../redux/actions/myExercisesFormActions'
 
 export default function MyExercisesForm() {
-    
-  const [modalOpen, setModalOpen] = useState(false)
-  const [exerceseName, setExerciseName] = useState('')
-  const [pickedTimer, setPickedTimer] = useState(180)
-  const [pickedColor, setPickedColor] = useState('color-one')
-//   const [isKeyboardVisible, setKeyboardVisible] = useState(false)
+  const dispatch = useDispatch()
+  const modalOpen = useSelector(state => state.myExercisesFormReducer.isExercisesFormOpened)
+
+  const initialState = {
+    exerceseName: '',
+    pickedMode: 2,
+    pickedTimer: 180,
+    pickedColor: 'color-five',
+  }
+  
+  const [exerceseName, setExerciseName] = useState(initialState.exerceseName)
+  const [pickedMode, setMode] = useState(initialState.pickedMode)
+  const [pickedTimer, setTimer] = useState(initialState.pickedTimer)
+  const [pickedColor, setColor] = useState(initialState.pickedColor)
   const [isFooterShowStyles, setFooterShowStyles] = useState(true)
+
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
         'keyboardDidShow',
@@ -45,6 +56,44 @@ export default function MyExercisesForm() {
     };
   }, []);
 
+  const closeThisForm = () => {
+
+    const closeFunc = () => {
+        setExerciseName(initialState.exerceseName)
+        setMode(initialState.pickedMode)
+        setTimer(initialState.pickedTimer)
+        setColor(initialState.pickedColor)
+        dispatch(onExercisesFormVisibleChanged(false))
+    }
+
+    if (exerceseName !== initialState.exerceseName || 
+        pickedMode !== initialState.pickedMode ||
+        pickedTimer !== initialState.pickedTimer ||
+        pickedColor !== initialState.pickedColor) {
+        // State was changed and 
+        // we should ask user about clousing this form 
+        // without saving data..
+        Alert.alert(
+            'this is top',
+            'this is bottom',
+            [
+                {
+                    text: 'Yes',
+                    onPress: () => {
+                        closeFunc()
+                    },
+                },
+                {
+                    text: 'No',
+                }
+            ]
+        )
+    } else {
+        closeFunc()
+    }
+    
+  }
+
   return (
     <Modal visible={modalOpen} animationType='slide'>
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -53,7 +102,7 @@ export default function MyExercisesForm() {
             <RoundedButton 
                 styles={Buttons.styles.formOutline} 
                 size={56}
-                onPressFunc={() => console.log('pressed from the modal')}
+                onPressFunc={() => closeThisForm()}
                 iconSvg={<CancelSvg/>}
                 iconSize={20}
                 iconColor={Theme.itemSelf}
@@ -132,11 +181,11 @@ export default function MyExercisesForm() {
                 <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition, ...styles.textHeaderInScrollPosition}}>3. Сколько времени будет длиться отдых между подходами?</Text>
 
                 <Text style={{...AppTextStyles.styles.textInfo, ...styles.textInfoPosition}}>(можно будет поменять значение в настройках)</Text>
-                <TimerPicker setValueFunc={setPickedTimer}/>
+                <TimerPicker setValueFunc={setTimer}/>
 
                 <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition, ...styles.textHeaderInScrollPosition}}>4. Осталось выбрать цвет рамки:</Text>
                 <Text style={{...AppTextStyles.styles.textInfo, ...styles.textInfoPosition}}>(можно будет поменять значение в настройках)</Text>
-                <ColorPicker currentValue={pickedColor} setValueFunc={setPickedColor}/>
+                <ColorPicker currentValue={pickedColor} setValueFunc={setColor}/>
                 <View style={{height: Dimensions.get('window').height / 3}} />
             </View>
         </KeyboardAwareScrollView>

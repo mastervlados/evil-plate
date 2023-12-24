@@ -1,11 +1,12 @@
-import { GET_EXERCISES_LIST } from "../constants"
+import { ON_EXERCISES_LIST_LOADED } from "../constants"
 
-const getExercisesList = () => {
+const onExercisesListLoaded = (exercises) => {
     return {
-        type: GET_EXERCISES_LIST,
+        type: ON_EXERCISES_LIST_LOADED,
+        payload: exercises,
     }
 }
 
 export {
-    getExercisesList,
+    onExercisesListLoaded,
 }

@@ -9,6 +9,8 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useDispatch, useSelector } from 'react-redux'
 import AppContext from '../../../AppContext'
+import { onExercisesListLoaded } from '../../redux/actions/myExercisesListActions'
+import { onExercisesFormVisibleChanged } from '../../redux/actions/myExercisesFormActions'
 
 export default function MyExercisesList() {
   const dispatch = useDispatch()
@@ -21,11 +23,13 @@ export default function MyExercisesList() {
   useEffect(() => {
     const loadExercisesList = async () => {
       await service.getExercisesList().then((result) => {
-        console.log(result)
+        dispatch(onExercisesListLoaded(result))
       });
     };
     if (!areExercisesLoaded) {
       loadExercisesList();
+    } else {
+      console.log('useEffect from the List!')
     }
   }, []);
 
@@ -55,7 +59,7 @@ export default function MyExercisesList() {
           <RoundedButton 
             styles={Buttons.styles.success} 
             size={56}
-            onPressFunc={() => console.log('pressed from the screen')}
+            onPressFunc={() => dispatch(onExercisesFormVisibleChanged(true))}
             iconSvg={<AddSvg/>}
             iconSize={16}
             iconColor={Theme.base}
@@ -95,6 +99,7 @@ export default function MyExercisesList() {
            
               <FlatList 
                 scrollEnabled={false}
+                keyExtractor={(item) => item.id}
                 data={formatData(exercises, 2)}
                 style={{flex: 1}}
                 numColumns={2}

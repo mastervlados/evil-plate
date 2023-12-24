@@ -1,4 +1,4 @@
-import { GET_EXERCISES_LIST } from "../constants"
+import { ON_EXERCISES_LIST_LOADED } from "../constants"
 
 const initialState = {
     exercises: [],
@@ -8,9 +8,11 @@ const initialState = {
 const myExercisesListReducer = (state = initialState, action) => {
 
     switch (action.type) {
-        case GET_EXERCISES_LIST:
+        case ON_EXERCISES_LIST_LOADED:
             return {
                 ...state,
+                exercises: action.payload,
+                areExercisesLoaded: true,
             }
         default:
             return state

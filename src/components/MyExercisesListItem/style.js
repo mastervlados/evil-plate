@@ -18,15 +18,6 @@ export const styles = StyleSheet.create({
         borderRightWidth: 5,
         backgroundColor: Theme.levelOne,
     },
-    itemMono: {
-        borderColor: Theme.itemMono,
-    },
-    itemStereo: {
-        borderColor: Theme.itemStereo,
-    },
-    itemSelf: {
-        borderColor: Theme.itemSelf,
-    },
     itemInvisible: {
         borderLeftWidth: 0,
         borderRightWidth: 0,
