@@ -21,15 +21,15 @@ const relaxing = '#9195C1'
 const itemMono = '#5E6D7D'
 const itemStereo = '#85929D'
 const itemSelf = '#AEB6BE'
-const itemFirst = 'red'
-const itemSecond = 'blue'
-const itemThird = 'orange'
-const itemFourth = 'skyblue'
-const itemFifth = 'lightgray'
-const itemSixth = 'lime'
-const itemSeventh = 'gray'
-const itemEight = 'pink'
-const itemNinth = 'purple'
+const itemFirst = '#E54D42' // Red
+const itemSecond = '#3A99D8' // Blue
+const itemThird = '#30AD63' // Green
+const itemFourth = '#CA2C92' // ?
+const itemFifth = '#9457EB' // Evil
+const itemSixth = '#17202A' // ?
+const itemSeventh = '#F0C330' // Yellow
+const itemEight = '#E47E30' // Orange
+const itemNinth = '#BFC9CA' // LightGray
 
 export {
     base,

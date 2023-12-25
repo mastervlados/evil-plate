@@ -1,4 +1,4 @@
-import { View, FlatList, Dimensions } from 'react-native'
+import { View, FlatList, ScrollView, Dimensions } from 'react-native'
 import React, { useContext, useEffect } from 'react'
 import RoundedButton from '../../UI/RoundedButton'
 import { Buttons, Theme } from '../../styles'
@@ -6,7 +6,6 @@ import { AddSvg } from '../../res/svgs'
 import { styles } from './style'
 import MyExercisesListItem from '../../components/MyExercisesListItem'
 import { LinearGradient } from 'expo-linear-gradient'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useDispatch, useSelector } from 'react-redux'
 import AppContext from '../../../AppContext'
 import { onExercisesListLoaded } from '../../redux/actions/myExercisesListActions'
@@ -31,7 +30,7 @@ export default function MyExercisesList() {
     } else {
       console.log('useEffect from the List!')
     }
-  }, []);
+  }, [exercises]);
 
   const formatData = (data, numColumns) => {
     const formatedData = data
@@ -92,7 +91,7 @@ export default function MyExercisesList() {
                   zIndex: 101,
               }}/>
 
-          <KeyboardAwareScrollView 
+          <ScrollView 
             style={styles.scrollContainer}
             showsVerticalScrollIndicator={false}
           >
@@ -107,7 +106,7 @@ export default function MyExercisesList() {
               />
             
             <View style={{height: Dimensions.get('window').height / 3}} />
-          </KeyboardAwareScrollView>
+          </ScrollView>
       </View>
     </View>
   )

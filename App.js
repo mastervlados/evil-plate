@@ -12,6 +12,7 @@ import AppContext from './AppContext'
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false)
+  const appService = new DummyAppService()
 
   useEffect(() => {
     async function prepare() {
@@ -43,7 +44,7 @@ export default function App() {
     return null
   }
 
-  const appService = new DummyAppService()
+  
 
   return (
     <Provider store={store}>

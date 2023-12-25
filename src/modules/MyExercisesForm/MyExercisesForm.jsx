@@ -1,5 +1,5 @@
 import { Modal, View, Text, ScrollView, SafeAreaView, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Dimensions, ImageBackground, Alert } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { styles } from './style'
 import RoundedButton from '../../UI/RoundedButton'
 import { CancelSvg } from '../../res/svgs'
@@ -12,29 +12,39 @@ import BodySvg from '../../res/svgs/BodySvg'
 import DumbbellsSvg from '../../res/svgs/DumbbellsSvg'
 import KettlebellSvg from '../../res/svgs/KettlebellSvg'
 import ExerciseNameInput from '../../components/ExerciseNameInput/ExerciseNameInput'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import TimerPicker from '../../components/TimerPicker'
 import ColorPicker from '../../components/ColorPicker'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useDispatch, useSelector } from 'react-redux'
 import { onExercisesFormVisibleChanged } from '../../redux/actions/myExercisesFormActions'
+import { checkExerciseName } from '../../res/helpers/validation'
+
 
 export default function MyExercisesForm() {
   const dispatch = useDispatch()
   const modalOpen = useSelector(state => state.myExercisesFormReducer.isExercisesFormOpened)
 
   const initialState = {
-    exerceseName: '',
+    exerciseName: '',
     pickedMode: 'mono',
     pickedTimer: 180,
     pickedColor: 'color-five',
   }
 
-  const [exerceseName, setExerciseName] = useState(initialState.exerceseName)
+  const [exerceseName, setExerciseName] = useState(initialState.exerciseName)
+  const [isMessageVisible, setMessageVisible] = useState(false) 
   const [pickedMode, setMode] = useState(initialState.pickedMode)
   const [pickedTimer, setTimer] = useState(initialState.pickedTimer)
   const [pickedColor, setColor] = useState(initialState.pickedColor)
   const [isFooterShowStyles, setFooterShowStyles] = useState(true)
+  const [scrollRef, setScrollRef] = useState(null)
+  const [inputPosY, setInputPosY] = useState(0)
+
+  const modeTabs = [
+    { id: 0, name: 'self', hint: 'Hint for self' },
+    { id: 1, name: 'stereo', hint: 'Hint for stereo' },
+    { id: 2, name: 'mono', hint: 'Hint for mono' },
+  ]
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -93,11 +103,22 @@ export default function MyExercisesForm() {
     }
     
   }
-  const modeTabs = [
-    { id: 0, name: 'self', hint: 'Hint for self' },
-    { id: 1, name: 'stereo', hint: 'Hint for stereo' },
-    { id: 2, name: 'mono', hint: 'Hint for mono' },
-  ]
+
+  const onSubmit = () => {
+    const details = checkExerciseName(exerceseName)
+    if (details.status) {
+        const newExercise = {
+            title: exerceseName, 
+            type: pickedMode, 
+            breakDuration: pickedTimer,
+            colorNumber: pickedColor,
+        }
+        console.log(newExercise)
+    } else {
+        setMessageVisible(true)
+        scrollRef.scrollTo({ x: 0, y: inputPosY, animated: true })
+    }
+  }
 
   return (
     <Modal visible={modalOpen} animationType='slide'>
@@ -142,7 +163,8 @@ export default function MyExercisesForm() {
                                     zIndex: 101,
                                 }}/> : null}
         
-        <KeyboardAwareScrollView
+        <ScrollView
+            ref={ref => setScrollRef(ref)}
             style={styles.body}
             showsVerticalScrollIndicator={false}
         >
@@ -183,8 +205,16 @@ export default function MyExercisesForm() {
             <View style={styles.insideBodyContainer}>
                 <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition, ...styles.textHeaderInScrollPosition}}>2. Напишите название упражнения:</Text>
                 <Text style={{...AppTextStyles.styles.textInfo, ...styles.textInfoPosition}}>(можно будет поменять значение в настройках)</Text>
-                <ExerciseNameInput exerceseName={exerceseName} setExerciseName={setExerciseName}/>
-
+                <View onLayout={(event) => {
+                    const layout = event.nativeEvent.layout;
+                    setInputPosY(layout.y + 54)
+                }}>            
+                    <ExerciseNameInput 
+                        currentValue={exerceseName} 
+                        setValueFunc={setExerciseName} 
+                        showMessage={isMessageVisible} 
+                    />
+                </View>    
                 <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition, ...styles.textHeaderInScrollPosition}}>3. Сколько времени будет длиться отдых между подходами?</Text>
 
                 <Text style={{...AppTextStyles.styles.textInfo, ...styles.textInfoPosition}}>(можно будет поменять значение в настройках)</Text>
@@ -195,14 +225,14 @@ export default function MyExercisesForm() {
                 <ColorPicker currentValue={pickedColor} setValueFunc={setColor}/>
                 <View style={{height: Dimensions.get('window').height / 3}} />
             </View>
-        </KeyboardAwareScrollView>
+        </ScrollView>
 
         <View style={isFooterShowStyles ? {...styles.footer, display: 'block'} : {...styles.footer, display: 'none'} }>
             <LazyButton
                 buttonStyles={Buttons.styles.success}
                 textStyles={styles.buttonTextStyles}
                 text={'Create'}
-                onPressFunc={() => console.log('Lazy button pressed')}
+                onPressFunc={() => onSubmit()}
             />
         </View>
     </View>
