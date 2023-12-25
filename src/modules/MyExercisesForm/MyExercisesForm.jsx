@@ -105,7 +105,7 @@ export default function MyExercisesForm() {
   }
 
   const onSubmit = () => {
-    const details = checkExerciseName(exerceseName)
+    const details = checkExerciseName(exerceseName ? exerceseName : '')
     if (details.status) {
         const newExercise = {
             title: exerceseName, 

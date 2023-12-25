@@ -44,8 +44,6 @@ export default function App() {
     return null
   }
 
-  
-
   return (
     <Provider store={store}>
       <AppContext.Provider value={appService}>
