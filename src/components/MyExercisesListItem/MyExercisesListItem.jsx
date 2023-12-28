@@ -4,29 +4,29 @@ import { styles } from './style'
 import { AppTextStyles, Theme } from '../../styles'
 import { TouchableHighlight } from 'react-native'
 
-export default function MyExercisesListItem({ title, type, colorNumber }) {
+export default function MyExercisesListItem({ id, title, type, colorNumber }) {
   
   let boxStyles = styles.itemBox
 
   const getBorderColorByNumber = (colorNumber) => {
     switch (colorNumber) {
-      case 1:
+      case 'color-one':
         return Theme.itemFirst
-      case 2:
+      case 'color-two':
         return Theme.itemSecond
-      case 3:
+      case 'color-three':
         return Theme.itemThird
-      case 4:
+      case 'color-four':
         return Theme.itemFourth
-      case 5:
+      case 'color-five':
         return Theme.itemFifth
-      case 6:
+      case 'color-six':
         return Theme.itemSixth
-      case 7:
+      case 'color-seven':
         return Theme.itemSeventh
-      case 8:
+      case 'color-eight':
         return Theme.itemEight
-      case 9:
+      case 'color-nine':
         return Theme.itemNinth
     }
   }
@@ -56,7 +56,7 @@ export default function MyExercisesListItem({ title, type, colorNumber }) {
 
   return (
     <View style={styles.container}>
-      <TouchableHighlight onPress={() => console.log({type})}>
+      <TouchableHighlight onPress={() => console.log(id)}>
         <View style={boxStyles}>
           <Text style={AppTextStyles.styles.textCommon}>{title}</Text>
         </View>

@@ -1,4 +1,4 @@
-import { ON_EXERCISES_LIST_LOADED } from "../constants"
+import { ON_ADD_EXERCISE, ON_EXERCISES_LIST_LOADED } from "../constants"
 
 const onExercisesListLoaded = (exercises) => {
     return {
@@ -7,6 +7,13 @@ const onExercisesListLoaded = (exercises) => {
     }
 }
 
+const onAddExercise = (exercise) => {
+    return {
+        type: ON_ADD_EXERCISE,
+        payload: exercise,
+    }
+}
 export {
     onExercisesListLoaded,
+    onAddExercise,
 }

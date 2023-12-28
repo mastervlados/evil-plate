@@ -5,6 +5,20 @@ export default class AppService {
 
     target = 'evil-plate.db'
     database
+
+    _transformExercise(oneExerciseObj) {
+        const item = {
+            id: oneExerciseObj.id,
+            title: oneExerciseObj.exr_name,
+            type: oneExerciseObj.exr_global_type,
+            breakDuration: oneExerciseObj.exr_global_break_duration,
+            colorNumber: oneExerciseObj.exr_color_number,
+            measureUnit: oneExerciseObj.exr_global_measure_unit,
+            records: oneExerciseObj.exr_best_results,
+            created: oneExerciseObj.exr_created
+        }
+        return item
+    }
     
     async initDatabase() {
         const dirInfo = await (await FileSystem.getInfoAsync(FileSystem.documentDirectory + 'SQLite')).exists;
@@ -58,6 +72,30 @@ export default class AppService {
             (txObj, error) => console.warn(error))});
     }
 
+    async getExercises() {
+
+        await this.initDatabase();
+
+        const exercises = await new Promise((resolve, reject) => {
+            this.database.transaction(tx => {
+                tx.executeSql(
+                    `SELECT * FROM exercise`,
+                    null,
+                    function(_, { rows }) {
+                        resolve(rows._array);
+                    },
+                    function(_, error) {
+                        reject(error.message);
+                    }
+                )
+            })
+        });
+
+        const formatedExercises = await exercises.map((exercise) => this._transformExercise(exercise));
+
+        return await formatedExercises.reverse();
+    }
+
     async createExercise({ title, type, breakDuration, colorNumber }) {
 
         await this.initDatabase();
@@ -76,7 +114,7 @@ export default class AppService {
                     }
                 )
             })
-        })
+        });
 
         const getNewExercise = await new Promise((resolve, reject) => {
             this.database.transaction(tx => {
@@ -91,19 +129,8 @@ export default class AppService {
                     }
                 )
             })
-        })
+        });
 
-        const transformedData = {
-            id: getNewExercise.id,
-            title: getNewExercise.exr_name,
-            type: getNewExercise.exr_global_type,
-            breakDuration: getNewExercise.exr_global_break_duration,
-            colorNumber: getNewExercise.exr_color_number,
-            measureUnit: getNewExercise.exr_global_measure_unit,
-            records: getNewExercise.exr_best_results,
-            created: getNewExercise.exr_created
-        }
-
-        // return transformedData
+        return await this._transformExercise(getNewExercise);
     }
 }

@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { onExercisesFormVisibleChanged } from '../../redux/actions/myExercisesFormActions'
 import { checkExerciseName } from '../../res/helpers/validation'
 import AppContext from '../../../AppContext'
+import { onAddExercise } from '../../redux/actions/myExercisesListActions'
 
 export default function MyExercisesForm() {
   const dispatch = useDispatch()
@@ -115,7 +116,8 @@ export default function MyExercisesForm() {
             colorNumber: pickedColor,
         }
         const getNewExercise = await service.createExercise(newExercise);
-        // console.log(getNewExercise)
+        dispatch(onAddExercise(getNewExercise));
+        dispatch(onExercisesFormVisibleChanged(false));
     } else {
         setMessageVisible(true)
         scrollRef.scrollTo({ x: 0, y: inputPosY, animated: true })
