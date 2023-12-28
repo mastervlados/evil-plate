@@ -1,7 +1,7 @@
 import { ON_EXERCISES_FORM_VISIBLE_CHANGED } from "../constants"
 
 const initialState = {
-    isExercisesFormOpened: false,
+    isExercisesFormOpened: true,
 }
 
 const myExercisesFormReducer = (state = initialState, action) => {

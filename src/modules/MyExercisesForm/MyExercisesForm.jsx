@@ -1,5 +1,5 @@
 import { Modal, View, Text, ScrollView, SafeAreaView, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Dimensions, ImageBackground, Alert } from 'react-native'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { styles } from './style'
 import RoundedButton from '../../UI/RoundedButton'
 import { CancelSvg } from '../../res/svgs'
@@ -18,11 +18,12 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { useDispatch, useSelector } from 'react-redux'
 import { onExercisesFormVisibleChanged } from '../../redux/actions/myExercisesFormActions'
 import { checkExerciseName } from '../../res/helpers/validation'
-
+import AppContext from '../../../AppContext'
 
 export default function MyExercisesForm() {
   const dispatch = useDispatch()
   const modalOpen = useSelector(state => state.myExercisesFormReducer.isExercisesFormOpened)
+  const service = useContext(AppContext)
 
   const initialState = {
     exerciseName: '',
@@ -104,7 +105,7 @@ export default function MyExercisesForm() {
     
   }
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     const details = checkExerciseName(exerceseName ? exerceseName : '')
     if (details.status) {
         const newExercise = {
@@ -113,7 +114,8 @@ export default function MyExercisesForm() {
             breakDuration: pickedTimer,
             colorNumber: pickedColor,
         }
-        console.log(newExercise)
+        const getNewExercise = await service.createExercise(newExercise);
+        // console.log(getNewExercise)
     } else {
         setMessageVisible(true)
         scrollRef.scrollTo({ x: 0, y: inputPosY, animated: true })

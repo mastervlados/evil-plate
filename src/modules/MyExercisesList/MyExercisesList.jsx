@@ -19,18 +19,18 @@ export default function MyExercisesList() {
 
   // https://www.youtube.com/watch?v=Z1r8SzXtX8U&list=PL8p2I9GklV44NMx-i9-A0EN3X-s7cDdty&index=8
 
-  useEffect(() => {
-    const loadExercisesList = async () => {
-      await service.getExercisesList().then((result) => {
-        dispatch(onExercisesListLoaded(result))
-      });
-    };
-    if (!areExercisesLoaded) {
-      loadExercisesList();
-    } else {
-      console.log('useEffect from the List!')
-    }
-  }, [exercises]);
+  // useEffect(() => {
+  //   const loadExercisesList = async () => {
+  //     await service.getExercisesList().then((result) => {
+  //       dispatch(onExercisesListLoaded(result))
+  //     });
+  //   };
+  //   if (!areExercisesLoaded) {
+  //     loadExercisesList();
+  //   } else {
+  //     console.log('useEffect from the List!')
+  //   }
+  // }, [exercises]);
 
   const formatData = (data, numColumns) => {
     const formatedData = data
