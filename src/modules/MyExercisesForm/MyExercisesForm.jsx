@@ -16,7 +16,7 @@ import TimerPicker from '../../components/TimerPicker'
 import ColorPicker from '../../components/ColorPicker'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useDispatch, useSelector } from 'react-redux'
-import { onExercisesFormVisibleChanged } from '../../redux/actions/myExercisesFormActions'
+import { onExercisesFormColorChanged, onExercisesFormMessageVisibleChanged, onExercisesFormModeChanged, onExercisesFormNameChanged, onExercisesFormTimerChanged, onExercisesFormVisibleChanged } from '../../redux/actions/myExercisesFormActions'
 import { checkExerciseName } from '../../res/helpers/validation'
 import AppContext from '../../../AppContext'
 import { onAddExercise } from '../../redux/actions/myExercisesListActions'
@@ -25,19 +25,21 @@ export default function MyExercisesForm() {
   const dispatch = useDispatch()
   const modalOpen = useSelector(state => state.myExercisesFormReducer.isExercisesFormOpened)
   const service = useContext(AppContext)
-
-  const initialState = {
+  
+  const initialInteractions = {
     exerciseName: '',
     pickedMode: 'mono',
     pickedTimer: 180,
     pickedColor: 'color-five',
+    isMessageVisible: false,
   }
 
-  const [exerceseName, setExerciseName] = useState(initialState.exerciseName)
-  const [isMessageVisible, setMessageVisible] = useState(false) 
-  const [pickedMode, setMode] = useState(initialState.pickedMode)
-  const [pickedTimer, setTimer] = useState(initialState.pickedTimer)
-  const [pickedColor, setColor] = useState(initialState.pickedColor)
+  const exerciseName = useSelector(state => state.myExercisesFormReducer.interactions.exerciseName)
+  const isMessageVisible = useSelector(state => state.myExercisesFormReducer.isMessageVisible)
+  const pickedMode = useSelector(state => state.myExercisesFormReducer.interactions.pickedMode)
+  const pickedTimer = useSelector(state => state.myExercisesFormReducer.interactions.pickedTimer)
+  const pickedColor = useSelector(state => state.myExercisesFormReducer.interactions.pickedColor)
+  const [wasSubmitButtonPressed, setSubmitButtonPressed] = useState(false)
   const [isFooterShowStyles, setFooterShowStyles] = useState(true)
   const [scrollRef, setScrollRef] = useState(null)
   const [inputPosY, setInputPosY] = useState(0)
@@ -68,20 +70,21 @@ export default function MyExercisesForm() {
     };
   }, []);
 
+  const closeFunc = () => {
+    dispatch(onExercisesFormNameChanged(initialInteractions.exerciseName))
+    dispatch(onExercisesFormModeChanged(initialInteractions.pickedMode))
+    dispatch(onExercisesFormTimerChanged(initialInteractions.pickedTimer))
+    dispatch(onExercisesFormColorChanged(initialInteractions.pickedColor))
+    dispatch(onExercisesFormMessageVisibleChanged(initialInteractions.isMessageVisible))
+    dispatch(onExercisesFormVisibleChanged(false))
+  }
+
   const closeThisForm = () => {
 
-    const closeFunc = () => {
-        setExerciseName(initialState.exerceseName)
-        setMode(initialState.pickedMode)
-        setTimer(initialState.pickedTimer)
-        setColor(initialState.pickedColor)
-        dispatch(onExercisesFormVisibleChanged(false))
-    }
-
-    if (exerceseName !== initialState.exerceseName || 
-        pickedMode !== initialState.pickedMode ||
-        pickedTimer !== initialState.pickedTimer ||
-        pickedColor !== initialState.pickedColor) {
+    if (exerciseName !== initialInteractions.exerciseName || 
+        pickedMode !== initialInteractions.pickedMode ||
+        pickedTimer !== initialInteractions.pickedTimer ||
+        pickedColor !== initialInteractions.pickedColor) {
         // State was changed and 
         // we should ask user about clousing this form 
         // without saving data..
@@ -107,21 +110,27 @@ export default function MyExercisesForm() {
   }
 
   const onSubmit = async () => {
-    const details = checkExerciseName(exerceseName ? exerceseName : '')
-    if (details.status) {
-        const newExercise = {
-            title: exerceseName, 
-            type: pickedMode, 
-            breakDuration: pickedTimer,
-            colorNumber: pickedColor,
+    if (!wasSubmitButtonPressed) {
+        setSubmitButtonPressed(true)
+        const details = checkExerciseName(exerciseName)
+        if (details.status) {
+            const newExercise = {
+                title: exerciseName, 
+                type: pickedMode, 
+                breakDuration: pickedTimer,
+                colorNumber: pickedColor,
+            }
+            const getNewExercise = await service.createExercise(newExercise);
+            dispatch(onAddExercise(getNewExercise));
+            closeFunc();
+        } else {
+            dispatch(onExercisesFormMessageVisibleChanged(true))
+            scrollRef.scrollTo({ x: 0, y: inputPosY, animated: true })
         }
-        const getNewExercise = await service.createExercise(newExercise);
-        dispatch(onAddExercise(getNewExercise));
-        dispatch(onExercisesFormVisibleChanged(false));
-    } else {
-        setMessageVisible(true)
-        scrollRef.scrollTo({ x: 0, y: inputPosY, animated: true })
+        // This means that we finish here
+        setSubmitButtonPressed(false)
     }
+    // Do nothing!
   }
 
   return (
@@ -184,7 +193,7 @@ export default function MyExercisesForm() {
                             isVertical={true}
                             listOfTabs={modeTabs}
                             activeTab={pickedMode}
-                            setActiveTabFunc={setMode}
+                            setActiveTabFunc={(active) => dispatch(onExercisesFormModeChanged(active))}
                             defaultTabStyles={AppFormStyles.styles.formDefaultViewBox}
                             activeTabStyles={AppFormStyles.styles.formActiveViewBox}
                             defaultIconSize={38}
@@ -214,19 +223,25 @@ export default function MyExercisesForm() {
                     setInputPosY(layout.y + 54)
                 }}>            
                     <ExerciseNameInput 
-                        currentValue={exerceseName} 
-                        setValueFunc={setExerciseName} 
+                        currentValue={exerciseName} 
+                        setValueFunc={(title) => dispatch(onExercisesFormNameChanged(title))} 
                         showMessage={isMessageVisible} 
                     />
                 </View>    
                 <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition, ...styles.textHeaderInScrollPosition}}>3. Сколько времени будет длиться отдых между подходами?</Text>
 
                 <Text style={{...AppTextStyles.styles.textInfo, ...styles.textInfoPosition}}>(можно будет поменять значение в настройках)</Text>
-                <TimerPicker currentValue={pickedTimer} setValueFunc={setTimer}/>
+                <TimerPicker 
+                    currentValue={pickedTimer} 
+                    setValueFunc={(timer) => dispatch(onExercisesFormTimerChanged(timer))}
+                />
 
                 <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition, ...styles.textHeaderInScrollPosition}}>4. Осталось выбрать цвет рамки:</Text>
                 <Text style={{...AppTextStyles.styles.textInfo, ...styles.textInfoPosition}}>(можно будет поменять значение в настройках)</Text>
-                <ColorPicker currentValue={pickedColor} setValueFunc={setColor}/>
+                <ColorPicker 
+                    currentValue={pickedColor} 
+                    setValueFunc={(color) => dispatch(onExercisesFormColorChanged(color))}
+                />
                 <View style={{height: Dimensions.get('window').height / 3}} />
             </View>
         </ScrollView>

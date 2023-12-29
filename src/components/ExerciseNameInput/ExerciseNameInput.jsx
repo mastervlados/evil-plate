@@ -18,9 +18,9 @@ export default function ExerciseNameInput({ currentValue, setValueFunc, showMess
             updateValueFunc={setValueFunc}
             placeholder={'My exercise is called ..'}
         />
-        { showMessage && !checkExerciseName(currentValue ? currentValue : '').status ? (
+        { showMessage && !checkExerciseName(currentValue).status ? (
           <Animatable.View animation='fadeInLeft' duration={500}>
-            <Text style={{...AppTextStyles.styles.textValidationFailing, ...styles.textValidationPosition}}>{checkExerciseName(currentValue ? currentValue : '').message}</Text>
+            <Text style={{...AppTextStyles.styles.textValidationFailing, ...styles.textValidationPosition}}>{checkExerciseName(currentValue).message}</Text>
           </Animatable.View>
         ) : null }
         
