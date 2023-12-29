@@ -12,11 +12,11 @@ import { onExercisesListLoaded } from '../../redux/actions/myExercisesListAction
 import { onExercisesFormVisibleChanged } from '../../redux/actions/myExercisesFormActions'
 
 export default function MyExercisesList() {
+  
   const dispatch = useDispatch()
   const exercises = useSelector(state => state.myExercisesListReducer.exercises)
   const areExercisesLoaded = useSelector(state => state.myExercisesListReducer.areExercisesLoaded)
   const service = useContext(AppContext)
-
   // https://www.youtube.com/watch?v=Z1r8SzXtX8U&list=PL8p2I9GklV44NMx-i9-A0EN3X-s7cDdty&index=8
 
   useEffect(() => {

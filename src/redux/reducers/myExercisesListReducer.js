@@ -1,4 +1,4 @@
-import { ON_ADD_EXERCISE, ON_EXERCISES_LIST_LOADED } from "../constants"
+import { ON_ADD_EXERCISE, ON_EXERCISES_LIST_LOADED, PUT_NAVIGATION } from "../constants"
 
 const initialState = {
     exercises: [],

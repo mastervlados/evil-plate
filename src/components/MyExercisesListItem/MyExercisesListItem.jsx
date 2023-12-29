@@ -3,8 +3,11 @@ import React from 'react'
 import { styles } from './style'
 import { AppTextStyles, Theme } from '../../styles'
 import { TouchableHighlight } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
 export default function MyExercisesListItem({ id, title, type, colorNumber }) {
+  
+  const navigation = useNavigation()
   
   let boxStyles = styles.itemBox
 
@@ -56,7 +59,9 @@ export default function MyExercisesListItem({ id, title, type, colorNumber }) {
 
   return (
     <View style={styles.container}>
-      <TouchableHighlight onPress={() => console.log(id)}>
+      <TouchableHighlight onPress={() => navigation.navigate('ExerciseScreen', {
+        title,
+      })}>
         <View style={boxStyles}>
           <Text style={AppTextStyles.styles.textCommon}>{title}</Text>
         </View>

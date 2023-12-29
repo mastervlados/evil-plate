@@ -14,6 +14,7 @@ const Drawer = createDrawerNavigator()
 const Stack = createStackNavigator()
 
 function Root() {
+    // color: papayawhip
     return (
         <Drawer.Navigator screenOptions={drawerStyles}>
             <Drawer.Screen
@@ -59,7 +60,7 @@ export default function AppNavigation() {
             <Stack.Screen
                 name='ExerciseScreen'
                 component={ExerciseScreen}
-                options={{ headerShadowVisible: false }}
+                options={{ headerShadowVisible: false, title: '' }}
             />
         </Stack.Navigator>
     </NavigationContainer>
