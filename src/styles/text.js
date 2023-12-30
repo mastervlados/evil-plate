@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
     },
     textHint: {
         color: textHint,
-        fontSize: 14,
+        fontSize: 13,
         fontWeight: '300',
         fontFamily: 'roboto-light',
     },

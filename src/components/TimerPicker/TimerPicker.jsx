@@ -1,11 +1,14 @@
 import { View, Text } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { styles } from './style'
 import TabsPannel from '../TabsPannel'
 import SmartBlock from '../../UI/SmartBlock'
 import { AppFormStyles } from '../../styles'
+import AppLocalizationContext from '../../../AppLocalizationContext'
 
 export default function TimerPicker({ currentValue, setValueFunc }) {
+
+  const i18n = useContext(AppLocalizationContext)
 
   const tabsProps = {
     defaultTabStyles: AppFormStyles.styles.formDefaultViewBox,
@@ -43,15 +46,15 @@ export default function TimerPicker({ currentValue, setValueFunc }) {
         ownStyles={styles.tabsRow}
       >
         <SmartBlock 
-            blockText={'1 мин'}
+            blockText={i18n.t('tpc0001')}
             ownBoxStyles={{...styles.commonBox, ...styles.topLeftBox}}
         />
         <SmartBlock 
-            blockText={'1 мин\n30 сек'}
+            blockText={i18n.t('tpc0002')}
             ownBoxStyles={{...styles.commonBox}}
         />
         <SmartBlock 
-            blockText={'2 мин'}
+            blockText={i18n.t('tpc0003')}
             ownBoxStyles={{...styles.commonBox, ...styles.topRightBox}}
         />
       </TabsPannel>
@@ -64,15 +67,15 @@ export default function TimerPicker({ currentValue, setValueFunc }) {
         ownStyles={styles.tabsRow}
       >
         <SmartBlock 
-            blockText={'2 мин\n30 сек'}
+            blockText={i18n.t('tpc0004')}
             ownBoxStyles={{...styles.commonBox}}
         />
         <SmartBlock 
-            blockText={'3 мин'}
+            blockText={i18n.t('tpc0005')}
             ownBoxStyles={{...styles.commonBox}}
         />
         <SmartBlock 
-            blockText={'3 мин\n30 сек'}
+            blockText={i18n.t('tpc0006')}
             ownBoxStyles={{...styles.commonBox}}
         />
       </TabsPannel>
@@ -85,15 +88,15 @@ export default function TimerPicker({ currentValue, setValueFunc }) {
         ownStyles={styles.tabsRow}
       >
         <SmartBlock 
-            blockText={'4 мин'}
+            blockText={i18n.t('tpc0007')}
             ownBoxStyles={{...styles.commonBox, ...styles.bottomLeftBox}}
         />
         <SmartBlock 
-            blockText={'4 мин\n30 сек'}
+            blockText={i18n.t('tpc0008')}
             ownBoxStyles={{...styles.commonBox}}
         />
         <SmartBlock 
-            blockText={'5 мин'}
+            blockText={i18n.t('tpc0009')}
             ownBoxStyles={{...styles.commonBox, ...styles.bottomRightBox}}
         />
       </TabsPannel>

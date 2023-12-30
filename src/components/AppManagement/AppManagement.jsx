@@ -6,8 +6,14 @@ import { StatusBar } from 'expo-status-bar'
 import { styles } from './style'
 import AppNavigation from '../../navigation'
 import AppContext from '../../../AppContext'
+import AppLocalizationContext from '../../../AppLocalizationContext'
 import * as SQLite from 'expo-sqlite'
 import * as FileSystem from 'expo-file-system'
+import { getLocales } from 'expo-localization'
+import { I18n } from 'i18n-js'
+import languages from '../../res/strings/languages'
+import { useDispatch, useSelector } from 'react-redux'
+import { onSettingsLanguageChanged, onSettingsLocalizationsLoaded } from '../../redux/actions/appSettingsActions'
 
 
 export default function AppManagement() {
@@ -16,6 +22,21 @@ export default function AppManagement() {
     // 3) We can prepare db and put it to Redux
     const [appIsReady, setAppIsReady] = useState(false)
     const service = useContext(AppContext)
+    const dispatch = useDispatch()
+    const [localization, setLocalization] = useState(null)
+    // *****************************
+    // **** Localization Target ****
+    // *****************************
+    if (10 > 20) {
+      // try to get value 
+      // from user settings..
+    } else if (getLocales()[0].languageCode === 'ru') {
+      dispatch(onSettingsLanguageChanged('ru'))
+    } else {
+      dispatch(onSettingsLanguageChanged('en'))
+    }
+
+    const target = useSelector(state => state.appSettingsReducer.language)
 
     useEffect(() => {
       async function prepare() {
@@ -31,7 +52,14 @@ export default function AppManagement() {
           // await FileSystem.deleteAsync(FileSystem.documentDirectory + 'SQLite/evil-plate.db-wal')
           // await FileSystem.deleteAsync(FileSystem.documentDirectory + 'SQLite/evil-plate.db-shm')
           await service.initDatabase();
-          console.log(await FileSystem.readDirectoryAsync(FileSystem.documentDirectory + 'SQLite'))
+          // console.log(await FileSystem.readDirectoryAsync(FileSystem.documentDirectory + 'SQLite'))
+          // ******************************
+          // **** Localization Context ****
+          // ******************************
+          const i18n = new I18n(languages)
+          i18n.locale = target
+          i18n.enableFallback = true
+          setLocalization(i18n)
         } catch (e) {
             console.warn(e) // ! important
         } finally {
@@ -40,60 +68,6 @@ export default function AppManagement() {
       };
       
       prepare();
-
-    // const db = SQLite.openDatabase('evil-plate.db');
-    // db.transaction(tx => {
-    //   tx.executeSql(`
-    //     CREATE TABLE IF NOT EXISTS exercise 
-    //     (
-    //       id INT AUTO_INCREMENT,
-    //       exr_name VARCHAR(60) NULL DEFAULT NULL,
-    //       exr_color_number VARCHAR(20) NULL DEFAULT NULL,
-    //       exr_global_type VARCHAR(20) NULL DEFAULT NULL,
-    //       exr_global_break_duration INT NULL DEFAULT NULL,
-    //       exr_global_measure_unit VARCHAR(10) NULL DEFAULT NULL,
-    //       exr_best_results JSON NULL DEFAULT NULL,
-    //       exr_created DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
-    //       PRIMARY KEY (id)
-    //     )
-    //   `, null,
-    //   (txObj, result) => console.log(result),
-    //   (txObj, error) => console.warn(error))
-    //   tx.executeSql(`
-    //     CREATE TABLE IF NOT EXISTS performance 
-    //     (
-    //       id INT AUTO_INCREMENT,
-    //       exr_id INT,
-    //       per_type VARCHAR(20) NULL DEFAULT NULL,
-    //       per_break_duration INT NULL DEFAULT NULL,
-    //       per_measure_unit VARCHAR(10) NULL DEFAULT NULL,
-    //       per_work_load JSON NULL DEFAULT NULL,
-    //       per_created DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
-    //       is_finished TINYINT NULL DEFAULT NULL,
-    //       exercise_id INT NOT NULL,
-    //       PRIMARY KEY (id),
-    //       FOREIGN KEY (exr_id) REFERENCES exercise (id)
-    //     );
-    //   `, null,
-    //   (txObj, result) => console.log(result),
-    //   (txObj, error) => console.warn(error))
-    // })
-    // console.warn('')
-
-    // db.transaction(tx => {
-    //   tx.executeSql('SELECT * FROM exercise', null,
-    //   (txObj, result) => console.log(result),
-    //   (txObj, error) => console.warn(error)
-    //   )
-    // })
-
-    // db.transaction(tx => {
-    //   tx.executeSql('SELECT * FROM performance', null,
-    //   (txObj, result) => console.log(result),
-    //   (txObj, error) => console.warn(error)
-    //   )
-    // })
-    
     }, [])
   
     const onLayoutRootView = useCallback(async () => {
@@ -110,7 +84,9 @@ export default function AppManagement() {
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View style={styles.container} onLayout={onLayoutRootView}>
                 <StatusBar style="light" />
-                <AppNavigation />
+                <AppLocalizationContext.Provider value={localization}>
+                  <AppNavigation />
+                </AppLocalizationContext.Provider>
             </View>
         </TouchableWithoutFeedback>
     )

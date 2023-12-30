@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { onExercisesFormColorChanged, onExercisesFormMessageVisibleChanged, onExercisesFormModeChanged, onExercisesFormNameChanged, onExercisesFormTimerChanged, onExercisesFormVisibleChanged } from '../../redux/actions/myExercisesFormActions'
 import { checkExerciseName } from '../../res/helpers/validation'
 import AppContext from '../../../AppContext'
+import AppLocalizationContext from '../../../AppLocalizationContext'
 import { onAddExercise } from '../../redux/actions/myExercisesListActions'
 
 export default function MyExercisesForm() {
@@ -43,11 +44,12 @@ export default function MyExercisesForm() {
   const [isFooterShowStyles, setFooterShowStyles] = useState(true)
   const [scrollRef, setScrollRef] = useState(null)
   const [inputPosY, setInputPosY] = useState(0)
-
+  const i18n = useContext(AppLocalizationContext)
+  
   const modeTabs = [
-    { id: 0, name: 'self', hint: 'Hint for self' },
-    { id: 1, name: 'stereo', hint: 'Hint for stereo' },
-    { id: 2, name: 'mono', hint: 'Hint for mono' },
+    { id: 0, name: 'self', hint: i18n.t('mefs0001') },
+    { id: 1, name: 'stereo', hint: i18n.t('mefs0002') },
+    { id: 2, name: 'mono', hint: i18n.t('mefs0003') },
   ]
 
   useEffect(() => {
@@ -128,9 +130,10 @@ export default function MyExercisesForm() {
             scrollRef.scrollTo({ x: 0, y: inputPosY, animated: true })
         }
         // This means that we finish here
+        // and user can press this button again
         setSubmitButtonPressed(false)
     }
-    // Do nothing!
+    // ... Do nothing!
   }
 
   return (
@@ -185,8 +188,13 @@ export default function MyExercisesForm() {
             <View style={styles.header}>
                 <View style={styles.headerLeft}>
                         {/* choose mode and descripton */}
-                        <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition}}>1. Выберите подходящий режим:</Text>
-                        <Text style={{...AppTextStyles.styles.textHint, ...styles.textDescriptionPosition}}>{modeTabs.find((tab) => tab.name === pickedMode).hint}</Text>
+                        <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition}}>{i18n.t('mefs0004')}</Text>
+                        
+                        <Text style={{...AppTextStyles.styles.textHint, ...styles.textDescriptionPosition}}>
+                            {modeTabs.find((tab) => tab.name === pickedMode).hint}
+                        </Text>
+                        
+                        
                 </View>
                 <View style={styles.headerRight}>
                     <TabsPannel 
@@ -216,8 +224,8 @@ export default function MyExercisesForm() {
                 </View>
             </View>
             <View style={styles.insideBodyContainer}>
-                <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition, ...styles.textHeaderInScrollPosition}}>2. Напишите название упражнения:</Text>
-                <Text style={{...AppTextStyles.styles.textInfo, ...styles.textInfoPosition}}>(можно будет поменять значение в настройках)</Text>
+                <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition, ...styles.textHeaderInScrollPosition}}>{i18n.t('mefs0005')}</Text>
+                <Text style={{...AppTextStyles.styles.textInfo, ...styles.textInfoPosition}}>{i18n.t('mefs0006')}</Text>
                 <View onLayout={(event) => {
                     const layout = event.nativeEvent.layout;
                     setInputPosY(layout.y + 54)
@@ -226,18 +234,20 @@ export default function MyExercisesForm() {
                         currentValue={exerciseName} 
                         setValueFunc={(title) => dispatch(onExercisesFormNameChanged(title))} 
                         showMessage={isMessageVisible} 
+                        messageLocale={i18n._locale}
+                        placeholderText={i18n.t('mefs0010')}
                     />
                 </View>    
-                <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition, ...styles.textHeaderInScrollPosition}}>3. Сколько времени будет длиться отдых между подходами?</Text>
+                <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition, ...styles.textHeaderInScrollPosition}}>{i18n.t('mefs0007')}</Text>
 
-                <Text style={{...AppTextStyles.styles.textInfo, ...styles.textInfoPosition}}>(можно будет поменять значение в настройках)</Text>
+                <Text style={{...AppTextStyles.styles.textInfo, ...styles.textInfoPosition}}>{i18n.t('mefs0006')}</Text>
                 <TimerPicker 
                     currentValue={pickedTimer} 
                     setValueFunc={(timer) => dispatch(onExercisesFormTimerChanged(timer))}
                 />
 
-                <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition, ...styles.textHeaderInScrollPosition}}>4. Осталось выбрать цвет рамки:</Text>
-                <Text style={{...AppTextStyles.styles.textInfo, ...styles.textInfoPosition}}>(можно будет поменять значение в настройках)</Text>
+                <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition, ...styles.textHeaderInScrollPosition}}>{i18n.t('mefs0008')}</Text>
+                <Text style={{...AppTextStyles.styles.textInfo, ...styles.textInfoPosition}}>{i18n.t('mefs0006')}</Text>
                 <ColorPicker 
                     currentValue={pickedColor} 
                     setValueFunc={(color) => dispatch(onExercisesFormColorChanged(color))}
@@ -250,7 +260,7 @@ export default function MyExercisesForm() {
             <LazyButton
                 buttonStyles={Buttons.styles.success}
                 textStyles={styles.buttonTextStyles}
-                text={'Create'}
+                text={i18n.t('mefs0009')}
                 onPressFunc={() => onSubmit()}
             />
         </View>

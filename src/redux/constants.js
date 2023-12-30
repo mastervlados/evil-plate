@@ -6,3 +6,5 @@ export const ON_EXERCISES_FORM_MESSAGE_VISIBLE_CHANGED='on-exercise-form-message
 export const ON_EXERCISES_FORM_MODE_CHANGED='on-exercise-form-mode-changed'
 export const ON_EXERCISES_FORM_TIMER_CHANGED='on-exercise-form-timer-changed'
 export const ON_EXERCISES_FORM_COLOR_CHANGED='on-exercise-form-color-changed'
+export const ON_SETTINGS_LANGUAGE_CHANGED='on-settings-language-changed'
+export const ON_SETTINGS_UNITS_CHANGED='on-settings-units-changed'

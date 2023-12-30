@@ -6,7 +6,7 @@ import { AppFormStyles, AppTextStyles } from '../../styles'
 import * as Animatable from 'react-native-animatable'
 import { checkExerciseName } from '../../res/helpers/validation'
 
-export default function ExerciseNameInput({ currentValue, setValueFunc, showMessage }) {
+export default function ExerciseNameInput({ currentValue, setValueFunc, showMessage, messageLocale, placeholderText }) {
  
   return (
     <>
@@ -16,11 +16,11 @@ export default function ExerciseNameInput({ currentValue, setValueFunc, showMess
             ownStyles={styles.textInput}
             currentValue={currentValue}
             updateValueFunc={setValueFunc}
-            placeholder={'My exercise is called ..'}
+            placeholder={placeholderText}
         />
         { showMessage && !checkExerciseName(currentValue).status ? (
           <Animatable.View animation='fadeInLeft' duration={500}>
-            <Text style={{...AppTextStyles.styles.textValidationFailing, ...styles.textValidationPosition}}>{checkExerciseName(currentValue).message}</Text>
+            <Text style={{...AppTextStyles.styles.textValidationFailing, ...styles.textValidationPosition}}>{checkExerciseName(currentValue, messageLocale).message}</Text>
           </Animatable.View>
         ) : null }
         
