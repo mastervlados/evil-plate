@@ -1,6 +1,7 @@
 {
   "expo": {
-    "name": "evil-plate",
+    "name": "Evil Plate",
+    "description": "App description",
     "slug": "evil-plate",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -15,7 +16,13 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "config": {
+        "usesNonExemptEncryption": false
+      },
+      "supportsTablet": true,
+      "infoPlist": {
+        "CFBundleAllowMixedLocalizations": true
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -28,6 +35,9 @@
     },
     "plugins": [
       "expo-localization"
-    ]
+    ],
+    "locales": {
+      "ru": "./src/res/strings/russian.json"
+    }
   }
 }

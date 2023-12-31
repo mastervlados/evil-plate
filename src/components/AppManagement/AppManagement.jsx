@@ -14,6 +14,7 @@ import { I18n } from 'i18n-js'
 import languages from '../../res/strings/languages'
 import { useDispatch, useSelector } from 'react-redux'
 import { onSettingsLanguageChanged, onSettingsLocalizationsLoaded } from '../../redux/actions/appSettingsActions'
+import { getValueFor, saveValueAs } from '../../res/helpers/secureStore'
 
 
 export default function AppManagement() {
@@ -22,21 +23,36 @@ export default function AppManagement() {
     // 3) We can prepare db and put it to Redux
     const [appIsReady, setAppIsReady] = useState(false)
     const service = useContext(AppContext)
+    const i18n = useContext(AppLocalizationContext)
     const dispatch = useDispatch()
-    const [localization, setLocalization] = useState(null)
+    const target = useSelector(state => state.appSettingsReducer.language)
     // *****************************
     // **** Localization Target ****
     // *****************************
-    if (10 > 20) {
-      // try to get value 
-      // from user settings..
-    } else if (getLocales()[0].languageCode === 'ru') {
-      dispatch(onSettingsLanguageChanged('ru'))
-    } else {
-      dispatch(onSettingsLanguageChanged('en'))
-    }
-
-    const target = useSelector(state => state.appSettingsReducer.language)
+    useEffect(() => {
+      async function setupLanguage() {
+        const localeFromStore = await getValueFor('storedLanguage')
+        if (localeFromStore !== -1) {
+          // try to get value 
+          // from user settings..
+          if (localeFromStore !== target) {
+            dispatch(onSettingsLanguageChanged(localeFromStore))
+            i18n.locale = localeFromStore
+          }
+        } else if (getLocales()[0].languageCode === 'ru') {
+          if (target !== 'ru') {
+            dispatch(onSettingsLanguageChanged('ru'))
+            i18n.locale = 'ru'
+          }
+        } else {
+          if (target !== 'en') {
+            dispatch(onSettingsLanguageChanged('en'))
+            i18n.locale = 'en'
+          }
+        }
+      }
+      setupLanguage();
+    }, [])
 
     useEffect(() => {
       async function prepare() {
@@ -56,10 +72,10 @@ export default function AppManagement() {
           // ******************************
           // **** Localization Context ****
           // ******************************
-          const i18n = new I18n(languages)
-          i18n.locale = target
-          i18n.enableFallback = true
-          setLocalization(i18n)
+          // const i18n = new I18n(languages)
+          // i18n.locale = target
+          // i18n.enableFallback = true
+          // setLocalization(i18n)
         } catch (e) {
             console.warn(e) // ! important
         } finally {
@@ -84,9 +100,7 @@ export default function AppManagement() {
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View style={styles.container} onLayout={onLayoutRootView}>
                 <StatusBar style="light" />
-                <AppLocalizationContext.Provider value={localization}>
                   <AppNavigation />
-                </AppLocalizationContext.Provider>
             </View>
         </TouchableWithoutFeedback>
     )

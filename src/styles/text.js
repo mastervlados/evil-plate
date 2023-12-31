@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { itemSelf, textCommon, textHint, textValidationFailing } from './generalStyles/theme'
+import { base, itemSelf, textCommon, textHint, textValidationFailing } from './generalStyles/theme'
 
 export const styles = StyleSheet.create({
     textCommon: {
@@ -28,8 +28,20 @@ export const styles = StyleSheet.create({
     },
     textInfo: {
         color: itemSelf,
-        fontSize: 13,
+        fontSize: 12,
         fontWeight: '300',
         fontFamily: 'roboto-light',
+    },
+    switcherTextDefault: {
+        color: base,
+        fontSize: 15,
+        fontWeight: '700',
+        fontFamily: 'roboto-bold',
+    },
+    switcherTextActive: {
+        color: base,
+        fontSize: 15,
+        fontWeight: '700',
+        fontFamily: 'roboto-bold',
     },
 })

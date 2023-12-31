@@ -10,18 +10,19 @@ import ExerciseScreen from '../screens/ExerciseScreen'
 import { BookmarkSvg, CogSvg, HumanBarbellSvg } from '../res/svgs'
 import { Theme } from '../styles'
 import AppLocalizationContext from '../../AppLocalizationContext'
+import { useSelector } from 'react-redux'
 
 
 const Drawer = createDrawerNavigator()
 const Stack = createStackNavigator()
 
 function Root() {
-
+    useSelector(state => state.appSettingsReducer.language)
     const i18n = useContext(AppLocalizationContext)
     // color: papayawhip
     return (
         <Drawer.Navigator screenOptions={drawerStyles}>
-            <Drawer.Screen
+            {/* <Drawer.Screen
                 name='MyExercisesScreen'
                 component={MyExercisesScreen}
                 options={{
@@ -30,7 +31,7 @@ function Root() {
                                         size={24} 
                                         fill={Theme.textCommon}/>
                 }}
-            />
+            /> */}
             {/* <Drawer.Screen
                 name='MyTrainingScreen'
                 component={MyTrainingScreen}
@@ -55,6 +56,7 @@ function Root() {
 }
 
 export default function AppNavigation() {
+  useSelector(state => state.appSettingsReducer.language)
   return (
     <NavigationContainer>
         <Stack.Navigator screenOptions={headerStyles}>

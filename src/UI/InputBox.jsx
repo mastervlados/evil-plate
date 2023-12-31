@@ -8,6 +8,7 @@ export default function InputBox({
     updateValueFunc,
     activeStyles,
     defaultStyles,
+    placeholderColor,
     ownStyles,
 }) {
 
@@ -25,6 +26,7 @@ export default function InputBox({
         onFocus={() => setPress(true)}
         onChangeText={(text) => updateValueFunc(text)}
         value={currentValue}
+        placeholderTextColor={placeholderColor}
     />
 
   )

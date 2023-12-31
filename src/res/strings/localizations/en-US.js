@@ -32,11 +32,20 @@ const timerPickerComponent = {
 	tpc0009: '5 min',
 }
 
+const appSettingsScreen = {
+	ass0001: 'Choose app language:',
+	ass0002: 'Pick your units system:',
+	ass0003: 'notes...',
+	ass0004: 'Kilograms (kgs)',
+	ass0005: 'Pounds (lbs)',
+}
+
 const en = {
     str0001: 'My Exercises',
     str0002: 'Settings',
 	...myExercisesFormScreen,
 	...timerPickerComponent,
+	...appSettingsScreen,
 } 
 
 export default en
