@@ -10,6 +10,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import AppContext from '../../../AppContext'
 import { onExercisesListLoaded } from '../../redux/actions/myExercisesListActions'
 import { onExercisesFormVisibleChanged } from '../../redux/actions/myExercisesFormActions'
+import Spinner from '../../components/Spinner/Spinner'
+import * as Animatable from 'react-native-animatable'
+
 
 export default function MyExercisesList() {
   
@@ -49,10 +52,18 @@ export default function MyExercisesList() {
     return formatedData
   }
 
+  if (!areExercisesLoaded) {
+    return <Spinner/>
+  }
+
   return (
     <View style={{ flex: 1 }}>
       <View style={{width: 360, alignItems: 'center'}}>
-        <View style={styles.buttonPosition}>
+        <Animatable.View 
+          style={styles.buttonPosition}
+          animation={'bounceIn'}
+          duration={500}
+        >
           <RoundedButton 
             styles={Buttons.styles.success} 
             size={56}
@@ -61,7 +72,7 @@ export default function MyExercisesList() {
             iconSize={16}
             iconColor={Theme.base}
           />
-        </View>
+        </Animatable.View>
       </View>
       <View style={styles.body}>
           <LinearGradient
@@ -93,15 +104,21 @@ export default function MyExercisesList() {
             style={styles.scrollContainer}
             showsVerticalScrollIndicator={false}
           >
-           
-              <FlatList 
-                scrollEnabled={false}
-                keyExtractor={(item) => item.id}
-                data={formatData(exercises, 2)}
-                style={{flex: 1}}
-                numColumns={2}
-                renderItem={({ item }) => <MyExercisesListItem {...item}/>}
-              />
+              <Animatable.View
+                style={{ flex: 1 }}
+                animation={'fadeInLeft'}
+                duration={500}
+              >
+                <FlatList 
+                  scrollEnabled={false}
+                  keyExtractor={(item) => item.id}
+                  data={formatData(exercises, 2)}
+                  style={{flex: 1}}
+                  numColumns={2}
+                  renderItem={({ item }) => <MyExercisesListItem {...item}/>}
+                />
+              </Animatable.View>
+              
             
             <View style={{height: Dimensions.get('window').height / 3}} />
           </ScrollView>

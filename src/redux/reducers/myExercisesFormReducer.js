@@ -8,7 +8,7 @@ import {
 } from "../constants"
 
 const initialState = {
-    isExercisesFormOpened: true,
+    isExercisesFormOpened: false,
     isMessageVisible: false,
     interactions: {
         exerciseName: '',

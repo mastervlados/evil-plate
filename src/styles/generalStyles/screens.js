@@ -14,5 +14,11 @@ export const styles = StyleSheet.create({
     appContainerWithLeftAndRightPaddings: {
         flex: 1,
         width: Dimensions.get('window').width - 40,
+    },
+    appEmtyCentredContainer: {
+        flex: 1,
+        backgroundColor: 'transparent',
+        alignItems: 'center', 
+        justifyContent: 'center',
     }
 })

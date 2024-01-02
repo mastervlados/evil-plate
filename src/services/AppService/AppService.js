@@ -6,6 +6,10 @@ export default class AppService {
     target = 'evil-plate.db'
     database
 
+    async _sleep(seconds) {
+        return await new Promise(resolve => setTimeout(resolve, seconds * 1000));
+    }
+
     _transformExercise(oneExerciseObj) {
         const item = {
             id: oneExerciseObj.id,
@@ -93,6 +97,8 @@ export default class AppService {
 
         const formatedExercises = await exercises.map((exercise) => this._transformExercise(exercise));
 
+        await this._sleep(3);
+        
         return await formatedExercises.reverse();
     }
 
