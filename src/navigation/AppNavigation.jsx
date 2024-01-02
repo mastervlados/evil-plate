@@ -6,7 +6,7 @@ import { drawerStyles, headerStyles } from './style'
 import MyExercisesScreen from '../screens/MyExercisesScreen'
 import MyTrainingScreen from '../screens/MyTrainingScreen'
 import SettingsScreen from '../screens/SettingsScreen'
-import ExerciseScreen from '../screens/ExerciseScreen'
+import ExerciseScreen from '../screens/ExerciseScreen/ExerciseScreen'
 import { BookmarkSvg, CogSvg, HumanBarbellSvg } from '../res/svgs'
 import { Theme } from '../styles'
 import AppLocalizationContext from '../../AppLocalizationContext'
@@ -60,11 +60,11 @@ export default function AppNavigation() {
   return (
     <NavigationContainer>
         <Stack.Navigator screenOptions={headerStyles}>
-            <Stack.Screen
+            {/* <Stack.Screen
                 name='Root'
                 component={Root}
                 options={{ headerShown: false }}
-            />
+            /> */}
             <Stack.Screen
                 name='ExerciseScreen'
                 component={ExerciseScreen}

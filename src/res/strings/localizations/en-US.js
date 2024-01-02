@@ -40,12 +40,19 @@ const appSettingsScreen = {
 	ass0005: 'Pounds (lbs)',
 }
 
+const exerciseScreen = {
+	es0001: 'PREVIOUS',
+	es0002: 'CURRENT',
+	es0003: 'PROGRESS',
+}
+
 const en = {
     str0001: 'My Exercises',
     str0002: 'Settings',
 	...myExercisesFormScreen,
 	...timerPickerComponent,
 	...appSettingsScreen,
+	...exerciseScreen,
 } 
 
 export default en

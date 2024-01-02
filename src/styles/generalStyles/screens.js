@@ -8,6 +8,11 @@ export const styles = StyleSheet.create({
         alignItems: 'center', 
         justifyContent: 'center',
     },
+    appContainerWithoutVerticalCentred: {
+        flex: 1,
+        backgroundColor: base,
+        alignItems: 'center', 
+    },
     appBlock: {
         width: '100%',
     },
