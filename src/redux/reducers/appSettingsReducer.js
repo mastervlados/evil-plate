@@ -1,4 +1,5 @@
 import { 
+    ON_SETTINGS_HINT_EXERCISES_FORM_CHANGED,
     ON_SETTINGS_LANGUAGE_CHANGED, 
     ON_SETTINGS_UNITS_CHANGED, 
 } from "../constants"
@@ -13,6 +14,10 @@ const initialState = {
     // kg - kgs - kilograms
     // lb - lbs - pounds
     unitsFromSettings: 'kg', 
+    // Hint above each field
+    // which champion can edit later
+    // on MyExercisesForm, default true
+    showHintInMyExercisesForm: true,
 }
 
 const appSettingsReducer = (state = initialState, action) => {
@@ -27,6 +32,11 @@ const appSettingsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 unitsFromSettings: action.payload,
+            }
+        case ON_SETTINGS_HINT_EXERCISES_FORM_CHANGED:
+            return {
+                ...state,
+                showHintInMyExercisesForm: action.payload,
             }
         default:
             return state

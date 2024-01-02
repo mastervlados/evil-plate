@@ -13,7 +13,7 @@ import { getLocales } from 'expo-localization'
 import { I18n } from 'i18n-js'
 import languages from '../../res/strings/languages'
 import { useDispatch, useSelector } from 'react-redux'
-import { onSettingsLanguageChanged, onSettingsLocalizationsLoaded } from '../../redux/actions/appSettingsActions'
+import { onSettingsHintExercisesFormChanged, onSettingsLanguageChanged, onSettingsLocalizationsLoaded } from '../../redux/actions/appSettingsActions'
 import { getValueFor, saveValueAs } from '../../res/helpers/secureStore'
 
 
@@ -69,13 +69,12 @@ export default function AppManagement() {
           // await FileSystem.deleteAsync(FileSystem.documentDirectory + 'SQLite/evil-plate.db-shm')
           await service.initDatabase();
           // console.log(await FileSystem.readDirectoryAsync(FileSystem.documentDirectory + 'SQLite'))
-          // ******************************
-          // **** Localization Context ****
-          // ******************************
-          // const i18n = new I18n(languages)
-          // i18n.locale = target
-          // i18n.enableFallback = true
-          // setLocalization(i18n)
+          // **********************
+          // **** Hints places ****
+          // **********************
+          if (await getValueFor('storedShowHintInMyExercisesForm') !== -1) {
+            dispatch(onSettingsHintExercisesFormChanged(false))
+          }
         } catch (e) {
             console.warn(e) // ! important
         } finally {

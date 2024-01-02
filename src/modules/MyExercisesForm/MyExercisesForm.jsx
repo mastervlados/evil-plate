@@ -21,6 +21,10 @@ import { checkExerciseName } from '../../res/helpers/validation'
 import AppContext from '../../../AppContext'
 import AppLocalizationContext from '../../../AppLocalizationContext'
 import { onAddExercise } from '../../redux/actions/myExercisesListActions'
+import { saveValueAs } from '../../res/helpers/secureStore'
+import { onSettingsHintExercisesFormChanged } from '../../redux/actions/appSettingsActions'
+import * as Animatable from 'react-native-animatable'
+
 
 export default function MyExercisesForm() {
   const dispatch = useDispatch()
@@ -40,6 +44,7 @@ export default function MyExercisesForm() {
   const pickedMode = useSelector(state => state.myExercisesFormReducer.interactions.pickedMode)
   const pickedTimer = useSelector(state => state.myExercisesFormReducer.interactions.pickedTimer)
   const pickedColor = useSelector(state => state.myExercisesFormReducer.interactions.pickedColor)
+  const showHint = useSelector(state => state.appSettingsReducer.showHintInMyExercisesForm)
   const [wasSubmitButtonPressed, setSubmitButtonPressed] = useState(false)
   const [isFooterShowStyles, setFooterShowStyles] = useState(true)
   const [scrollRef, setScrollRef] = useState(null)
@@ -124,6 +129,14 @@ export default function MyExercisesForm() {
             }
             const getNewExercise = await service.createExercise(newExercise);
             dispatch(onAddExercise(getNewExercise));
+            // When champion add 
+            // his or her first exercise
+            // disable hints above 
+            // each editable field
+            if (showHint === true) {
+                await saveValueAs('storedShowHintInMyExercisesForm', 'hide');
+                dispatch(onSettingsHintExercisesFormChanged(false))
+            }
             closeFunc();
         } else {
             dispatch(onExercisesFormMessageVisibleChanged(true))
@@ -135,6 +148,12 @@ export default function MyExercisesForm() {
     }
     // ... Do nothing!
   }
+
+  const hint = showHint ? (
+    <Animatable.View animation='fadeInLeft' duration={500}>
+        <Text style={{...AppTextStyles.styles.textInfo, ...styles.textInfoPosition}}>{i18n.t('mefs0006')}</Text>
+    </Animatable.View>
+  ) : null
 
   return (
     <Modal visible={modalOpen} animationType='slide'>
@@ -225,7 +244,9 @@ export default function MyExercisesForm() {
             </View>
             <View style={styles.insideBodyContainer}>
                 <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition, ...styles.textHeaderInScrollPosition}}>{i18n.t('mefs0005')}</Text>
-                <Text style={{...AppTextStyles.styles.textInfo, ...styles.textInfoPosition}}>{i18n.t('mefs0006')}</Text>
+
+                { hint }
+
                 <View onLayout={(event) => {
                     const layout = event.nativeEvent.layout;
                     setInputPosY(layout.y + 54)
@@ -240,14 +261,17 @@ export default function MyExercisesForm() {
                 </View>    
                 <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition, ...styles.textHeaderInScrollPosition}}>{i18n.t('mefs0007')}</Text>
 
-                <Text style={{...AppTextStyles.styles.textInfo, ...styles.textInfoPosition}}>{i18n.t('mefs0006')}</Text>
+                { hint }
+
                 <TimerPicker 
                     currentValue={pickedTimer} 
                     setValueFunc={(timer) => dispatch(onExercisesFormTimerChanged(timer))}
                 />
 
                 <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition, ...styles.textHeaderInScrollPosition}}>{i18n.t('mefs0008')}</Text>
-                <Text style={{...AppTextStyles.styles.textInfo, ...styles.textInfoPosition}}>{i18n.t('mefs0006')}</Text>
+
+                { hint }
+
                 <ColorPicker 
                     currentValue={pickedColor} 
                     setValueFunc={(color) => dispatch(onExercisesFormColorChanged(color))}

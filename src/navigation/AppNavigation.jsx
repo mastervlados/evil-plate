@@ -22,7 +22,7 @@ function Root() {
     // color: papayawhip
     return (
         <Drawer.Navigator screenOptions={drawerStyles}>
-            {/* <Drawer.Screen
+            <Drawer.Screen
                 name='MyExercisesScreen'
                 component={MyExercisesScreen}
                 options={{
@@ -31,7 +31,7 @@ function Root() {
                                         size={24} 
                                         fill={Theme.textCommon}/>
                 }}
-            /> */}
+            />
             {/* <Drawer.Screen
                 name='MyTrainingScreen'
                 component={MyTrainingScreen}
