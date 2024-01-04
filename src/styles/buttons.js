@@ -1,10 +1,37 @@
 import { Dimensions, StyleSheet } from 'react-native'
-import { itemSelf, levelOne, positive, relaxing } from './generalStyles/theme'
+import { agressive, itemSelf, levelOne, positive, relaxing } from './generalStyles/theme'
 
 export const styles = StyleSheet.create({
     success: {
         backgroundColor: positive,
         // elevation: 3,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    successOutline: {
+        backgroundColor: 'transparent',
+        borderWidth: 1,
+        borderColor: positive,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    primary: {
+        backgroundColor: agressive,
+        // elevation: 3,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    primaryOutline: {
+        backgroundColor: 'transparent',
+        borderWidth: 1,
+        borderColor: agressive,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    infoOutline: {
+        backgroundColor: 'transparent',
+        borderWidth: 1,
+        borderColor: relaxing,
         alignItems: 'center',
         justifyContent: 'center',
     },

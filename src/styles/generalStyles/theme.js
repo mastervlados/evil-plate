@@ -15,6 +15,8 @@ const textHint = '#F9D6A3'
 const positive = '#02DAC5'
 const agressive = '#BB86FC'
 const relaxing = '#9195C1'
+const maintain = '#DAB702'
+const procrastination = '#FA4343'
 // ***************
 // **** OTHER ****
 // ***************
@@ -52,4 +54,6 @@ export {
     itemSeventh,
     itemEight,
     itemNinth,
+    maintain,
+    procrastination,
 }
