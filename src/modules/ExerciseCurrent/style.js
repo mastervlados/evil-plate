@@ -9,6 +9,10 @@ export const styles = StyleSheet.create({
         paddingTop: 18,
         alignItems: 'center',
     },
+    infoMiddleBoxEmpty: {
+        justifyContent: 'center',
+        paddingTop: 0,
+    },
     infoButtonAddPerformancePosition: {
         paddingVertical: 38,
     },

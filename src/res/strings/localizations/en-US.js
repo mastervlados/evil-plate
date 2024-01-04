@@ -44,6 +44,11 @@ const exerciseScreen = {
 	es0001: 'PREVIOUS',
 	es0002: 'CURRENT',
 	es0003: 'PROGRESS',
+	es0004: 'You did the exercise\nlast time:',
+	es0005: 'You haven\'t done this exercise yet',
+	es0006: 'There are no previous results..',
+	es0007: 'Max weight:',
+	es0008: 'Tonnage:',
 }
 
 const en = {
