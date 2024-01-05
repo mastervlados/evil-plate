@@ -2,24 +2,8 @@ import { Dimensions, StyleSheet } from 'react-native'
 import { Theme } from '../../styles'
 
 export const styles = StyleSheet.create({
-    infoMiddleBox: {
-        height: 90,
-        width: Dimensions.get('window').width,
-        backgroundColor: Theme.levelOne,
-        paddingTop: 18,
-        alignItems: 'center',
-    },
-    infoMiddleBoxEmpty: {
-        justifyContent: 'center',
-        paddingTop: 0,
-    },
     infoButtonAddPerformancePosition: {
         paddingVertical: 38,
-    },
-    infoMiddleBoxTextPosition: {
-        width: 230,
-        marginBottom: 6,
-        textAlign: 'center',
     },
     infoFooterBox: {
         marginVertical: 20,

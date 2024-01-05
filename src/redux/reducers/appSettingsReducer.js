@@ -13,7 +13,7 @@ const initialState = {
     // Measure units:
     // kg - kgs - kilograms
     // lb - lbs - pounds
-    unitsFromSettings: 'kg', 
+    unitsFromSettings: 'lb', 
     // Hint above each field
     // which champion can edit later
     // on MyExercisesForm, default true
