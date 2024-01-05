@@ -67,15 +67,26 @@ export default function PreviousExerciseDetails({ data, headerStyles, lineStyles
     }
 
     const previousResultsUnits = data.records.previous.measureUnit
-    const Details = data.records.previous.headers.map(({ header, data }) => {
 
-        const Lines = data.map((line) => {
-            return <Line line={line} units={previousResultsUnits} styles={lineStyles}/>
+    // Generating headers
+    const Details = data.records.previous.headers.map(({ header, data }, index) => {
+        // Generating lines
+        const Lines = data.map((line, index) => {
+            return (
+                <Line 
+                    key={`Line-${index+1}`} 
+                    line={line} 
+                    units={previousResultsUnits} 
+                    styles={lineStyles}
+                />
+            )
         })
 
         return (
             <React.Fragment>
-                <Text style={{
+                <Text 
+                    key={`Header-${index+1}`} 
+                    style={{
                     ...headerStyles, 
                     ...AppTextStyles.styles.textHeaderAlternate
                 }}>

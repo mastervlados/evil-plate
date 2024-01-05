@@ -24,5 +24,8 @@ export const styles = StyleSheet.create({
     },
     infoInfoButtonPosition: {
         alignItems: 'baseline',
+    },
+    headerButtonPosition: {
+        marginRight: 12,
     }
 })

@@ -1,7 +1,7 @@
-import { View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { styles } from './style'
-import { AddSvg } from '../../res/svgs'
+import { AddSvg, CogSvg } from '../../res/svgs'
 import { AppContainers, AppTextStyles, Buttons, Theme } from '../../styles'
 import RoundedButton from '../../UI/RoundedButton'
 import PrimaryButton from '../../UI/PrimaryButton'
@@ -10,12 +10,23 @@ import { useSelector } from 'react-redux'
 import InfoMiddleBox from '../../components/InfoMiddleBox'
 import ExerciseSvg from '../../components/ExerciseSvg'
 import PreviousExerciseDetails from '../../components/PreviousExerciseDetails'
+import { useNavigation } from '@react-navigation/native'
 
 
 export default function ExerciseCurrentInfo() {
 
     const exercise = useSelector(state => state.exerciseReducer.exercise)
     useSelector(state => state.appSettingsReducer.language)
+    const navigation = useNavigation()
+
+
+    navigation.setOptions({headerRight: () => (
+        <View style={styles.headerButtonPosition}>
+            <TouchableOpacity onPress={() => console.log('Settings pressed!')}>
+                <CogSvg size={36} fill={Theme.textCommon}/>
+            </TouchableOpacity>
+        </View>
+    )})
 
     return (
         <View style={AppContainers.styles.appContainerWithoutVerticalCentred}>
