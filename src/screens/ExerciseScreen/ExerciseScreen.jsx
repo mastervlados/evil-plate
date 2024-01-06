@@ -1,5 +1,5 @@
 import { View } from 'react-native'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { styles } from './style'
 import { AppContainers } from '../../styles'
 import TabsPannel from '../../components/TabsPannel'
@@ -8,12 +8,21 @@ import AppLocalizationContext from '../../../AppLocalizationContext'
 import ExerciseProgress from '../../modules/ExerciseProgress'
 import ExercisePrevious from '../../modules/ExercisePrevious'
 import ExerciseCurrent from '../../modules/ExerciseCurrent'
+import { useSelector } from 'react-redux'
+import { useNavigation } from '@react-navigation/native'
 
-export default function ExerciseScreen({ navigation, route }) {
+
+export default function ExerciseScreen() {
   
+  const exercise = useSelector(state => state.exerciseReducer.exercise)
+  const navigation = useNavigation()
   const i18n = useContext(AppLocalizationContext)
   const [activeTabName, setActiveTabName] = useState('current')
   
+  useEffect(() => {
+    navigation.setOptions({ title: exercise.title })
+  }, []) // ! componentDidMount behavior (once)
+
   tabs = [
     { id: 0, name: 'previous'},
     { id: 1, name: 'current'},
@@ -37,7 +46,6 @@ export default function ExerciseScreen({ navigation, route }) {
   return (
     <View 
       style={AppContainers.styles.appContainerWithoutVerticalCentred}
-      onLayout={() => navigation.setOptions({ title: route.params ?  route.params.title : 'Exercise' })}
     >
       <TabsPannel 
           listOfTabs={tabs}

@@ -83,9 +83,8 @@ export default function PreviousExerciseDetails({ data, headerStyles, lineStyles
         })
 
         return (
-            <React.Fragment>
+            <React.Fragment key={`Header-${index+1}`}>
                 <Text 
-                    key={`Header-${index+1}`} 
                     style={{
                     ...headerStyles, 
                     ...AppTextStyles.styles.textHeaderAlternate

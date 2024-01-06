@@ -135,7 +135,7 @@ export default function MyExercisesForm() {
             // each editable field
             if (showHint === true) {
                 await saveValueAs('storedShowHintInMyExercisesForm', 'hide');
-                dispatch(onSettingsHintExercisesFormChanged(false))
+                dispatch(onSettingsHintExercisesFormChanged(false));
             }
             closeFunc();
         } else {
@@ -285,7 +285,7 @@ export default function MyExercisesForm() {
                 buttonStyles={Buttons.styles.success}
                 textStyles={styles.buttonTextStyles}
                 text={i18n.t('mefs0009')}
-                onPressFunc={() => onSubmit()}
+                onPressFunc={async () => await onSubmit()}
             />
         </View>
     </View>

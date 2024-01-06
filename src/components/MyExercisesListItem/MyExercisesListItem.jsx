@@ -4,11 +4,16 @@ import { styles } from './style'
 import { AppTextStyles, Theme } from '../../styles'
 import { TouchableHighlight } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
+import { useDispatch } from 'react-redux'
+import { onExerciseChanged } from '../../redux/actions/exerciseActions'
 
-export default function MyExercisesListItem({ id, title, type, colorNumber }) {
-  
+export default function MyExercisesListItem(item) {
+
+  const { title, type, colorNumber } = item
+
   const navigation = useNavigation()
-  
+  const dispatch = useDispatch()
+
   let boxStyles = styles.itemBox
 
   const getBorderColorByNumber = (colorNumber) => {
@@ -59,9 +64,10 @@ export default function MyExercisesListItem({ id, title, type, colorNumber }) {
 
   return (
     <View style={styles.container}>
-      <TouchableHighlight onPress={() => navigation.navigate('ExerciseScreen', {
-        title,
-      })}>
+      <TouchableHighlight onPress={() => {
+        dispatch(onExerciseChanged(item))
+        navigation.navigate('ExerciseScreen')
+      }}>
         <View style={boxStyles}>
           <Text style={AppTextStyles.styles.textCommon}>{title}</Text>
         </View>

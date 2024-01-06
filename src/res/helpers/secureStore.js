@@ -13,7 +13,19 @@ async function getValueFor(key) {
     return -1
 }
 
+async function deleteStoredOpenPerformanceByExerciseID(exerciseID) {
+
+    const openPerformances = await JSON.parse(await getValueFor('storedOpenPerformances'))
+
+    const index = openPerformances.findIndex(perf => perf.exerciseID === exerciseID)
+
+    openPerformances.splice(index, 1)
+    
+    await saveValueAs('storedOpenPerformances', JSON.stringify(openPerformances))
+}
+
 export {
     saveValueAs,
     getValueFor,
+    deleteStoredOpenPerformanceByExerciseID,
 }

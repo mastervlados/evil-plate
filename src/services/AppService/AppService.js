@@ -17,8 +17,7 @@ export default class AppService {
             type: oneExerciseObj.exr_global_type,
             breakDuration: oneExerciseObj.exr_global_break_duration,
             colorNumber: oneExerciseObj.exr_color_number,
-            measureUnit: oneExerciseObj.exr_global_measure_unit,
-            records: oneExerciseObj.exr_best_results,
+            records: JSON.parse(oneExerciseObj.exr_best_results),
             created: oneExerciseObj.exr_created
         }
         return item
@@ -49,7 +48,6 @@ export default class AppService {
                 exr_color_number VARCHAR(20) NULL DEFAULT NULL,
                 exr_global_type VARCHAR(20) NULL DEFAULT NULL,
                 exr_global_break_duration INT NULL DEFAULT NULL,
-                exr_global_measure_unit VARCHAR(10) NULL DEFAULT NULL,
                 exr_best_results JSON NULL DEFAULT NULL,
                 exr_created DATETIME NULL DEFAULT CURRENT_TIMESTAMP
                 );
@@ -68,7 +66,6 @@ export default class AppService {
                 per_work_load JSON NULL DEFAULT NULL,
                 per_created DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
                 is_finished TINYINT NULL DEFAULT NULL,
-                exercise_id INT NOT NULL,
                 FOREIGN KEY (exr_id) REFERENCES exercise (id)
                 );
             `, null,
@@ -106,12 +103,21 @@ export default class AppService {
 
         await this.initDatabase();
 
+        const records = {
+            leaderboard: {
+                isExist: false,
+            },
+            previous: {
+                isExist: false,
+            }
+        }
+
         const createExerciseAndGetInsertedId = await new Promise((resolve, reject) => {
             this.database.transaction(tx => {
                 tx.executeSql(
-                    `INSERT INTO exercise (exr_name, exr_color_number, exr_global_type, exr_global_break_duration)
-                    VALUES (?, ?, ?, ?)`,
-                    [title, colorNumber, type, breakDuration],
+                    `INSERT INTO exercise (exr_name, exr_color_number, exr_global_type, exr_global_break_duration, exr_best_results)
+                    VALUES (?, ?, ?, ?, ?)`,
+                    [title, colorNumber, type, breakDuration, JSON.stringify(records)],
                     function(_, { insertId }) {
                         resolve(insertId);
                     },
