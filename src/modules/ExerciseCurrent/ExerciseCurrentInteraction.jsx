@@ -6,7 +6,7 @@ import { CancelSvg } from '../../res/svgs'
 import { Theme } from '../../styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { onPerformanceChanged } from '../../redux/actions/exerciseActions'
-import { deleteStoredOpenPerformanceByExerciseID } from '../../res/helpers/secureStore'
+import { deleteStoredPerformanceByExerciseID } from '../../res/helpers/secureStore'
 
 
 export default function ExerciseCurrentInteraction() {
@@ -24,7 +24,7 @@ export default function ExerciseCurrentInteraction() {
             const closeCurrentPerformance = async () => {
                 // means:
                 // 1. update stored opened performances
-                await deleteStoredOpenPerformanceByExerciseID(performance.exerciseID)
+                await deleteStoredPerformanceByExerciseID(performance.exerciseID)
                 // 2. set emty object as the default
                 // for 'performance'
                 dispatch(onPerformanceChanged({}))

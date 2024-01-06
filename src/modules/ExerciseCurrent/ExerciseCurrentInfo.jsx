@@ -11,7 +11,7 @@ import InfoMiddleBox from '../../components/InfoMiddleBox'
 import ExerciseSvg from '../../components/ExerciseSvg'
 import PreviousExerciseDetails from '../../components/PreviousExerciseDetails'
 import { useNavigation } from '@react-navigation/native'
-import { getValueFor, saveValueAs } from '../../res/helpers/secureStore'
+import { createStoredPerformance, getValueFor, saveValueAs } from '../../res/helpers/secureStore'
 import { onPerformanceChanged } from '../../redux/actions/exerciseActions'
 
 
@@ -39,44 +39,27 @@ export default function ExerciseCurrentInfo() {
         // Champion types values and update it
         // when 'done' button pressed,
         // it'll create the new line into DB
-        // ***********************************
-        // Get all previous open performances,
-        // add new one
-        const openPerformances = await JSON.parse(await getValueFor('storedOpenPerformances'))
-        console.log(openPerformances)
-        if ((openPerformances.filter((perf) => perf.exerciseID === exercise.id).length) === 0) {
-            // means that we haven't created 
-            // or opened performances with 
-            // current exercise ID
-            const performance = {
-                // id INTEGER PRIMARY KEY AUTOINCREMENT,
-                // exr_id INTEGER,
-                // per_type VARCHAR(20) NULL DEFAULT NULL,
-                // per_break_duration INT NULL DEFAULT NULL,
-                // per_measure_unit VARCHAR(10) NULL DEFAULT NULL,
-                // per_work_load JSON NULL DEFAULT NULL,
-                // per_created DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
-                // ? --- is_finished TINYINT NULL DEFAULT NULL,
-                // FOREIGN KEY (exr_id) REFERENCES exercise (id)
-                exerciseID: exercise.id,
-                type: exercise.type,
-                breakDuration: exercise.breakDuration,
-                measureUnit: appUnits,
-                workload: {},
-            }
-            // add new performance to
-            // other opened
-            const newOpenPerformances = [
-                ...openPerformances,
-                performance
-            ]
-            // put it into store
-            await saveValueAs('storedOpenPerformances', JSON.stringify(newOpenPerformances))
+        const performance = {
+            // id INTEGER PRIMARY KEY AUTOINCREMENT,
+            // exr_id INTEGER,
+            // per_type VARCHAR(20) NULL DEFAULT NULL,
+            // per_break_duration INT NULL DEFAULT NULL,
+            // per_measure_unit VARCHAR(10) NULL DEFAULT NULL,
+            // per_work_load JSON NULL DEFAULT NULL,
+            // per_created DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+            // ? --- is_finished TINYINT NULL DEFAULT NULL,
+            // FOREIGN KEY (exr_id) REFERENCES exercise (id)
+            exerciseID: exercise.id,
+            type: exercise.type,
+            breakDuration: exercise.breakDuration,
+            measureUnit: appUnits,
+            workload: {},
+        }
+
+        if (await createStoredPerformance(performance)) {
             // put initial performance to Redux
             dispatch(onPerformanceChanged(performance))
-            // reload exercise screen
-            // navigation.navigate('ExerciseScreen')
-        }
+        }    
     }
 
     return (

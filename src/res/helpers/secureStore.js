@@ -13,19 +13,49 @@ async function getValueFor(key) {
     return -1
 }
 
-async function deleteStoredOpenPerformanceByExerciseID(exerciseID) {
+async function getOpenPefrormances() {
+    return await JSON.parse(await getValueFor('storedOpenPerformances'));
+}
 
-    const openPerformances = await JSON.parse(await getValueFor('storedOpenPerformances'))
+async function saveOpenPerformances(obj) {
+    await saveValueAs('storedOpenPerformances', JSON.stringify(obj));
+}
 
-    const index = openPerformances.findIndex(perf => perf.exerciseID === exerciseID)
+async function createStoredPerformance(obj) {
+    // Get all previous open performances    
+    const openPerformances = await getOpenPefrormances();
+
+    if ((openPerformances.filter((perf) => perf.exerciseID === obj.exerciseID).length) === 0) {
+        // means that we haven't created 
+        // or opened performances with 
+        // current exercise ID
+        // **************
+        // add new one
+        openPerformances.push(obj)
+        // put it into store
+        await saveOpenPerformances(openPerformances);
+        // success
+        return true
+    }
+    return false
+}
+
+async function deleteStoredPerformanceByExerciseID(id) {
+
+    const openPerformances = await getOpenPefrormances();
+
+    const index = openPerformances.findIndex(perf => perf.exerciseID === id)
 
     openPerformances.splice(index, 1)
     
-    await saveValueAs('storedOpenPerformances', JSON.stringify(openPerformances))
+    await saveOpenPerformances(openPerformances);
 }
 
 export {
     saveValueAs,
     getValueFor,
-    deleteStoredOpenPerformanceByExerciseID,
+    getOpenPefrormances,
+    saveOpenPerformances,
+    createStoredPerformance,
+    deleteStoredPerformanceByExerciseID,
 }
