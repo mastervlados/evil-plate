@@ -134,9 +134,21 @@ export const styles = StyleSheet.create({
         fontFamily: 'roboto-black',
     },
     checkboxDefaultStyles: {
+        width: 56,
+        height: 40,
         borderWidth: 2,
+        borderRadius: 3,
+        borderColor: Theme.levelOne,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     checkboxActiveStyles: {
-
+        width: 56,
+        height: 40,
+        borderWidth: 2,
+        borderRadius: 3,
+        borderColor: Theme.textCommon,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 })
