@@ -12,7 +12,10 @@ export default function RoundedButton({
 }) {
   const IconSvg = cloneElement(iconSvg, { size: iconSize, fill: iconColor })
   return (
-      <TouchableOpacity onPress={onPressFunc ? onPressFunc : null}>
+      <TouchableOpacity 
+        onPress={onPressFunc ? onPressFunc : null}
+        style={{ width: size, height: size, borderRadius: size }}
+      >
           <View style={{
               ...styles,
               width: size, 

@@ -109,6 +109,7 @@ export default function ExerciseCurrentInteraction() {
             </View>
             <ScrollDisappearing
                 applyStyles={AppContainers.styles.appContainerWithLeftAndRightPaddings}
+                bgColor={Theme.base}
             >
                    <View style={styles.rowBox}>
                     <View style={styles.rowControl}>

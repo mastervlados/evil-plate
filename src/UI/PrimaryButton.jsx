@@ -33,7 +33,7 @@ export default function PrimaryButton({
   return (
       <TouchableOpacity 
         onPress={onPressFunc ? onPressFunc : null} 
-        style={{width: vwidth}}
+        style={{ width: vwidth, height: vheight, borderRadius: brRadiusSize }}
       >
           <View style={{
               ...styles,
