@@ -17,6 +17,7 @@ const agressive = '#BB86FC'
 const relaxing = '#9195C1'
 const maintain = '#DAB702'
 const procrastination = '#FA4343'
+const crimson = '#92322A'
 // ***************
 // **** OTHER ****
 // ***************
@@ -41,6 +42,7 @@ export {
     positive,
     agressive,
     relaxing,
+    crimson,
     itemMono,
     itemStereo,
     itemSelf,

@@ -16,6 +16,7 @@ export const styles = StyleSheet.create({
     commonBox: {
         width: 80,
         height: 40,
+        textAlign: 'center',
     },
     topLeftBox: {
         borderTopLeftRadius: 20,

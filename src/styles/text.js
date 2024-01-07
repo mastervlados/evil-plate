@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { agressive, base, itemMono, itemSelf, itemStereo, positive, textCommon, textHint, textValidationFailing } from './generalStyles/theme'
+import { agressive, base, itemMono, itemSelf, itemStereo, maintain, positive, textCommon, textHint, textValidationFailing } from './generalStyles/theme'
 
 export const styles = StyleSheet.create({
     textCommon: {
@@ -11,6 +11,12 @@ export const styles = StyleSheet.create({
     textCommonAlternate: {
         color: itemMono,
         fontSize: 14,
+        fontWeight: '400',
+        fontFamily: 'roboto-regular',
+    },
+    littleTextCommon: {
+        color: textCommon,
+        fontSize: 12,
         fontWeight: '400',
         fontFamily: 'roboto-regular',
     },
@@ -62,6 +68,12 @@ export const styles = StyleSheet.create({
         fontWeight: '300',
         fontFamily: 'roboto-light',
     },
+    timerDigitsDefault: {
+        color: maintain,
+        fontSize: 48,
+        fontWeight: '300',
+        fontFamily: 'roboto-light',
+    },
     switcherTextDefault: {
         color: base,
         fontSize: 15,
@@ -74,4 +86,10 @@ export const styles = StyleSheet.create({
         fontWeight: '700',
         fontFamily: 'roboto-bold',
     },
+    extraTextCommon: {
+        color: textCommon,
+        fontSize: 14,
+        fontWeight: '900',
+        fontFamily: 'roboto-black',
+    }
 })

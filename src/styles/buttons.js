@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet } from 'react-native'
-import { agressive, itemMono, itemSelf, levelOne, positive, relaxing } from './generalStyles/theme'
+import { agressive, itemMono, itemSelf, levelOne, maintain, positive, relaxing } from './generalStyles/theme'
 
 export const styles = StyleSheet.create({
     success: {
@@ -25,6 +25,12 @@ export const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         borderWidth: 1,
         borderColor: agressive,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    warning: {
+        backgroundColor: maintain,
+        // elevation: 3,
         alignItems: 'center',
         justifyContent: 'center',
     },
