@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Alert, ScrollView, TouchableWithoutFeedback } from 'react-native'
+import { View, Text, TouchableOpacity, Alert, ScrollView, TouchableWithoutFeedback, Dimensions } from 'react-native'
 import React, { useEffect } from 'react'
 import { styles } from './style'
 import { useNavigation } from '@react-navigation/native'
@@ -107,9 +107,9 @@ export default function ExerciseCurrentInteraction() {
                     <Text style={AppTextStyles.styles.littleTextCommon}>Отказ</Text>
                 </View>
             </View>
-            <ScrollDisappearing>
-                <ScrollView style={{...AppContainers.styles.appContainerWithLeftAndRightPaddings, marginTop: 30,}}>
-
+            <ScrollDisappearing
+                applyStyles={AppContainers.styles.appContainerWithLeftAndRightPaddings}
+            >
                    <View style={styles.rowBox}>
                     <View style={styles.rowControl}>
                         <TouchableWithoutFeedback onPress={() => console.log('delete row')}>
@@ -147,7 +147,6 @@ export default function ExerciseCurrentInteraction() {
                         />
                     </View>
                    </View>
-
                     <PrimaryButton
                         styles={Buttons.styles.primaryOutline} 
                         vheight={40}
@@ -158,7 +157,6 @@ export default function ExerciseCurrentInteraction() {
                         iconSize={20}
                         iconColor={Theme.agressive}
                     />
-                </ScrollView>
             </ScrollDisappearing>
         </View>
     )

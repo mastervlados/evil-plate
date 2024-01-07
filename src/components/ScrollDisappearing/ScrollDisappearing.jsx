@@ -1,11 +1,12 @@
-import { View, Text } from 'react-native'
+import { View, Text, ScrollView, Dimensions } from 'react-native'
 import React from 'react'
 import { styles } from './style'
 import { LinearGradient } from 'expo-linear-gradient'
 
 
 export default function ScrollDisappearing({ 
-    children, 
+    children,
+    applyStyles, 
     bgColor = 'red', 
     displayBottom = true
 }) {
@@ -37,8 +38,15 @@ export default function ScrollDisappearing({
                     zIndex: 101,
             }}/>
         ) : null }
-        
-      { children }
+        <ScrollView 
+            style={applyStyles}
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+        >
+            <View style={{ marginTop: 30, }}/>
+            { children }
+            <View style={{ height: Dimensions.get('window').height / 3 }}/>
+        </ScrollView>
     </View>
   )
 }
