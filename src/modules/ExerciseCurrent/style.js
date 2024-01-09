@@ -154,4 +154,12 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    interactionFooter: {
+        width: Dimensions.get('window').width,
+        height: 25,
+        backgroundColor: Theme.crimson,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+    },
 })

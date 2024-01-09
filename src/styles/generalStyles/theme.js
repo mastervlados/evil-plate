@@ -17,7 +17,7 @@ const agressive = '#BB86FC'
 const relaxing = '#9195C1'
 const maintain = '#DAB702'
 const procrastination = '#FA4343'
-const crimson = '#92322A'
+const crimson = '#1C2833'
 // ***************
 // **** OTHER ****
 // ***************

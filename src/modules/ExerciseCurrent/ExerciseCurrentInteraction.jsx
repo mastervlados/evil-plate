@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Alert, ScrollView, TouchableWithoutFeedback, Dimensions, SafeAreaView, TextInput } from 'react-native'
+import { View, Text, TouchableOpacity, Alert, TouchableWithoutFeedback } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import { styles } from './style'
 import { useNavigation } from '@react-navigation/native'
@@ -25,7 +25,7 @@ export default function ExerciseCurrentInteraction() {
     const appUnits = useSelector(state => state.appSettingsReducer.unitsFromSettings)
     const navigation = useNavigation()
     const dispatch = useDispatch()
-    console.log(performance.workload.sets.length)
+    // console.log(performance.workload.sets.length)
 
     useEffect(() => {
 
@@ -118,7 +118,7 @@ export default function ExerciseCurrentInteraction() {
 
     const RenderRows = ({sets}) => {
         const rows = sets.map((set, index) => {
-            console.log(set, index)
+            // console.log(set, index)
 
             const items = set.rows.map((row, rowIndex) => {
                 return <RenderRowItem key={`item-${index}-${rowIndex}`} setIndex={index} rowIndex={rowIndex} row={row}/>
@@ -242,6 +242,10 @@ export default function ExerciseCurrentInteraction() {
                         iconColor={Theme.agressive}
                     />
             </ScrollDisappearing>
+            <View style={{...styles.interactionFooter, display: 'block'}}>
+                        <Text style={AppTextStyles.styles.indicatorTextUnderWater}>-9999 кг.</Text>
+                        <Text style={AppTextStyles.styles.indicatorTextUnderWater}>нужно ебашить</Text>
+            </View>
         </View>
     )
 }

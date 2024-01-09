@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { agressive, base, itemMono, itemSelf, itemStereo, maintain, positive, textCommon, textHint, textValidationFailing } from './generalStyles/theme'
+import { agressive, base, itemMono, itemSelf, itemStereo, maintain, positive, relaxing, textCommon, textHint, textValidationFailing } from './generalStyles/theme'
 
 export const styles = StyleSheet.create({
     textCommon: {
@@ -91,5 +91,23 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: '900',
         fontFamily: 'roboto-black',
-    }
+    },
+    indicatorTextUnderWater: {
+        color: itemMono,
+        fontSize: 10,
+        fontWeight: '700',
+        fontFamily: 'roboto-bold',
+    },
+    indicatorTextMaintain: {
+        color: maintain,
+        fontSize: 10,
+        fontWeight: '700',
+        fontFamily: 'roboto-bold',
+    },
+    indicatorTextGrowUp: {
+        color: positive,
+        fontSize: 10,
+        fontWeight: '700',
+        fontFamily: 'roboto-bold',
+    },
 })
