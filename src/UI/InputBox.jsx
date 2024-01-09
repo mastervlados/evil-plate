@@ -10,19 +10,28 @@ export default function InputBox({
     defaultStyles,
     placeholderColor,
     ownStyles,
+    onBlurFunc,
 }) {
 
   const [isPressed, setPress] = useState(false)
   
+  const onBlurHandler = () => {
+    if (onBlurFunc) {
+      setPress(false)
+      onBlurFunc()
+    } else {
+      setPress(false)
+    }
+  }
+
   return (
     
-
     <TextInput 
         underlineColorAndroid={'transparent'}
         inputMode={setInputMode}
         style={isPressed ? {...activeStyles, ...ownStyles} : { ...defaultStyles, ...ownStyles}}
         placeholder={placeholder}
-        onBlur={() => setPress(false)}
+        onBlur={onBlurHandler}
         onFocus={() => setPress(true)}
         onChangeText={(text) => updateValueFunc(text)}
         value={currentValue}

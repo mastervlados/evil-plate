@@ -1,5 +1,5 @@
 import { View, Text, TouchableWithoutFeedback } from 'react-native'
-import React, { cloneElement, useContext, useState } from 'react'
+import React, { cloneElement, useContext, useEffect, useState } from 'react'
 import * as Animatable from 'react-native-animatable'
 import AppContext from '../../AppContext'
 
@@ -10,22 +10,19 @@ export default function CheckBox({
     iconCheckedColor,
     defaultStyles,
     checkedStyles,
-    previousWasChecked = true,
+    previousWasChecked = false,
     previousCheckedColor,
-    currentValue = false,
+    isChecked = false,
     valueFunc,
 }) {
 
-    const [isChecked, setValue] = useState(currentValue)
-    const [animation, setAnimation] = useState(null)
-    const service = useContext(AppContext)
+    // const [animation, setAnimation] = useState(null)
+    // const service = useContext(AppContext)
 
-    const animationList = [
-        'tada',
-        'rubberBand',
-        'shake',
-        'wobble',
-    ]
+    // const animationList = [
+    //     'tada',
+    //     'rubberBand',
+    // ]
 
     let defineStyles
     let defineIconColor
@@ -49,18 +46,26 @@ export default function CheckBox({
     return (
         
             <TouchableWithoutFeedback onPress={async () => {
-                setAnimation(animationList[Math.floor(Math.random() * animationList.length)])
-                await service.sleep(1.5)
-                setAnimation(null)
+                valueFunc()
+                // if (touchable) {
+                //     setLocalValue(!localValue)
+                //     setTouchable(!touchable)
+                //     if (!localValue) {
+                //         setAnimation(animationList[Math.floor(Math.random() * animationList.length)])
+                //         await service.sleep(1.5);
+                //         setAnimation(null)
+                //     }
+                //     valueFunc()
+                // }
             }}>
                 <View style={defineStyles}>
-                    <Animatable.View 
+                    {/* <Animatable.View 
                         animation={animation}
                         duration={1500}
-                    >
+                    > */}
                         { IconSvg }
                     
-                    </Animatable.View>
+                    {/* </Animatable.View> */}
                 </View>
             </TouchableWithoutFeedback>
         

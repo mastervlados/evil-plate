@@ -38,6 +38,12 @@ const endingFor = (number, endingFor, locale = 'en') => {
 // 5 -> подходов | sets
 // 1 -> подход | set
 
+function formatString(str) {
+    let args = [].slice.call(arguments, 1), i = 0;
+    return str.replace(/%s/g, () => args[i++])
+}
+
 export {
     endingFor,
+    formatString,
 }

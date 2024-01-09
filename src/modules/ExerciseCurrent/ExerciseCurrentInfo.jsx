@@ -11,7 +11,7 @@ import InfoMiddleBox from '../../components/InfoMiddleBox'
 import ExerciseSvg from '../../components/ExerciseSvg'
 import PreviousExerciseDetails from '../../components/PreviousExerciseDetails'
 import { useNavigation } from '@react-navigation/native'
-import { createStoredPerformance, getValueFor, saveValueAs } from '../../res/helpers/secureStore'
+import { createStoredPerformance, getOpenPefrormances, getValueFor, saveValueAs } from '../../res/helpers/secureStore'
 import { onPerformanceChanged } from '../../redux/actions/exerciseActions'
 
 
@@ -53,13 +53,13 @@ export default function ExerciseCurrentInfo() {
             type: exercise.type,
             breakDuration: exercise.breakDuration,
             measureUnit: appUnits,
-            workload: {},
+            workload: { sets: [] },
         }
 
         if (await createStoredPerformance(performance)) {
             // put initial performance to Redux
             dispatch(onPerformanceChanged(performance))
-        }    
+        }
     }
 
     return (

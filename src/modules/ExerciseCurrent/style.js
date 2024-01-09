@@ -33,7 +33,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingVertical: 20,
+        paddingVertical: 10,
     },
     interactionTableHeadersContainer: {
         // borderWidth: 3,
@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 10,
+        marginBottom: 5,
     },
     interactionTableBox: {
         backgroundColor: Theme.levelOne,
@@ -75,19 +75,22 @@ export const styles = StyleSheet.create({
         // borderWidth: 3,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: 15,
+        marginBottom: 12,
     },
     rowControl: {
         // borderWidth: 3,
     },
     rowContent: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
         // 40 - left and right paddings ~ 20px each
         // 56 - control box size
         // ((Dimensions.get('window').width - 76 - 74 - (96 * 2)) / 3)
         width: Dimensions.get('window').width - 40 - 56 - ((Dimensions.get('window').width - 76 - 74 - (96 * 2)) / 3),
         // borderWidth: 1,
+    },
+    rowContentItem: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 5,
     },
     setBox: {
         position: 'relative',
