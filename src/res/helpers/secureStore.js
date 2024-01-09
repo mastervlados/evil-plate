@@ -1,6 +1,10 @@
 import react from 'react'
 import * as SecureStore from 'expo-secure-store'
 
+const _findStoredOpenPerformanceIndex = (storedData, id) => {
+    return storedData.findIndex(perf => perf.exerciseID === id)
+}
+
 async function saveValueAs(key, value) {
     await SecureStore.setItemAsync(key, value);
 }
@@ -40,15 +44,62 @@ async function createStoredPerformance(obj) {
     return false
 }
 
-async function deleteStoredPerformanceByExerciseID(id) {
+async function deleteStoredPerformanceByExerciseID(exerciseID) {
 
     const openPerformances = await getOpenPefrormances();
 
-    const index = openPerformances.findIndex(perf => perf.exerciseID === id)
+    const index = _findStoredOpenPerformanceIndex(openPerformances, exerciseID)
 
-    openPerformances.splice(index, 1)
+    try {
+        openPerformances.splice(index, 1)
+    } catch (e) {
+        // console.log(e)
+    } finally {
+        await saveOpenPerformances(openPerformances);
+    }
+}
+
+async function createStoredSetWithinExercise(exerciseID, data) {
+    const openPerformances = await getOpenPefrormances();
+    const index = _findStoredOpenPerformanceIndex(openPerformances, exerciseID)
+
+    try {
+        openPerformances[index].workload.sets.push(data)
+    } catch (e) {
+        // console.log(e)
+    } finally {
+        await saveOpenPerformances(openPerformances);
+    }
+}
+
+async function deleteStoredSetWithinExercise(exerciseID, setID) {
+
+    const openPerformances = await getOpenPefrormances();
+
+    const index = _findStoredOpenPerformanceIndex(openPerformances, exerciseID)
+
+    try {
+        openPerformances[index].workload.sets.splice(setID, 1)
+    } catch (e) {
+        // console.log(e)
+    } finally {
+        await saveOpenPerformances(openPerformances);
+    }
     
-    await saveOpenPerformances(openPerformances);
+}
+
+async function updateStoredSetFieldWithinExercise(exerciseID, setID, rowID, field, payload) {
+    const openPerformances = await getOpenPefrormances();
+
+    const index = _findStoredOpenPerformanceIndex(openPerformances, exerciseID)
+
+    try {
+        openPerformances[index].workload.sets[setID].rows[rowID][field] = payload
+    } catch (e) {
+        // console.log(e)
+    } finally {
+        await saveOpenPerformances(openPerformances);
+    }
 }
 
 export {
@@ -58,4 +109,7 @@ export {
     saveOpenPerformances,
     createStoredPerformance,
     deleteStoredPerformanceByExerciseID,
+    deleteStoredSetWithinExercise,
+    createStoredSetWithinExercise,
+    updateStoredSetFieldWithinExercise,
 }

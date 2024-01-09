@@ -18,6 +18,7 @@ export default function ExerciseCurrent() {
             const storedOpenPerformances = await getOpenPefrormances()
             const currentPerformance = storedOpenPerformances.find((perf) => perf.exerciseID === id)
             if (typeof(currentPerformance) !== 'undefined') {
+                console.log(currentPerformance)
                 dispatch(onPerformanceChanged(currentPerformance))
             }
         }

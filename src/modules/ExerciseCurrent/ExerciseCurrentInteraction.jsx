@@ -6,7 +6,7 @@ import { AddSvg, CancelSvg } from '../../res/svgs'
 import { AppContainers, AppTextStyles, Buttons, Theme } from '../../styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { onPerformanceChanged, onPerformanceDataChanged, onPerformanceRowCheckboxChanged, onPerformanceRowRepsChanged, onPerformanceRowWeightChanged, onPerformanceSetAdded, onPerformanceSetDeleted } from '../../redux/actions/exerciseActions'
-import { deleteStoredPerformanceByExerciseID } from '../../res/helpers/secureStore'
+import { createStoredSetWithinExercise, deleteStoredPerformanceByExerciseID, deleteStoredSetWithinExercise, updateStoredSetFieldWithinExercise } from '../../res/helpers/secureStore'
 import RoundedButton from '../../UI/RoundedButton'
 import DoneSvg from '../../res/svgs/DoneSvg'
 import TimerSvg from '../../res/svgs/TimerSvg'
@@ -26,14 +26,15 @@ export default function ExerciseCurrentInteraction() {
     const navigation = useNavigation()
     const dispatch = useDispatch()
     console.log(performance.workload.sets.length)
+
     useEffect(() => {
 
-        const closeCurrentPerformance = () => {
+        const closeCurrentPerformanceHandler = () => {
 
             const closeCurrentPerformance = async () => {
                 // means:
                 // 1. update stored opened performances
-                await deleteStoredPerformanceByExerciseID(performance.exerciseID)
+                deleteStoredPerformanceByExerciseID(performance.exerciseID)
                 // 2. set emty object as the default
                 // for 'performance'
                 dispatch(onPerformanceChanged({}))
@@ -58,11 +59,12 @@ export default function ExerciseCurrentInteraction() {
 
         navigation.setOptions({headerRight: () => (
             <View style={styles.headerButtonPosition}>
-                <TouchableOpacity onPress={closeCurrentPerformance}>
+                <TouchableOpacity onPress={closeCurrentPerformanceHandler}>
                     <CancelSvg size={42} fill={Theme.textCommon}/>
                 </TouchableOpacity>
             </View>
         )})
+        
     }, [])
 
     const RenderRowItem = ({setIndex, rowIndex, row}) => {
@@ -75,7 +77,10 @@ export default function ExerciseCurrentInteraction() {
                     activeStyles={styles.inputActiveStyles}
                     defaultStyles={styles.inputDefaultStyles}
                     updateValueFunc={setWeight}
-                    onBlurFunc={() => dispatch(onPerformanceRowWeightChanged(setIndex, rowIndex, weight))}
+                    onBlurFunc={async () => {
+                        dispatch(onPerformanceRowWeightChanged(setIndex, rowIndex, weight))
+                        updateStoredSetFieldWithinExercise(performance.exerciseID, setIndex, rowIndex, 'weight', weight)
+                    }}
                     currentValue={weight}
                     placeholder={'weight'}
                     placeholderColor={Theme.levelOne}
@@ -85,13 +90,19 @@ export default function ExerciseCurrentInteraction() {
                     activeStyles={styles.inputActiveStyles}
                     defaultStyles={styles.inputDefaultStyles}
                     updateValueFunc={setReps}
-                    onBlurFunc={() => dispatch(onPerformanceRowRepsChanged(setIndex, rowIndex, reps))}
+                    onBlurFunc={async () => {
+                        dispatch(onPerformanceRowRepsChanged(setIndex, rowIndex, reps))
+                        updateStoredSetFieldWithinExercise(performance.exerciseID, setIndex, rowIndex, 'reps', reps)
+                    }}
                     currentValue={reps}
                     placeholder={'reps'}
                     placeholderColor={Theme.levelOne}
                 />
                 <CheckBox
-                    valueFunc={() => dispatch(onPerformanceRowCheckboxChanged(setIndex, rowIndex))}
+                    valueFunc={async () => {
+                        dispatch(onPerformanceRowCheckboxChanged(setIndex, rowIndex))
+                        updateStoredSetFieldWithinExercise(performance.exerciseID, setIndex, rowIndex, 'isLethal', !row.isLethal)
+                    }}
                     isChecked={row.isLethal}
                     checkedStyles={styles.checkboxActiveStyles}
                     defaultStyles={styles.checkboxDefaultStyles}
@@ -118,7 +129,7 @@ export default function ExerciseCurrentInteraction() {
                 const deleteSet = async () => {
                     // means:
                     // 1. store data
-                    // await deleteStoredPerformanceByExerciseID(performance.exerciseID)
+                    await deleteStoredSetWithinExercise(performance.exerciseID, index)
                     // 2. update state without deleted item
                     dispatch(onPerformanceSetDeleted(index))
                 }
@@ -128,13 +139,13 @@ export default function ExerciseCurrentInteraction() {
                     'this is bottom',
                     [
                         {
-                            text: 'Yes',
+                            text: 'Delete',
                             onPress: () => {
                                 deleteSet()
                             },
                         },
                         {
-                            text: 'No',
+                            text: 'Cancel',
                         }
                     ]
                 )
@@ -216,12 +227,15 @@ export default function ExerciseCurrentInteraction() {
                         vheight={40}
                         vwidth={56}
                         brRadiusSize={3}
-                        onPressFunc={() => {
+                        onPressFunc={async () => {
 
                             const initialRow = {
                                 rows: [{ weight: '', reps: '', isLethal: false }]
                             }
+                            // update Redux
                             dispatch(onPerformanceSetAdded(initialRow))
+                            // put it into store
+                            createStoredSetWithinExercise(performance.exerciseID, initialRow) 
                         }}
                         iconSvg={<AddSvg/>}
                         iconSize={20}
