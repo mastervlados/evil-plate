@@ -71,8 +71,14 @@ export const styles = StyleSheet.create({
     timerDigitsDefault: {
         color: maintain,
         fontSize: 48,
-        fontWeight: '300',
-        fontFamily: 'roboto-light',
+        fontWeight: '100',
+        fontFamily: 'roboto-thin',
+    },
+    timerDigitsActive: {
+        color: textValidationFailing,
+        fontSize: 48,
+        fontWeight: '100',
+        fontFamily: 'roboto-thin',
     },
     switcherTextDefault: {
         color: base,

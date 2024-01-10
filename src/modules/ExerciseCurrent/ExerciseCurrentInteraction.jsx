@@ -17,7 +17,8 @@ import CheckBox from '../../UI/CheckBox'
 import SkullSvg from '../../res/svgs/SkullSvg'
 import { formatString } from '../../res/helpers/endings'
 import TonnageIndicatorBar from '../../components/TonnageIndicatorBar'
-import WorkloadHeaders from '../../components/WorkloadHeaders/WorkloadHeaders'
+import WorkloadHeaders from '../../components/WorkloadHeaders'
+import TimerPanel from '../TimerPanel'
 
 
 export default function ExerciseCurrentInteraction() {
@@ -176,31 +177,10 @@ export default function ExerciseCurrentInteraction() {
     }
     return (
         <View style={AppContainers.styles.appContainerWithoutVerticalCentred}>
-            <View style={{...AppContainers.styles.appContainerWithLeftAndRightPaddings, ...styles.interactionHeaderContainer}}>
-                <View>
-                    <RoundedButton 
-                        styles={Buttons.styles.successOutline} 
-                        size={56}
-                        onPressFunc={() => console.log('Done!')}
-                        iconSvg={<DoneSvg/>}
-                        iconSize={24}
-                        iconColor={Theme.positive}
-                    />
-                </View>
-                <Text style={AppTextStyles.styles.timerDigitsDefault}>03:00</Text>
-                <View>
-                    <RoundedButton 
-                        styles={Buttons.styles.warning} 
-                        size={56}
-                        onPressFunc={() => console.log('Start timer!')}
-                        iconSvg={<TimerSvg/>}
-                        iconSize={35}
-                        iconColor={Theme.base}
-                    />
-                </View>
-            </View>
-
-            <WorkloadHeaders performanceUnits={performance.measureUnit}/>
+            
+            {/* <TimerPanel durationSetup={performance.breakDuration}/> */}
+            <TimerPanel durationSetup={70}/>
+            <WorkloadHeaders/>
 
             <ScrollDisappearing
                 applyStyles={AppContainers.styles.appContainerWithLeftAndRightPaddings}

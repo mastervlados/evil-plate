@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet } from 'react-native'
-import { agressive, itemMono, itemSelf, levelOne, maintain, positive, relaxing } from './generalStyles/theme'
+import { agressive, itemMono, itemSelf, levelOne, maintain, positive, relaxing, textValidationFailing } from './generalStyles/theme'
 
 export const styles = StyleSheet.create({
     success: {
@@ -30,6 +30,12 @@ export const styles = StyleSheet.create({
     },
     warning: {
         backgroundColor: maintain,
+        // elevation: 3,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    danger: {
+        backgroundColor: textValidationFailing,
         // elevation: 3,
         alignItems: 'center',
         justifyContent: 'center',

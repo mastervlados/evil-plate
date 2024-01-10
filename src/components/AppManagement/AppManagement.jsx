@@ -58,6 +58,7 @@ export default function AppManagement() {
       async function prepare() {
         try {
           await Font.loadAsync({
+            'roboto-thin': require('../../res/fonts/roboto/Roboto-Thin.ttf'),
             'roboto-light': require('../../res/fonts/roboto/Roboto-Regular.ttf'),
             'roboto-regular': require('../../res/fonts/roboto/Roboto-Regular.ttf'),
             'roboto-medium': require('../../res/fonts/roboto/Roboto-Medium.ttf'),
