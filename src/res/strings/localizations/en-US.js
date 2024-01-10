@@ -49,10 +49,16 @@ const exerciseScreen = {
 	es0006: 'There are no previous results..',
 	es0007: 'Max weight:',
 	es0008: 'Tonnage:',
+	// TonnageIndicatorBar
 	es0009: 'Total',
 	es0010: 'Under water',
 	es0011: 'Maintain',
 	es0012: 'Grow!',
+	// TableHeaders
+	es0013: 'Sets',
+	es0014: 'Weight',
+	es0015: 'Reps',
+	es0016: 'Failure',
 }
 
 const en = {

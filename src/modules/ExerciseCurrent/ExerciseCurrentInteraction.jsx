@@ -17,6 +17,7 @@ import CheckBox from '../../UI/CheckBox'
 import SkullSvg from '../../res/svgs/SkullSvg'
 import { formatString } from '../../res/helpers/endings'
 import TonnageIndicatorBar from '../../components/TonnageIndicatorBar'
+import WorkloadHeaders from '../../components/WorkloadHeaders/WorkloadHeaders'
 
 
 export default function ExerciseCurrentInteraction() {
@@ -198,24 +199,9 @@ export default function ExerciseCurrentInteraction() {
                     />
                 </View>
             </View>
-            <View style={styles.interactionTableHeadersContainer}>
-                <View style={styles.interactionTableLeftBox}>
-                    <Text style={AppTextStyles.styles.littleTextCommon}>Подходы</Text>
-                </View>
-                <View style={styles.interactionTableBox}>
-                    <Text style={{...AppTextStyles.styles.littleTextCommon, textAlign: 'center'}}>
-                        Весsdf
-                        {'\n'}
-                        (кг)
-                    </Text>
-                </View>
-                <View style={styles.interactionTableBox}>
-                    <Text style={AppTextStyles.styles.littleTextCommon}>Повторения</Text>
-                </View>
-                <View style={styles.interactionTableRightBox}>
-                    <Text style={AppTextStyles.styles.littleTextCommon}>Отказ</Text>
-                </View>
-            </View>
+
+            <WorkloadHeaders performanceUnits={performance.measureUnit}/>
+
             <ScrollDisappearing
                 applyStyles={AppContainers.styles.appContainerWithLeftAndRightPaddings}
                 bgColor={Theme.base}
