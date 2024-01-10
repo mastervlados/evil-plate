@@ -49,6 +49,10 @@ const exerciseScreen = {
 	es0006: 'There are no previous results..',
 	es0007: 'Max weight:',
 	es0008: 'Tonnage:',
+	es0009: 'Total',
+	es0010: 'Under water',
+	es0011: 'Maintain',
+	es0012: 'Grow!',
 }
 
 const en = {

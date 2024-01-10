@@ -97,17 +97,20 @@ export const styles = StyleSheet.create({
         fontSize: 10,
         fontWeight: '700',
         fontFamily: 'roboto-bold',
+        textTransform: 'uppercase',
     },
     indicatorTextMaintain: {
         color: maintain,
         fontSize: 10,
         fontWeight: '700',
         fontFamily: 'roboto-bold',
+        textTransform: 'uppercase',
     },
     indicatorTextGrowUp: {
         color: positive,
         fontSize: 10,
         fontWeight: '700',
         fontFamily: 'roboto-bold',
+        textTransform: 'uppercase',
     },
 })

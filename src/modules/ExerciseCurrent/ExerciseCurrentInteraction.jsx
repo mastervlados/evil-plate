@@ -16,6 +16,7 @@ import InputBox from '../../UI/InputBox'
 import CheckBox from '../../UI/CheckBox'
 import SkullSvg from '../../res/svgs/SkullSvg'
 import { formatString } from '../../res/helpers/endings'
+import TonnageIndicatorBar from '../../components/TonnageIndicatorBar'
 
 
 export default function ExerciseCurrentInteraction() {
@@ -243,8 +244,7 @@ export default function ExerciseCurrentInteraction() {
                     />
             </ScrollDisappearing>
             <View style={{...styles.interactionFooter, display: 'block'}}>
-                        <Text style={AppTextStyles.styles.indicatorTextUnderWater}>-9999 кг.</Text>
-                        <Text style={AppTextStyles.styles.indicatorTextUnderWater}>нужно ебашить</Text>
+                    <TonnageIndicatorBar/>    
             </View>
         </View>
     )

@@ -156,10 +156,6 @@ export const styles = StyleSheet.create({
     },
     interactionFooter: {
         width: Dimensions.get('window').width,
-        height: 25,
-        backgroundColor: Theme.crimson,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-around',
+        height: 30,
     },
 })
