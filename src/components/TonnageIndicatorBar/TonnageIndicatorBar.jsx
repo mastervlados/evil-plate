@@ -6,10 +6,10 @@ import { useSelector } from 'react-redux'
 import { endingFor } from '../../res/helpers/endings'
 import AppLocalizationContext from '../../../AppLocalizationContext'
 
-export default function TonnageIndicatorBar({ currentTonnage, previousTonnage }) {
+export default function TonnageIndicatorBar({ currentTonnage, previousTonnage, }) {
 
+    const unit = useSelector(state => state.exerciseReducer.performance.measureUnit)
     const locale = useSelector(state => state.appSettingsReducer.language)
-    const appUnits = useSelector(state => state.appSettingsReducer.unitsFromSettings)
     const i18n = useContext(AppLocalizationContext)
 
     if (!previousTonnage) {
@@ -17,7 +17,7 @@ export default function TonnageIndicatorBar({ currentTonnage, previousTonnage })
             <View style={styles.container}>
                 <Text style={AppTextStyles.styles.indicatorTextUnderWater}>
                     { currentTonnage } 
-                    { ' ' + endingFor(currentTonnage, appUnits, locale) }
+                    { ' ' + endingFor(currentTonnage, unit, locale) }
                 </Text>
                 <Text style={AppTextStyles.styles.indicatorTextUnderWater}>
                     { i18n.t('es0009') }

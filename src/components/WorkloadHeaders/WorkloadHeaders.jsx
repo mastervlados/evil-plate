@@ -6,8 +6,9 @@ import AppLocalizationContext from '../../../AppLocalizationContext'
 import { useSelector } from 'react-redux'
 import { endingFor } from '../../res/helpers/endings'
 
-export default function WorkloadHeaders({ performanceUnits, isTopPressed = false }) {
-
+export default function WorkloadHeaders({ isTopPressed = false }) {
+    
+    const unit = useSelector(state => state.exerciseReducer.performance.measureUnit)
     const locale = useSelector(state => state.appSettingsReducer.language)
     const i18n = useContext(AppLocalizationContext)
 
@@ -33,7 +34,7 @@ export default function WorkloadHeaders({ performanceUnits, isTopPressed = false
                 }}>
                     { i18n.t('es0014') }
                     { '\n' }
-                    { `(${ endingFor(10, performanceUnits, locale) })` }
+                    { `(${ endingFor(10, unit, locale) })` }
                 </Text>
             </View>
             <View style={

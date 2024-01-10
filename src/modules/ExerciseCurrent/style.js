@@ -119,8 +119,6 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     interactionFooter: {
-        width: Dimensions.get('window').width,
-        height: 25,
         marginTop: 5,
     },
 })
