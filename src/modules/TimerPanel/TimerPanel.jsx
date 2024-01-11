@@ -7,8 +7,8 @@ import DoneSvg from '../../res/svgs/DoneSvg'
 import TimerSvg from '../../res/svgs/TimerSvg'
 import * as Animatable from 'react-native-animatable'
 import AppContext from '../../../AppContext'
-import * as Haptics from 'expo-haptics'
 import { CancelSvg } from '../../res/svgs'
+import AccurateTimer from './AccurateTimer'
 
 
 export default function TimerPanel({ buttonHandlerFunc, durationSetup }) {
@@ -16,7 +16,7 @@ export default function TimerPanel({ buttonHandlerFunc, durationSetup }) {
     const [isActive, setActive] = useState(false)
     const [minutes, setMinutes] = useState('00')
     const [seconds, setSeconds] = useState('00')
-    const service = useContext(AppContext)
+    const timerRef = useRef(new AccurateTimer())
 
     let timerButtonStyles
     let timerTextStyles
@@ -43,50 +43,20 @@ export default function TimerPanel({ buttonHandlerFunc, durationSetup }) {
         updateTimer(durationSetup * 1000)
     }, [])
 
-    const timerButtonHandler = async () => {
-
-        const startTimer = async (duration) => {
-            duration *= 1000
-            const interval = 1000; // ms
-            let expected = Date.now() + interval;
-            const startTimer = setTimeout(step, interval);
-            async function step() {
-                const dt = Date.now() - expected; // the drift (positive for overshooting)
-                if (dt > interval) {
-                    // something really bad happened. Maybe the browser (tab) was inactive?
-                    // possibly special handling to avoid futile "catch up" run
-                }
-                // do what is to be done
-                duration -= interval
-                updateTimer(duration)
-                if (duration === 0) {
-                    // means that we finish here!
-                    clearTimeout(startTimer)
-                    Haptics.notificationAsync(
-                        Haptics.NotificationFeedbackType.Success
-                    )
-                    await service.sleep(1)
-                    // sleep one second!
-                    setActive(false)
-                    // show default timer duration
-                    updateTimer(durationSetup * 1000)
-                } else {
-                    // continue
-                    expected += interval;
-                    setTimeout(step, Math.max(0, interval - dt)); // take into account drift
-                }
-            }
-        }
-
+    // Use the handler function below
+    // to manage timer status
+    const timerButtonHandler = () => {
         if (!isActive) {
-            // Button was pressed!
-            // should start timer
-            setActive(true)
-            startTimer(durationSetup)
+            setActive(!isActive)
+            timerRef.current.start(
+                (ms) => updateTimer(ms), 
+                1000, // ~ one second
+                durationSetup, // seconds
+                setActive // send func
+            )
         } else {
-            // Button was pressed again
-            // should stop timer
-            console.log('stop timer')
+            setActive(!isActive)
+            timerRef.current.cancel()
         }
     }
 
