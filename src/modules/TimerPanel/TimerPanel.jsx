@@ -1,14 +1,14 @@
 import { View, Text } from 'react-native'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { styles } from './style'
 import RoundedButton from '../../UI/RoundedButton'
 import { AppContainers, AppTextStyles, Buttons, Theme } from '../../styles'
 import DoneSvg from '../../res/svgs/DoneSvg'
 import TimerSvg from '../../res/svgs/TimerSvg'
-import * as Animatable from 'react-native-animatable'
-import AppContext from '../../../AppContext'
 import { CancelSvg } from '../../res/svgs'
 import AccurateTimer from './AccurateTimer'
+import * as Animatable from 'react-native-animatable'
+import PrimaryButton from '../../UI/PrimaryButton'
 
 
 export default function TimerPanel({ buttonHandlerFunc, durationSetup }) {
@@ -66,9 +66,11 @@ export default function TimerPanel({ buttonHandlerFunc, durationSetup }) {
             ...styles.timerPanelContainer
         }}>
                 
-            <RoundedButton 
+            <PrimaryButton 
                 styles={Buttons.styles.successOutline} 
-                size={56}
+                vwidth={56}
+                vheight={56}
+                brRadiusSize={20}
                 onPressFunc={buttonHandlerFunc}
                 iconSvg={<DoneSvg/>}
                 iconSize={24}

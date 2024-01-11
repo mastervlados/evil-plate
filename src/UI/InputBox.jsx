@@ -11,6 +11,7 @@ export default function InputBox({
     placeholderColor,
     ownStyles,
     onBlurFunc,
+    onFocusFunc,
 }) {
 
   const [isPressed, setPress] = useState(false)
@@ -24,6 +25,15 @@ export default function InputBox({
     }
   }
 
+  const onFucusHandler = () => {
+    if (onFocusFunc) {
+      setPress(true)
+      onFocusFunc()
+    } else {
+      setPress(true)
+    }
+  }
+
   return (
     
     <TextInput 
@@ -32,7 +42,7 @@ export default function InputBox({
         style={isPressed ? {...activeStyles, ...ownStyles} : { ...defaultStyles, ...ownStyles}}
         placeholder={placeholder}
         onBlur={onBlurHandler}
-        onFocus={() => setPress(true)}
+        onFocus={onFucusHandler}
         onChangeText={(text) => updateValueFunc(text)}
         value={currentValue}
         placeholderTextColor={placeholderColor}
