@@ -22,7 +22,25 @@ const checkExerciseName = (exerciseName, messageLocale = 'en') => {
     }
 }
 
+function checkForReal(term, callback) {
+    const regexp = /(^[1-9]$)|(^[1-9]\d+\.?$)|(^[1-9]\d+\.\d+$)|(^$)/
+    // console.log('validation: ', term, 'result: ', regexp.test(term))
+    if (regexp.test(term)) { 
+        callback(term) 
+    }
+}
+
+function checkForInteger(term, callback) {
+    const regexp = /(^[1-9]$)|(^[1-9]\d+$)|(^$)/
+    // console.log('validation: ', term, 'result: ', regexp.test(term))
+    if (regexp.test(term)) { 
+        callback(term) 
+    }
+}
+
 export {
     checkExerciseName,
+    checkForReal,
+    checkForInteger,
 }
 

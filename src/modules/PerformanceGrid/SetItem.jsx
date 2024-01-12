@@ -8,6 +8,7 @@ import { updateStoredSetRowFieldWithinExercise } from '../../res/helpers/secureS
 import { Theme } from '../../styles'
 import CheckBox from '../../UI/CheckBox'
 import SkullSvg from '../../res/svgs/SkullSvg'
+import { checkForInteger, checkForReal } from '../../res/helpers/validation'
 
 
 export default function SetItem({ exerciseID, setIndex, rowIndex, row }) {
@@ -22,7 +23,7 @@ export default function SetItem({ exerciseID, setIndex, rowIndex, row }) {
                 setInputMode={'numeric'}
                 activeStyles={styles.inputActiveStyles}
                 defaultStyles={styles.inputDefaultStyles}
-                updateValueFunc={setWeight}
+                updateValueFunc={(text) => checkForReal(text, setWeight)}
                 onBlurFunc={async () => {
                     dispatch(onPerformanceRowWeightChanged(setIndex, rowIndex, weight))
                     updateStoredSetRowFieldWithinExercise(exerciseID, setIndex, rowIndex, 'weight', weight)
@@ -35,7 +36,7 @@ export default function SetItem({ exerciseID, setIndex, rowIndex, row }) {
                 setInputMode={'numeric'}
                 activeStyles={styles.inputActiveStyles}
                 defaultStyles={styles.inputDefaultStyles}
-                updateValueFunc={setReps}
+                updateValueFunc={(text) => checkForInteger(text, setReps)}
                 onBlurFunc={async () => {
                     dispatch(onPerformanceRowRepsChanged(setIndex, rowIndex, reps))
                     updateStoredSetRowFieldWithinExercise(exerciseID, setIndex, rowIndex, 'reps', reps)

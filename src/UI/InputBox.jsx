@@ -37,6 +37,7 @@ export default function InputBox({
   return (
     
     <TextInput 
+        contextMenuHidden={true}
         underlineColorAndroid={'transparent'}
         inputMode={setInputMode}
         style={isPressed ? {...activeStyles, ...ownStyles} : { ...defaultStyles, ...ownStyles}}
