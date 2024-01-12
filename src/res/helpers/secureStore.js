@@ -88,13 +88,48 @@ async function deleteStoredSetWithinExercise(exerciseID, setID) {
     
 }
 
-async function updateStoredSetFieldWithinExercise(exerciseID, setID, rowID, field, payload) {
+async function updateStoredSetFieldWithinExercise(
+    exerciseID, 
+    setID,
+    field, 
+    payload
+) {
     const openPerformances = await getOpenPefrormances();
 
     const index = _findStoredOpenPerformanceIndex(openPerformances, exerciseID)
 
     try {
-        openPerformances[index].workload.sets[setID].rows[rowID][field] = payload
+        if (payload) {
+            openPerformances[index].workload.sets[setID][field] = payload
+        } else {
+            const invert = !openPerformances[index].workload.sets[setID][field]
+            openPerformances[index].workload.sets[setID][field] = invert
+        }
+    } catch (e) {
+        // console.log(e)
+    } finally {
+        await saveOpenPerformances(openPerformances);
+    }
+}
+
+async function updateStoredSetRowFieldWithinExercise(
+    exerciseID, 
+    setID, 
+    rowID, 
+    field, 
+    payload
+) {
+    const openPerformances = await getOpenPefrormances();
+
+    const index = _findStoredOpenPerformanceIndex(openPerformances, exerciseID)
+
+    try {
+        if (payload) {
+            openPerformances[index].workload.sets[setID].rows[rowID][field] = payload
+        } else {
+            const invert = !openPerformances[index].workload.sets[setID].rows[rowID][field]
+            openPerformances[index].workload.sets[setID].rows[rowID][field] = invert
+        }
     } catch (e) {
         // console.log(e)
     } finally {
@@ -112,4 +147,5 @@ export {
     deleteStoredSetWithinExercise,
     createStoredSetWithinExercise,
     updateStoredSetFieldWithinExercise,
+    updateStoredSetRowFieldWithinExercise,
 }

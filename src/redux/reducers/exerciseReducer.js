@@ -64,37 +64,47 @@ const testState = {
 
 const exerciseReducer = (state = testState, action) => {
 
-    const updateValue = (setID, rowID, mode, payload = -1) => {
-        // mode:
-        // 1 - isLethal
-        // 2 - weight
-        // 3 - reps
+    function updateRowValue(setID, rowID, field, payload) {
+
         const previousRow = state.performance.workload.sets[setID].rows[rowID]
         const previousSet = state.performance.workload.sets[setID]
 
         const newRow = {
             ...previousRow,
         }
-        switch (mode) {
-            case 1:
-                newRow.isLethal = !previousRow.isLethal
-                break
-            case 2:
-                newRow.weight = payload
-                break
-            case 3:
-                newRow.reps = payload
-                break
+
+        if (payload) {
+            newRow[field] = payload
+        } else {
+            newRow[field] = !previousRow[field]
         }
+        
         return {
             ...previousSet,
             rows: [
-                ...previousSet.rows.slice(0, action.rowID),
+                ...previousSet.rows.slice(0, rowID),
                 newRow,
-                ...previousSet.rows.slice(action.rowID + 1),
+                ...previousSet.rows.slice(rowID + 1),
             ]
             
         }
+    }
+
+    function updateSetValue(setID, field, payload) {
+
+        const previousSet = state.performance.workload.sets[setID]
+
+        const newSet = {
+            ...previousSet,
+        }
+
+        if (payload) {
+            newSet[field] = payload
+        } else {
+            newSet[field] = !previousSet[field]
+        }
+        
+        return newSet
     }
 
     switch (action.type) {
@@ -123,6 +133,7 @@ const exerciseReducer = (state = testState, action) => {
                 }
             }
         case ON_PERFORMANCE_SET_DELETED:
+            console.log(state.performance.workload.sets)
             return {
                 ...state,
                 performance: {
@@ -131,7 +142,8 @@ const exerciseReducer = (state = testState, action) => {
                         ...state.performance.workload,
                         sets: [
                             ...state.performance.workload.sets.slice(0, action.id),
-                            ...state.performance.workload.sets.slice(action.id + 1),
+                            updateSetValue(action.id, 'visible'),
+                            ...state.performance.workload.sets.slice(action.id + 1)
                         ]
                     }
                 }
@@ -153,7 +165,7 @@ const exerciseReducer = (state = testState, action) => {
                         ...state.performance.workload,
                         sets: [
                             ...state.performance.workload.sets.slice(0, action.setID),
-                            updateValue(action.setID, action.rowID, 1),
+                            updateRowValue(action.setID, action.rowID, 'isLethal'),
                             ...state.performance.workload.sets.slice(action.setID + 1)
                         ]
                     },
@@ -168,7 +180,7 @@ const exerciseReducer = (state = testState, action) => {
                             ...state.performance.workload,
                             sets: [
                                 ...state.performance.workload.sets.slice(0, action.setID),
-                                updateValue(action.setID, action.rowID, 2, action.payload),
+                                updateRowValue(action.setID, action.rowID, 'weight', action.payload),
                                 ...state.performance.workload.sets.slice(action.setID + 1)
                             ]
                         },
@@ -183,7 +195,7 @@ const exerciseReducer = (state = testState, action) => {
                             ...state.performance.workload,
                             sets: [
                                 ...state.performance.workload.sets.slice(0, action.setID),
-                                updateValue(action.setID, action.rowID, 3, action.payload),
+                                updateRowValue(action.setID, action.rowID, 'reps', action.payload),
                                 ...state.performance.workload.sets.slice(action.setID + 1)
                             ]
                         },

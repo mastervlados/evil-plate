@@ -54,11 +54,11 @@ export default function ExerciseCurrentInteraction() {
 
             const closeCurrentPerformance = async () => {
                 // means:
-                // 1. update stored opened performances
-                deleteStoredPerformanceByExerciseID(performance.exerciseID)
-                // 2. set emty object as the default
+                // 1. set emty object as the default
                 // for 'performance'
                 dispatch(onPerformanceChanged({}))
+                // 2. update stored opened performances
+                deleteStoredPerformanceByExerciseID(performance.exerciseID)
             }
 
             Alert.alert(
@@ -90,6 +90,7 @@ export default function ExerciseCurrentInteraction() {
 
     const addNewSetHandler = async () => {
         const initialRow = {
+            visible: true,
             rows: [{ weight: '', reps: '', isLethal: false }]
         }
         // update Redux

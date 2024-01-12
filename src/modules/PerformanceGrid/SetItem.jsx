@@ -4,7 +4,7 @@ import { styles } from './style'
 import { useDispatch } from 'react-redux'
 import InputBox from '../../UI/InputBox'
 import { onPerformanceRowCheckboxChanged, onPerformanceRowRepsChanged, onPerformanceRowWeightChanged } from '../../redux/actions/exerciseActions'
-import { updateStoredSetFieldWithinExercise } from '../../res/helpers/secureStore'
+import { updateStoredSetRowFieldWithinExercise } from '../../res/helpers/secureStore'
 import { Theme } from '../../styles'
 import CheckBox from '../../UI/CheckBox'
 import SkullSvg from '../../res/svgs/SkullSvg'
@@ -25,7 +25,7 @@ export default function SetItem({ exerciseID, setIndex, rowIndex, row }) {
                 updateValueFunc={setWeight}
                 onBlurFunc={async () => {
                     dispatch(onPerformanceRowWeightChanged(setIndex, rowIndex, weight))
-                    updateStoredSetFieldWithinExercise(exerciseID, setIndex, rowIndex, 'weight', weight)
+                    updateStoredSetRowFieldWithinExercise(exerciseID, setIndex, rowIndex, 'weight', weight)
                 }}
                 currentValue={weight}
                 placeholder={'weight'}
@@ -38,7 +38,7 @@ export default function SetItem({ exerciseID, setIndex, rowIndex, row }) {
                 updateValueFunc={setReps}
                 onBlurFunc={async () => {
                     dispatch(onPerformanceRowRepsChanged(setIndex, rowIndex, reps))
-                    updateStoredSetFieldWithinExercise(exerciseID, setIndex, rowIndex, 'reps', reps)
+                    updateStoredSetRowFieldWithinExercise(exerciseID, setIndex, rowIndex, 'reps', reps)
                 }}
                 currentValue={reps}
                 placeholder={'reps'}
@@ -47,7 +47,7 @@ export default function SetItem({ exerciseID, setIndex, rowIndex, row }) {
             <CheckBox
                 valueFunc={async () => {
                     dispatch(onPerformanceRowCheckboxChanged(setIndex, rowIndex))
-                    updateStoredSetFieldWithinExercise(performance.exerciseID, setIndex, rowIndex, 'isLethal', !row.isLethal)
+                    updateStoredSetRowFieldWithinExercise(exerciseID, setIndex, rowIndex, 'isLethal')
                 }}
                 isChecked={row.isLethal}
                 checkedStyles={styles.checkboxActiveStyles}
