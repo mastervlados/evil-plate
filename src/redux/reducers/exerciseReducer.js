@@ -18,6 +18,7 @@ const testState = {
         type: 'mono',
         breakDuration: 210,
         colorNumber: 'color-four',
+        rowsCount: 2,
         records: {
             leaderboard: {
 
@@ -57,6 +58,43 @@ const testState = {
         created: '2023-01-04T15:00:44.534Z'
     },
     performance: {},
+    previousPerformance: {
+
+        workload: {
+            rowsCount: 2, 
+            flows: [
+                { tonnage: 850 },
+                { tonnage: 900 },
+            ],
+            sets: [
+                {
+                    visible: true,
+                    rows: [
+                        { weight: 20, reps: 10, isLethal: false, tonnage: 200 },
+                        { weight: 20, reps: 10, isLethal: false, tonnage: 200 },
+                    ], 
+            
+                },
+                {
+                    visible: true,
+                    rows: [
+                        { weight: 30, reps: 10, isLethal: false, tonnage: 300 },
+                        { weight: 32.5, reps: 10, isLethal: false, tonnage: 325 },
+                    ], 
+            
+                },
+                {
+                    visible: true,
+                    rows: [
+                        { weight: 35, reps: 10, isLethal: true, tonnage: 350 },
+                        { weight: 37.5, reps: 10, isLethal: false, tonnage: 375 },
+                    ], 
+            
+                },
+            ], 
+        }
+        
+    }
 }
 
 const exerciseReducer = (state = testState, action) => {
@@ -70,7 +108,7 @@ const exerciseReducer = (state = testState, action) => {
             ...previousRow,
         }
 
-        if (payload) {
+        if (typeof(payload) !== 'undefined') {
             newRow[field] = payload
         } else {
             newRow[field] = !previousRow[field]
@@ -95,7 +133,7 @@ const exerciseReducer = (state = testState, action) => {
             ...previousSet,
         }
 
-        if (payload) {
+        if (typeof(payload) !== 'undefined') {
             newSet[field] = payload
         } else {
             newSet[field] = !previousSet[field]
@@ -130,7 +168,7 @@ const exerciseReducer = (state = testState, action) => {
                 }
             }
             case ON_PERFORMANCE_SET_FIELD_CHANGED:
-                console.log(state.performance.workload.sets)
+                // console.log(state.performance.workload.sets)
                 return {
                     ...state,
                     performance: {

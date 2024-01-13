@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { cloneElement, useEffect, useRef, useState } from 'react'
 import { styles } from './style'
 import { useNavigation } from '@react-navigation/native'
 import { AddSvg, CancelSvg } from '../../res/svgs'
@@ -89,16 +89,46 @@ export default function ExerciseCurrentInteraction() {
     }, [])
 
     const addNewSetHandler = async () => {
-        const initialRow = {
+        const initialSet = {
             visible: true,
-            rows: [{ weight: '', reps: '', isLethal: false }]
+            rows: []
+        }
+        for (let i = 0; i < performance.workload.rowsCount; i++) {
+            initialSet.rows.push({ 
+                weight: '', 
+                reps: '', 
+                isLethal: false, 
+                tonnage: 0 
+            })
         }
         // update Redux
-        dispatch(onPerformanceSetAdded(initialRow))
+        dispatch(onPerformanceSetAdded(initialSet))
         // put it into store
-        createStoredSetWithinExercise(performance.exerciseID, initialRow) 
+        createStoredSetWithinExercise(performance.exerciseID, initialSet)   
     }
 
+    // 1. how many rows or flows are exist
+    // 2. start iteration from 0 to length
+    // update value
+    const Indicators = () => {
+        console.log('UPDATE TONNAGE!')
+        const indicators = []
+        try {
+            for (let i = 0; i < performance.workload.rowsCount; i++) {
+                let currentTonnage = 0
+                performance.workload.sets.map((set) => {
+                    if (!set.visible) { return }
+                    currentTonnage += set.rows[i].tonnage
+                })
+                indicators.push(<TonnageIndicatorBar key={`indicator-${i}`} currentTonnage={currentTonnage}/>)
+            }
+            
+        } catch (e) {
+            console.warn(e)
+        }
+        return indicators.map(bar => cloneElement(bar))
+    }
+    
     return (
         <View style={AppContainers.styles.appContainerWithoutVerticalCentred}>
             <TimerPanel durationSetup={performance.breakDuration}/>
@@ -123,7 +153,7 @@ export default function ExerciseCurrentInteraction() {
             </ScrollDisappearing>
             { isFooterVisible ? (
                 <View style={styles.interactionFooter}>
-                    <TonnageIndicatorBar/>    
+                    <Indicators/>    
                 </View>
             ) : null }
         </View>

@@ -53,7 +53,11 @@ export default function ExerciseCurrentInfo() {
             type: exercise.type,
             breakDuration: exercise.breakDuration,
             measureUnit: appUnits,
-            workload: { sets: [] },
+            workload: { 
+                rowsCount: exercise.rowsCount,
+                tonnage: 0,
+                sets: [] 
+            },
         }
 
         if (await createStoredPerformance(performance)) {

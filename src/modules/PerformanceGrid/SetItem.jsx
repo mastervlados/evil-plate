@@ -13,10 +13,11 @@ import AppLocalizationContext from '../../../AppLocalizationContext'
 import { endingFor } from '../../res/helpers/endings'
 
 
-export default function SetItem({ exerciseID, setIndex, rowIndex, row }) {
+export default function SetItem({ exerciseID, setIndex, rowIndex, row, position }) {
 
     const locale = useSelector(state => state.appSettingsReducer.language)
     const i18n = useContext(AppLocalizationContext)
+    const previousSets = useSelector(state => state.exerciseReducer.previousPerformance.workload.sets)
     // !important
     // if we change app unit
     // via settings screen
@@ -27,7 +28,35 @@ export default function SetItem({ exerciseID, setIndex, rowIndex, row }) {
     const [reps, setReps] = useState(row.reps)
     const dispatch = useDispatch()
 
-    const defaultPlaceholderForWeight = endingFor(10, performanceUnit, locale)
+    const updateRowTonnage = () => {
+        try {
+            const args = [setIndex, rowIndex, 'tonnage']
+            if (weight !== '' && reps !== '') {
+                dispatch(onPerformanceSetRowFieldChanged(...args, Number(weight) * Number(reps)))
+            } else {
+                dispatch(onPerformanceSetRowFieldChanged(...args, 0))
+            }
+        } catch (e) {
+            console.warn(e)
+        }
+    }
+
+    const definePlaceholder = (field, whenever, isBool = false) => {
+        try {
+            const value = previousSets[position - 1].rows[rowIndex][field]
+            if (isBool) {
+                return value
+            } 
+            return value + ''
+        } catch (e) {
+
+        }
+        return whenever
+    }
+    
+    const weightPlaceholder = definePlaceholder('weight', endingFor(10, performanceUnit, locale))
+    const repsPlaceholder = definePlaceholder('reps', i18n.t('es0015').toLowerCase())
+    const isLethalWasChecked = definePlaceholder('isLethal', false, true)
 
     return (
         <View key={`${setIndex}-${rowIndex}`} style={styles.rowContentItem}>
@@ -39,10 +68,11 @@ export default function SetItem({ exerciseID, setIndex, rowIndex, row }) {
                 onBlurFunc={async () => {
                     const args = [setIndex, rowIndex, 'weight', weight]
                     dispatch(onPerformanceSetRowFieldChanged(...args))
+                    updateRowTonnage()
                     updateStoredSetRowFieldWithinExercise(exerciseID, ...args)
                 }}
                 currentValue={weight}
-                placeholder={defaultPlaceholderForWeight}
+                placeholder={weightPlaceholder}
                 placeholderColor={Theme.levelOne}
             />
             <InputBox
@@ -53,10 +83,11 @@ export default function SetItem({ exerciseID, setIndex, rowIndex, row }) {
                 onBlurFunc={async () => {
                     const args = [setIndex, rowIndex, 'reps', reps]
                     dispatch(onPerformanceSetRowFieldChanged(...args))
+                    updateRowTonnage()
                     updateStoredSetRowFieldWithinExercise(exerciseID, ...args)
                 }}
                 currentValue={reps}
-                placeholder={i18n.t('es0015').toLowerCase()}
+                placeholder={repsPlaceholder}
                 placeholderColor={Theme.levelOne}
             />
             <CheckBox
@@ -70,6 +101,7 @@ export default function SetItem({ exerciseID, setIndex, rowIndex, row }) {
                 defaultStyles={styles.checkboxDefaultStyles}
                 iconSvg={<SkullSvg/>}
                 iconSize={38}
+                previousWasChecked={isLethalWasChecked}
                 iconDefaultColor={Theme.levelOne}
                 iconCheckedColor={Theme.textCommon}
                 previousCheckedColor={Theme.relaxing}

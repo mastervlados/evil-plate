@@ -47,7 +47,7 @@ export default function InputBox({
         onFocus={onFucusHandler}
         onChangeText={(text) => updateValueFunc(text)}
         // plus '' to convert value to string
-        value={currentValue + ''}
+        value={currentValue}
         placeholderTextColor={placeholderColor}
     />
 

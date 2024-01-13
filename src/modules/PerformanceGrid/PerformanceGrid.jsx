@@ -41,6 +41,7 @@ export default function PerformanceGrid({ exerciseID }) {
                     setIndex={setIndex}
                     rowIndex={rowIndex}
                     row={row}
+                    position={position}
                 />
             )
         })

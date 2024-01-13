@@ -99,7 +99,7 @@ async function updateStoredSetFieldWithinExercise(
     const index = _findStoredOpenPerformanceIndex(openPerformances, exerciseID)
 
     try {
-        if (payload) {
+        if (typeof(payload) !== 'undefined') {
             openPerformances[index].workload.sets[setID][field] = payload
         } else {
             const invert = !openPerformances[index].workload.sets[setID][field]
@@ -124,7 +124,7 @@ async function updateStoredSetRowFieldWithinExercise(
     const index = _findStoredOpenPerformanceIndex(openPerformances, exerciseID)
 
     try {
-        if (payload) {
+        if (typeof(payload) !== 'undefined') {
             openPerformances[index].workload.sets[setID].rows[rowID][field] = payload
         } else {
             const invert = !openPerformances[index].workload.sets[setID].rows[rowID][field]

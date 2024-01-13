@@ -16,7 +16,7 @@ export default function TonnageIndicatorBar({ currentTonnage, previousTonnage, }
         return (
             <View style={styles.container}>
                 <Text style={AppTextStyles.styles.indicatorTextUnderWater}>
-                    { currentTonnage } 
+                    { currentTonnage ? currentTonnage : '--' } 
                     { ' ' + endingFor(currentTonnage, unit, locale) }
                 </Text>
                 <Text style={AppTextStyles.styles.indicatorTextUnderWater}>
@@ -49,8 +49,8 @@ export default function TonnageIndicatorBar({ currentTonnage, previousTonnage, }
     return (
         <View style={styles.container}>
             <Text style={textStyles}>
-                { difference > 0 ? '+' : null}
-                { difference } 
+                { difference > 0 ? '+' : null }
+                { difference ? difference : '--' } 
                 { ' ' + endingFor(difference, appUnits, locale) }
             </Text>
             <Text style={textStyles}>
