@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppTextStyles, Theme } from '../../styles'
 import { CancelSvg } from '../../res/svgs'
 import { formatString } from '../../res/helpers/endings'
-import { deleteStoredSetWithinExercise, updateStoredSetFieldWithinExercise } from '../../res/helpers/secureStore'
-import { onPerformanceSetDeleted } from '../../redux/actions/exerciseActions'
+import { updateStoredSetFieldWithinExercise } from '../../res/helpers/secureStore'
+import { onPerformanceSetFieldChanged } from '../../redux/actions/exerciseActions'
 
 
 export default function PerformanceGrid({ exerciseID }) {
@@ -51,7 +51,7 @@ export default function PerformanceGrid({ exerciseID }) {
             const deleteSet = async () => {
                 // means:
                 // 1. update Redux without deleted item
-                dispatch(onPerformanceSetDeleted(setIndex))
+                dispatch(onPerformanceSetFieldChanged(setIndex, 'visible'))
                 // 2. update stored data
                 await updateStoredSetFieldWithinExercise(exerciseID, setIndex, 'visible')
             }

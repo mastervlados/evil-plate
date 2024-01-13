@@ -1,12 +1,9 @@
 import { 
     ON_EXERCISE_CHANGED, 
-    ON_PERFORMANCE_CHANGED, 
-    ON_PERFORMANCE_DATA_CHANGED, 
-    ON_PERFORMANCE_ROW_CHECKBOX_CHANGED, 
-    ON_PERFORMANCE_ROW_REPS_CHANGED, 
-    ON_PERFORMANCE_ROW_WEIGHT_CHANGED, 
+    ON_PERFORMANCE_CHANGED,  
     ON_PERFORMANCE_SET_ADDED,
-    ON_PERFORMANCE_SET_DELETED
+    ON_PERFORMANCE_SET_FIELD_CHANGED,
+    ON_PERFORMANCE_SET_ROW_FIELD_CHANGED
 } from "../constants"
 
 const initialState = {
@@ -132,46 +129,8 @@ const exerciseReducer = (state = testState, action) => {
                     }
                 }
             }
-        case ON_PERFORMANCE_SET_DELETED:
-            console.log(state.performance.workload.sets)
-            return {
-                ...state,
-                performance: {
-                    ...state.performance,
-                    workload: {
-                        ...state.performance.workload,
-                        sets: [
-                            ...state.performance.workload.sets.slice(0, action.id),
-                            updateSetValue(action.id, 'visible'),
-                            ...state.performance.workload.sets.slice(action.id + 1)
-                        ]
-                    }
-                }
-            }
-        case ON_PERFORMANCE_DATA_CHANGED:
-            return {
-                ...state,
-                performance: {
-                    ...state.performance,
-                    workload: action.payload,
-                },
-            }
-        case ON_PERFORMANCE_ROW_CHECKBOX_CHANGED:
-            return {
-                ...state,
-                performance: {
-                    ...state.performance,
-                    workload: {
-                        ...state.performance.workload,
-                        sets: [
-                            ...state.performance.workload.sets.slice(0, action.setID),
-                            updateRowValue(action.setID, action.rowID, 'isLethal'),
-                            ...state.performance.workload.sets.slice(action.setID + 1)
-                        ]
-                    },
-                },
-            }
-            case ON_PERFORMANCE_ROW_WEIGHT_CHANGED:
+            case ON_PERFORMANCE_SET_FIELD_CHANGED:
+                console.log(state.performance.workload.sets)
                 return {
                     ...state,
                     performance: {
@@ -180,13 +139,17 @@ const exerciseReducer = (state = testState, action) => {
                             ...state.performance.workload,
                             sets: [
                                 ...state.performance.workload.sets.slice(0, action.setID),
-                                updateRowValue(action.setID, action.rowID, 'weight', action.payload),
+                                updateSetValue(
+                                    action.setID, 
+                                    action.field, 
+                                    action.payload
+                                ),
                                 ...state.performance.workload.sets.slice(action.setID + 1)
                             ]
-                        },
-                    },
+                        }
+                    }
                 }
-            case ON_PERFORMANCE_ROW_REPS_CHANGED:
+            case ON_PERFORMANCE_SET_ROW_FIELD_CHANGED:
                 return {
                     ...state,
                     performance: {
@@ -195,7 +158,12 @@ const exerciseReducer = (state = testState, action) => {
                             ...state.performance.workload,
                             sets: [
                                 ...state.performance.workload.sets.slice(0, action.setID),
-                                updateRowValue(action.setID, action.rowID, 'reps', action.payload),
+                                updateRowValue(
+                                    action.setID, 
+                                    action.rowID, 
+                                    action.field, 
+                                    action.payload
+                                ),
                                 ...state.performance.workload.sets.slice(action.setID + 1)
                             ]
                         },

@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react'
 import { styles } from './style'
 import { useDispatch, useSelector } from 'react-redux'
 import InputBox from '../../UI/InputBox'
-import { onPerformanceRowCheckboxChanged, onPerformanceRowRepsChanged, onPerformanceRowWeightChanged } from '../../redux/actions/exerciseActions'
+import { onPerformanceSetRowFieldChanged } from '../../redux/actions/exerciseActions'
 import { updateStoredSetRowFieldWithinExercise } from '../../res/helpers/secureStore'
 import { Theme } from '../../styles'
 import CheckBox from '../../UI/CheckBox'
@@ -17,6 +17,10 @@ export default function SetItem({ exerciseID, setIndex, rowIndex, row }) {
 
     const locale = useSelector(state => state.appSettingsReducer.language)
     const i18n = useContext(AppLocalizationContext)
+    // !important
+    // if we change app unit
+    // via settings screen
+    // it keeps its own value
     const performanceUnit = useSelector(state => state.exerciseReducer.performance.measureUnit)
 
     const [weight, setWeight] = useState(row.weight)
@@ -33,8 +37,9 @@ export default function SetItem({ exerciseID, setIndex, rowIndex, row }) {
                 defaultStyles={styles.inputDefaultStyles}
                 updateValueFunc={(text) => checkForReal(text, setWeight)}
                 onBlurFunc={async () => {
-                    dispatch(onPerformanceRowWeightChanged(setIndex, rowIndex, weight))
-                    updateStoredSetRowFieldWithinExercise(exerciseID, setIndex, rowIndex, 'weight', weight)
+                    const args = [setIndex, rowIndex, 'weight', weight]
+                    dispatch(onPerformanceSetRowFieldChanged(...args))
+                    updateStoredSetRowFieldWithinExercise(exerciseID, ...args)
                 }}
                 currentValue={weight}
                 placeholder={defaultPlaceholderForWeight}
@@ -46,8 +51,9 @@ export default function SetItem({ exerciseID, setIndex, rowIndex, row }) {
                 defaultStyles={styles.inputDefaultStyles}
                 updateValueFunc={(text) => checkForInteger(text, setReps)}
                 onBlurFunc={async () => {
-                    dispatch(onPerformanceRowRepsChanged(setIndex, rowIndex, reps))
-                    updateStoredSetRowFieldWithinExercise(exerciseID, setIndex, rowIndex, 'reps', reps)
+                    const args = [setIndex, rowIndex, 'reps', reps]
+                    dispatch(onPerformanceSetRowFieldChanged(...args))
+                    updateStoredSetRowFieldWithinExercise(exerciseID, ...args)
                 }}
                 currentValue={reps}
                 placeholder={i18n.t('es0015').toLowerCase()}
@@ -55,8 +61,9 @@ export default function SetItem({ exerciseID, setIndex, rowIndex, row }) {
             />
             <CheckBox
                 valueFunc={async () => {
-                    dispatch(onPerformanceRowCheckboxChanged(setIndex, rowIndex))
-                    updateStoredSetRowFieldWithinExercise(exerciseID, setIndex, rowIndex, 'isLethal')
+                    const args = [setIndex, rowIndex, 'isLethal']
+                    dispatch(onPerformanceSetRowFieldChanged(...args))
+                    updateStoredSetRowFieldWithinExercise(exerciseID, ...args)
                 }}
                 isChecked={row.isLethal}
                 checkedStyles={styles.checkboxActiveStyles}

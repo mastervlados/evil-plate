@@ -33,11 +33,12 @@ export default function InputBox({
       setPress(true)
     }
   }
-
+  
   return (
     
     <TextInput 
         contextMenuHidden={true}
+        autoCorrect={false}
         underlineColorAndroid={'transparent'}
         inputMode={setInputMode}
         style={isPressed ? {...activeStyles, ...ownStyles} : { ...defaultStyles, ...ownStyles}}
@@ -45,7 +46,8 @@ export default function InputBox({
         onBlur={onBlurHandler}
         onFocus={onFucusHandler}
         onChangeText={(text) => updateValueFunc(text)}
-        value={currentValue}
+        // plus '' to convert value to string
+        value={currentValue + ''}
         placeholderTextColor={placeholderColor}
     />
 
