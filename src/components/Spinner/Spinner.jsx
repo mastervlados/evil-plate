@@ -3,14 +3,14 @@ import React from 'react'
 import { AppContainers } from '../../styles'
 import * as Animatable from 'react-native-animatable'
 
-export default function Spinner({ size }) {
+export default function Spinner({ size, animation = 'pulse' }) {
 
     const spinnerSize = size ? size : Dimensions.get('window').width * 0.60
 
     return (
         <View style={AppContainers.styles.appEmtyCentredContainer}>
             <Animatable.View 
-                animation={'pulse'}
+                animation={animation}
                 duration={800}
                 iterationCount={Infinity}
             >

@@ -3,6 +3,7 @@ import {
     ON_PERFORMANCE_CHANGED,  
     ON_PERFORMANCE_FIELD_IN_FLOW_CHANGED,  
     ON_PERFORMANCE_FLOWS_SET_ADDED,  
+    ON_PERFORMANCE_LOADED,  
     ON_PERFORMANCE_SET_ADDED,
     ON_PERFORMANCE_SET_FIELD_CHANGED,
     ON_PERFORMANCE_SET_ROW_FIELD_CHANGED
@@ -59,6 +60,7 @@ const testState = {
         },
         created: '2023-01-04T15:00:44.534Z'
     },
+    isPerformanceReady: false,
     performance: {},
     previousPerformance: {
         exerciseID: 16,
@@ -255,6 +257,11 @@ const exerciseReducer = (state = testState, action) => {
                             })
                         },
                     },
+                }
+            case ON_PERFORMANCE_LOADED:
+                return {
+                    ...state,
+                    isPerformanceReady: action.payload,
                 } 
         default:
             return state

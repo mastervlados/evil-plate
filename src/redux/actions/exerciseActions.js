@@ -3,6 +3,7 @@ import {
     ON_PERFORMANCE_CHANGED, 
     ON_PERFORMANCE_FIELD_IN_FLOW_CHANGED, 
     ON_PERFORMANCE_FLOWS_SET_ADDED, 
+    ON_PERFORMANCE_LOADED, 
     ON_PERFORMANCE_SET_ADDED,
     ON_PERFORMANCE_SET_FIELD_CHANGED,
     ON_PERFORMANCE_SET_ROW_FIELD_CHANGED
@@ -64,6 +65,13 @@ const onPerformanceFlowsSetAdded = () => {
     }
 }
 
+const onPerformanceLoaded = (isReady) => {
+    return {
+        type: ON_PERFORMANCE_LOADED,
+        payload: isReady,
+    }
+}
+
 export {
     onExerciseChanged,
     onPerformanceChanged,
@@ -72,4 +80,5 @@ export {
     onPerformanceSetRowFieldChanged,
     onPerformanceFieldInFlowChanged,
     onPerformanceFlowsSetAdded,
+    onPerformanceLoaded,
 }

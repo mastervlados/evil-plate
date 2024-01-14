@@ -115,22 +115,28 @@ console.log(performance.workload.flows)
     // 2. start iteration from 0 to length
     // update value
     const Indicators = () => {
-        console.log('UPDATE TONNAGE!')
-        const indicators = []
         try {
-            for (let i = 0; i < performance.workload.rowsCount; i++) {
-                let currentTonnage = 0
-                performance.workload.sets.map((set) => {
-                    if (!set.visible) { return }
-                    currentTonnage += set.rows[i].tonnage
-                })
-                indicators.push(<TonnageIndicatorBar key={`indicator-${i}`} currentTonnage={currentTonnage} previousTonnage={translateValue(previousPerformance.workload.flows[i].tonnage, previousPerformance.measureUnit, performance.measureUnit)}/>)
-            }
-            
+            const indicators = performance.workload.flows.map((flow, i) => {
+                const currentTonnage = flow.tonnage.reduce((partialSum, x) => partialSum + x, 0)
+                return (
+                    <TonnageIndicatorBar 
+                        key={`indicator-${i}`} 
+                        currentTonnage={currentTonnage} 
+                        previousTonnage={
+                            translateValue(
+                                previousPerformance.workload.flows[i].tonnage, 
+                                previousPerformance.measureUnit, 
+                                performance.measureUnit
+                            )
+                        }
+                    />
+                )
+            })
+            return indicators
         } catch (e) {
-            console.warn(e)
+
         }
-        return indicators.map(bar => cloneElement(bar))
+        return null
     }
     
     return (

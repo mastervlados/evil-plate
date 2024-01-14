@@ -17,3 +17,4 @@ export const ON_PERFORMANCE_SET_ROW_FIELD_CHANGED='on-performance-set-row-field-
 export const ON_PERFORMANCE_SET_FIELD_CHANGED='on-performance-set-field-changed'
 export const ON_PERFORMANCE_FIELD_IN_FLOW_CHANGED='on-performance-field-in-flow-changed'
 export const ON_PERFORMANCE_FLOWS_SET_ADDED='on-performance-flows-set-added'
+export const ON_PERFORMANCE_LOADED='on-performance-loaded'

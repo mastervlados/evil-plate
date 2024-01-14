@@ -5,11 +5,14 @@ import ExerciseCurrentInfo from './ExerciseCurrentInfo'
 import ExerciseCurrentInteraction from './ExerciseCurrentInteraction'
 import { useDispatch, useSelector } from 'react-redux'
 import { getOpenPefrormances } from '../../res/helpers/secureStore'
-import { onPerformanceChanged } from '../../redux/actions/exerciseActions'
+import { onPerformanceChanged, onPerformanceFieldInFlowChanged, onPerformanceLoaded } from '../../redux/actions/exerciseActions'
+import Spinner from '../../components/Spinner'
+
 
 export default function ExerciseCurrent() {
 
     const performance = useSelector(state => state.exerciseReducer.performance)
+    const isPerformanceReady = useSelector(state => state.exerciseReducer.isPerformanceReady)
     const exercise = useSelector(state => state.exerciseReducer.exercise)
     const dispatch = useDispatch()
 
@@ -20,11 +23,33 @@ export default function ExerciseCurrent() {
             if (typeof(currentPerformance) !== 'undefined') {
                 // console.log(currentPerformance)
                 dispatch(onPerformanceChanged(currentPerformance))
+                // Init tonnage in flows
+                currentPerformance.workload.sets.map((set, setIndex) => {
+                    // Init zero as value for each set
+                    // depend on rowsCount
+                    set.rows.map((row, rowIndex) => {
+                        if (!set.visible) {
+                            dispatch(onPerformanceFieldInFlowChanged(setIndex, rowIndex))
+                        } else if (row.weight !== '' && row.reps !== '') {
+                            dispatch(onPerformanceFieldInFlowChanged(setIndex, rowIndex, Number(row.weight) * Number(row.reps)))
+                        } else {
+                            dispatch(onPerformanceFieldInFlowChanged(setIndex, rowIndex))
+                        }
+                    })
+                })
             }
+            // Whenever we ready to display smth. to user!
+            // ~ isPerformanceReady
+            dispatch(onPerformanceLoaded(true))
         }
 
         getOpenPerformanceIfExist(exercise.id)
-    }, [exercise])
+
+    }, [])
+
+    if (!isPerformanceReady) {
+        return <Spinner size={150}/>
+    }
 
     if (performance.exerciseID === exercise.id 
         && typeof(performance.exerciseID) !== 'undefined'
