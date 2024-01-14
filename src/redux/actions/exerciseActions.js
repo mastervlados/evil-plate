@@ -1,6 +1,8 @@
 import { 
     ON_EXERCISE_CHANGED, 
     ON_PERFORMANCE_CHANGED, 
+    ON_PERFORMANCE_FIELD_IN_FLOW_CHANGED, 
+    ON_PERFORMANCE_FLOWS_SET_ADDED, 
     ON_PERFORMANCE_SET_ADDED,
     ON_PERFORMANCE_SET_FIELD_CHANGED,
     ON_PERFORMANCE_SET_ROW_FIELD_CHANGED
@@ -47,10 +49,27 @@ const onPerformanceSetRowFieldChanged = (setID, rowID, field, value) => {
     }
 }
 
+const onPerformanceFieldInFlowChanged = (setID, rowID, value) => {
+    return {
+        type: ON_PERFORMANCE_FIELD_IN_FLOW_CHANGED,
+        setID: setID,
+        rowID: rowID,
+        payload: value,
+    }
+}
+
+const onPerformanceFlowsSetAdded = () => {
+    return {
+        type: ON_PERFORMANCE_FLOWS_SET_ADDED,
+    }
+}
+
 export {
     onExerciseChanged,
     onPerformanceChanged,
     onPerformanceSetAdded,
     onPerformanceSetFieldChanged,
     onPerformanceSetRowFieldChanged,
+    onPerformanceFieldInFlowChanged,
+    onPerformanceFlowsSetAdded,
 }

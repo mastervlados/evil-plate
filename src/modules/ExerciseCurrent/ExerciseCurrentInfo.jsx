@@ -55,7 +55,9 @@ export default function ExerciseCurrentInfo() {
             measureUnit: appUnits,
             workload: { 
                 rowsCount: exercise.rowsCount,
-                tonnage: 0,
+                flows: new Array(exercise.rowsCount).fill({
+                    tonnage: []
+                }),
                 sets: [] 
             },
         }

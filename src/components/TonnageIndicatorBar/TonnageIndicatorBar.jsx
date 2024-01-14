@@ -5,6 +5,7 @@ import { AppTextStyles } from '../../styles'
 import { useSelector } from 'react-redux'
 import { endingFor } from '../../res/helpers/endings'
 import AppLocalizationContext from '../../../AppLocalizationContext'
+import { cutFloatPartOfNumber } from '../../res/helpers/converter'
 
 export default function TonnageIndicatorBar({ currentTonnage, previousTonnage, }) {
 
@@ -50,8 +51,8 @@ export default function TonnageIndicatorBar({ currentTonnage, previousTonnage, }
         <View style={styles.container}>
             <Text style={textStyles}>
                 { difference > 0 ? '+' : null }
-                { difference ? difference : '--' } 
-                { ' ' + endingFor(difference, appUnits, locale) }
+                { difference ? cutFloatPartOfNumber(difference.toFixed(2)) : '--' } 
+                { ' ' + endingFor(difference, unit, locale) }
             </Text>
             <Text style={textStyles}>
                 { label }

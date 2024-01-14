@@ -1,9 +1,21 @@
+const cutFloatPartOfNumber = (float) => {
+    for (let i = float.length - 1; i >= 0; i--) {
+        if (float[i] == 0 || float[i] == '.') {
+            float = float.substring(0, i)
+        } else {
+            break
+        }
+    }
+    return float
+}
 const kgsToPounds = (kilograms) => {
-    return (kilograms * 2.2046).toFixed(2)
+    const lbs = (kilograms * 2.2046).toFixed(2)
+    return cutFloatPartOfNumber(lbs)
 }
 
 const lbsToKilograms = (pounds) => {
-    return (pounds / 2.2046).toFixed()
+    const kgs = (pounds / 2.2046).toFixed(2)
+    return cutFloatPartOfNumber(kgs)
 }
 
 const translateValue = (value, storedUnits, appUnits) => {
@@ -17,6 +29,7 @@ const translateValue = (value, storedUnits, appUnits) => {
 }
 
 export {
+    cutFloatPartOfNumber,
     kgsToPounds,
     lbsToKilograms,
     translateValue,

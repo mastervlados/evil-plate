@@ -1,6 +1,8 @@
 import { 
     ON_EXERCISE_CHANGED, 
     ON_PERFORMANCE_CHANGED,  
+    ON_PERFORMANCE_FIELD_IN_FLOW_CHANGED,  
+    ON_PERFORMANCE_FLOWS_SET_ADDED,  
     ON_PERFORMANCE_SET_ADDED,
     ON_PERFORMANCE_SET_FIELD_CHANGED,
     ON_PERFORMANCE_SET_ROW_FIELD_CHANGED
@@ -59,7 +61,10 @@ const testState = {
     },
     performance: {},
     previousPerformance: {
-
+        exerciseID: 16,
+        type: 'stereo',
+        breakDuration: 180,
+        measureUnit: 'kg',
         workload: {
             rowsCount: 2, 
             flows: [
@@ -106,12 +111,7 @@ const exerciseReducer = (state = testState, action) => {
 
         const newRow = {
             ...previousRow,
-        }
-
-        if (typeof(payload) !== 'undefined') {
-            newRow[field] = payload
-        } else {
-            newRow[field] = !previousRow[field]
+            [field] : typeof(payload) !== 'undefined' ? payload : !previousRow[field]
         }
         
         return {
@@ -131,15 +131,26 @@ const exerciseReducer = (state = testState, action) => {
 
         const newSet = {
             ...previousSet,
-        }
-
-        if (typeof(payload) !== 'undefined') {
-            newSet[field] = payload
-        } else {
-            newSet[field] = !previousSet[field]
+            [field] : typeof(payload) !== 'undefined' ? payload : !previousSet[field]
         }
         
         return newSet
+    }
+
+    function updateTonnageValueInFlow(setID, rowID, payload) {
+
+        const previousFlow = state.performance.workload.flows[rowID]
+
+        const newFlow = {
+            ...previousFlow,
+            tonnage: [
+                ...previousFlow.tonnage.slice(0, setID),
+                typeof(payload) !== 'undefined' ? Number(payload) : 0,
+                ...previousFlow.tonnage.slice(setID + 1),
+            ]
+        }
+        
+        return newFlow
     }
 
     switch (action.type) {
@@ -207,6 +218,44 @@ const exerciseReducer = (state = testState, action) => {
                         },
                     },
                 }
+            case ON_PERFORMANCE_FIELD_IN_FLOW_CHANGED:
+                return {
+                    ...state,
+                    performance: {
+                        ...state.performance,
+                        workload: {
+                            ...state.performance.workload,
+                            flows: [
+                                ...state.performance.workload.flows.slice(0, action.rowID),
+                                updateTonnageValueInFlow(
+                                    action.setID, 
+                                    action.rowID,
+                                    action.payload
+                                ),
+                                ...state.performance.workload.flows.slice(action.rowID + 1)
+                            ]
+                        },
+                    },
+                }
+            case ON_PERFORMANCE_FLOWS_SET_ADDED:
+                return {
+                    ...state,
+                    performance: {
+                        ...state.performance,
+                        workload: {
+                            ...state.performance.workload,
+                            flows: state.performance.workload.flows.map((flow) => {
+                                return {
+                                    ...flow,
+                                    tonnage: [
+                                        ...flow.tonnage,
+                                        0
+                                    ]
+                                }
+                            })
+                        },
+                    },
+                } 
         default:
             return state
     }

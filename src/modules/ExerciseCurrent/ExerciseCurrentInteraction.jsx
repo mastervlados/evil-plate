@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 import { AddSvg, CancelSvg } from '../../res/svgs'
 import { AppContainers, AppTextStyles, Buttons, Theme } from '../../styles'
 import { useDispatch, useSelector } from 'react-redux'
-import { onPerformanceChanged, onPerformanceRowCheckboxChanged, onPerformanceRowRepsChanged, onPerformanceRowWeightChanged, onPerformanceSetAdded, onPerformanceSetDeleted } from '../../redux/actions/exerciseActions'
+import { onPerformanceChanged, onPerformanceFieldInFlowChanged, onPerformanceFlowsSetAdded, onPerformanceRowCheckboxChanged, onPerformanceRowRepsChanged, onPerformanceRowWeightChanged, onPerformanceSetAdded, onPerformanceSetDeleted } from '../../redux/actions/exerciseActions'
 import { createStoredSetWithinExercise, deleteStoredPerformanceByExerciseID, deleteStoredSetWithinExercise, updateStoredSetFieldWithinExercise } from '../../res/helpers/secureStore'
 import ScrollDisappearing from '../../components/ScrollDisappearing/ScrollDisappearing'
 import PrimaryButton from '../../UI/PrimaryButton'
@@ -17,17 +17,19 @@ import TonnageIndicatorBar from '../../components/TonnageIndicatorBar'
 import WorkloadHeaders from '../../components/WorkloadHeaders'
 import TimerPanel from '../TimerPanel'
 import PerformanceGrid from '../PerformanceGrid/PerformanceGrid'
+import { translateValue } from '../../res/helpers/converter'
 
 
 export default function ExerciseCurrentInteraction() {
 
     const performance = useSelector(state => state.exerciseReducer.performance)
+    const previousPerformance = useSelector(state => state.exerciseReducer.previousPerformance)
     useSelector(state => state.appSettingsReducer.language)
     const appUnits = useSelector(state => state.appSettingsReducer.unitsFromSettings)
     const navigation = useNavigation()
     const dispatch = useDispatch()
     const [isFooterVisible, setFooterVisible] = useState(true)
-
+console.log(performance.workload.flows)
     useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener(
             'keyboardDidShow',
@@ -103,6 +105,8 @@ export default function ExerciseCurrentInteraction() {
         }
         // update Redux
         dispatch(onPerformanceSetAdded(initialSet))
+        // init default tonnage values
+        dispatch(onPerformanceFlowsSetAdded())
         // put it into store
         createStoredSetWithinExercise(performance.exerciseID, initialSet)   
     }
@@ -120,7 +124,7 @@ export default function ExerciseCurrentInteraction() {
                     if (!set.visible) { return }
                     currentTonnage += set.rows[i].tonnage
                 })
-                indicators.push(<TonnageIndicatorBar key={`indicator-${i}`} currentTonnage={currentTonnage}/>)
+                indicators.push(<TonnageIndicatorBar key={`indicator-${i}`} currentTonnage={currentTonnage} previousTonnage={translateValue(previousPerformance.workload.flows[i].tonnage, previousPerformance.measureUnit, performance.measureUnit)}/>)
             }
             
         } catch (e) {

@@ -7,20 +7,20 @@ import { AppTextStyles, Theme } from '../../styles'
 import { CancelSvg } from '../../res/svgs'
 import { formatString } from '../../res/helpers/endings'
 import { updateStoredSetFieldWithinExercise } from '../../res/helpers/secureStore'
-import { onPerformanceSetFieldChanged } from '../../redux/actions/exerciseActions'
+import { onPerformanceFieldInFlowChanged, onPerformanceSetFieldChanged } from '../../redux/actions/exerciseActions'
 
 
 export default function PerformanceGrid({ exerciseID }) {
 
-    const sets = useSelector(state => state.exerciseReducer.performance.workload.sets)
+    const workload = useSelector(state => state.exerciseReducer.performance.workload)
 
     // check for data to avoid the error
-    if (!sets) { return }
+    if (!workload.sets) { return }
 
     const dispatch = useDispatch()
     let sequence = 0
 
-    const rows = sets.map((set, setIndex) => {
+    const rows = workload.sets.map((set, setIndex) => {
 
         // Skip this row if it's not visible
         if (!set.visible) { return }
@@ -53,7 +53,12 @@ export default function PerformanceGrid({ exerciseID }) {
                 // means:
                 // 1. update Redux without deleted item
                 dispatch(onPerformanceSetFieldChanged(setIndex, 'visible'))
-                // 2. update stored data
+                // 2. abandon tonnage in flows!
+                for (let i = 0; i < workload.rowsCount; i++) {
+                    const args = [setIndex, i]
+                    dispatch(onPerformanceFieldInFlowChanged(...args))
+                }
+                // 3. update stored data
                 await updateStoredSetFieldWithinExercise(exerciseID, setIndex, 'visible')
             }
 
