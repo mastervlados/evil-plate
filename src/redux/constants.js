@@ -12,6 +12,7 @@ export const ON_SETTINGS_HINT_EXERCISES_FORM_CHANGED='on-settings-hint-exercises
 export const ON_EXERCISE_CHANGED='on-exercise-changed'
 export const ON_EXERCISE_DATA_CHANGED='on-exercise-data-changed'
 export const ON_PERFORMANCE_CHANGED='on-performance-changed'
+export const ON_PREVIOUS_PERFORMANCE_CHANGED='on-previous-performance-changed'
 export const ON_PERFORMANCE_SET_ADDED='on-performance-set-added'
 export const ON_PERFORMANCE_SET_ROW_FIELD_CHANGED='on-performance-set-row-field-changed'
 export const ON_PERFORMANCE_SET_FIELD_CHANGED='on-performance-set-field-changed'

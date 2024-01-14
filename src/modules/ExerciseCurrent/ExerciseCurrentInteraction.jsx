@@ -29,7 +29,8 @@ export default function ExerciseCurrentInteraction() {
     const navigation = useNavigation()
     const dispatch = useDispatch()
     const [isFooterVisible, setFooterVisible] = useState(true)
-console.log(performance.workload.flows)
+    const initRows = useRef(true)
+    // console.log(performance.workload.flows)
     useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener(
             'keyboardDidShow',
@@ -111,6 +112,28 @@ console.log(performance.workload.flows)
         createStoredSetWithinExercise(performance.exerciseID, initialSet)   
     }
 
+    async function onLayoutCreateRows() {
+        // console.log('onLayout')
+        let initRowsCount
+        try {
+            initRowsCount = previousPerformance.workload.sets.length
+            if (initRowsCount < 3) {
+                initRowsCount = 3
+            }
+            if (initRowsCount > performance.workload.sets.length) {
+                for (let i = 0; i < initRowsCount; i++) {
+                    addNewSetHandler()
+                }
+            }
+        } catch (e) {
+    
+        } finally {
+            // Skip this function
+            // next re-renders
+            initRows.current = false
+        }
+    }
+    
     // 1. how many rows or flows are exist
     // 2. start iteration from 0 to length
     // update value
@@ -140,7 +163,10 @@ console.log(performance.workload.flows)
     }
     
     return (
-        <View style={AppContainers.styles.appContainerWithoutVerticalCentred}>
+        <View 
+            style={AppContainers.styles.appContainerWithoutVerticalCentred}
+            onLayout={initRows.current ? onLayoutCreateRows : null}
+        >
             <TimerPanel durationSetup={performance.breakDuration}/>
             <WorkloadHeaders/>
             <ScrollDisappearing

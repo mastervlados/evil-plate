@@ -6,12 +6,14 @@ import {
     ON_PERFORMANCE_LOADED,  
     ON_PERFORMANCE_SET_ADDED,
     ON_PERFORMANCE_SET_FIELD_CHANGED,
-    ON_PERFORMANCE_SET_ROW_FIELD_CHANGED
+    ON_PERFORMANCE_SET_ROW_FIELD_CHANGED,
+    ON_PREVIOUS_PERFORMANCE_CHANGED
 } from "../constants"
 
 const initialState = {
     exercise: {},
     performance: {},
+    previousPerformance: {},
 }
 
 const testState = {
@@ -98,6 +100,14 @@ const testState = {
                     ], 
             
                 },
+                {
+                    visible: true,
+                    rows: [
+                        { weight: 25, reps: 10, isLethal: true, tonnage: 250 },
+                        { weight: 27.5, reps: 10, isLethal: false, tonnage: 275 },
+                    ], 
+            
+                },
             ], 
         }
         
@@ -165,6 +175,11 @@ const exerciseReducer = (state = testState, action) => {
             return {
                 ...state,
                 performance: action.payload,
+            }
+        case ON_PREVIOUS_PERFORMANCE_CHANGED:
+            return {
+                ...state,
+                previousPerformance: action.payload,
             }
         case ON_PERFORMANCE_SET_ADDED:
             return {

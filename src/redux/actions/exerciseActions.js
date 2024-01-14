@@ -24,6 +24,13 @@ const onPerformanceChanged = (data) => {
     }
 }
 
+const onPreviousPerformanceChanged = (data) => {
+    return {
+        type: ON_PERFORMANCE_CHANGED,
+        payload: data,
+    }
+}
+
 const onPerformanceSetAdded = (set) => {
     return {
         type: ON_PERFORMANCE_SET_ADDED,
@@ -75,6 +82,7 @@ const onPerformanceLoaded = (isReady) => {
 export {
     onExerciseChanged,
     onPerformanceChanged,
+    onPreviousPerformanceChanged,
     onPerformanceSetAdded,
     onPerformanceSetFieldChanged,
     onPerformanceSetRowFieldChanged,

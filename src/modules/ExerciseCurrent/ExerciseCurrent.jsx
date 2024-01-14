@@ -5,7 +5,7 @@ import ExerciseCurrentInfo from './ExerciseCurrentInfo'
 import ExerciseCurrentInteraction from './ExerciseCurrentInteraction'
 import { useDispatch, useSelector } from 'react-redux'
 import { getOpenPefrormances } from '../../res/helpers/secureStore'
-import { onPerformanceChanged, onPerformanceFieldInFlowChanged, onPerformanceLoaded } from '../../redux/actions/exerciseActions'
+import { onPerformanceChanged, onPerformanceFieldInFlowChanged, onPerformanceLoaded, onPreviousPerformanceChanged } from '../../redux/actions/exerciseActions'
 import Spinner from '../../components/Spinner'
 
 
@@ -37,6 +37,10 @@ export default function ExerciseCurrent() {
                         }
                     })
                 })
+                // Also loading previous performance
+                // ...
+                // const previousPerformance = {}
+                // dispatch(onPreviousPerformanceChanged(previousPerformance))
             }
             // Whenever we ready to display smth. to user!
             // ~ isPerformanceReady
