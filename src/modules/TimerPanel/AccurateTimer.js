@@ -21,6 +21,7 @@ export default class AccurateTimer {
 
     // Cancel timer
     cancel = async () => {
+        if (!this.callback) { return }
         clearTimeout(this.timeout)
         // wait a bit
         await new Promise(resolve => setTimeout(resolve, 1000))

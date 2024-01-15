@@ -9,6 +9,8 @@ import { CancelSvg } from '../../res/svgs'
 import AccurateTimer from './AccurateTimer'
 import * as Animatable from 'react-native-animatable'
 import PrimaryButton from '../../UI/PrimaryButton'
+import { useDispatch } from 'react-redux'
+import { onActiveTabChanged } from '../../redux/actions/exerciseActions'
 
 
 export default function TimerPanel({ 
@@ -22,6 +24,7 @@ export default function TimerPanel({
     const [seconds, setSeconds] = useState('00')
     const acceptRef = useRef(false)
     const timerRef = useRef(new AccurateTimer())
+    const dispatch = useDispatch()
 
     let timerButtonStyles
     let timerTextStyles
@@ -66,9 +69,7 @@ export default function TimerPanel({
     }
 
     async function createPerformanceHandler() {
-        if (!acceptRef.current) {
-            // turn it into pressed mode
-            acceptRef.current = true
+        const createPerformance = async () => {
             if (await buttonHandlerFunc()) {
                 // disable timer
                 // we need only
@@ -76,7 +77,7 @@ export default function TimerPanel({
                 timerRef.current.cancel()
                 // redirect:
                 // -> to progress tab
-                redirectFunc('progress')
+                dispatch(onActiveTabChanged('progress'))
             } else {
                 // validation failing
                 // or smth. bad happend
@@ -98,6 +99,29 @@ export default function TimerPanel({
                     ]
                 )
             }
+        }
+        if (!acceptRef.current) {
+            // turn it into pressed mode
+            acceptRef.current = true
+            Alert.alert(
+                'this is top',
+                'this is bottom',
+                [
+                    {
+                        text: 'Yes',
+                        onPress: async () => {
+                            await createPerformance()
+                        },
+                    },
+                    {
+                        text: 'No',
+                        onPress: () => {
+                            // make button pressabe
+                            acceptRef.current = false
+                        },
+                    }
+                ]
+            )
         }
     }
     return (

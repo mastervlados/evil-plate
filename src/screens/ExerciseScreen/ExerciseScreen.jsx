@@ -8,8 +8,9 @@ import AppLocalizationContext from '../../../AppLocalizationContext'
 import ExerciseProgress from '../../modules/ExerciseProgress'
 import ExercisePrevious from '../../modules/ExercisePrevious'
 import ExerciseCurrent from '../../modules/ExerciseCurrent'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
+import { onActiveTabChanged } from '../../redux/actions/exerciseActions'
 
 
 export default function ExerciseScreen() {
@@ -17,8 +18,9 @@ export default function ExerciseScreen() {
   const exercise = useSelector(state => state.exerciseReducer.exercise)
   const navigation = useNavigation()
   const i18n = useContext(AppLocalizationContext)
-  const [activeTabName, setActiveTabName] = useState('current')
-  
+  const activeTab = useSelector(state => state.exerciseReducer.activeTab)
+  const dispatch = useDispatch()
+
   useEffect(() => {
     navigation.setOptions({ title: exercise.title })
   }, []) // ! componentDidMount behavior (once)
@@ -31,12 +33,12 @@ export default function ExerciseScreen() {
 
   let activeModule;
 
-  switch (activeTabName) {
+  switch (activeTab) {
     case 'previous':
       activeModule = <ExercisePrevious/>
       break
     case 'current':
-      activeModule = <ExerciseCurrent redirectFunc={setActiveTabName}/>
+      activeModule = <ExerciseCurrent/>
       break
     case 'progress':
       activeModule = <ExerciseProgress/>
@@ -49,8 +51,8 @@ export default function ExerciseScreen() {
     >
       <TabsPannel 
           listOfTabs={tabs}
-          activeTab={activeTabName}
-          setActiveTabFunc={setActiveTabName}
+          activeTab={activeTab}
+          setActiveTabFunc={(tabName) => dispatch(onActiveTabChanged(tabName))}
           defaultTabStyles={styles.defaultTab}
           activeTabStyles={{ ...styles.defaultTab, ...styles.activeTab }}
           defaultTextStyles={styles.defaultTabText}

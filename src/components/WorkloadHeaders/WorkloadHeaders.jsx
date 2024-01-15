@@ -8,9 +8,11 @@ import { endingFor } from '../../res/helpers/endings'
 
 export default function WorkloadHeaders({ isTopPressed = false }) {
     
-    const unit = useSelector(state => state.exerciseReducer.performance.measureUnit)
+    const unit = useSelector(state => state.exerciseReducer.performance.measureUnit) || false
     const locale = useSelector(state => state.appSettingsReducer.language)
     const i18n = useContext(AppLocalizationContext)
+
+    if (!unit) { return }
 
     return (
         <View style={styles.workloadHeadersContainer}>

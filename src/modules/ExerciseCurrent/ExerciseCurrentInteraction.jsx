@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 import { AddSvg, CancelSvg } from '../../res/svgs'
 import { AppContainers, AppTextStyles, Buttons, Theme } from '../../styles'
 import { useDispatch, useSelector } from 'react-redux'
-import { onPerformanceChanged, onPerformanceFieldInFlowChanged, onPerformanceFlowsSetAdded, onPerformanceRowCheckboxChanged, onPerformanceRowRepsChanged, onPerformanceRowWeightChanged, onPerformanceSetAdded, onPerformanceSetDeleted, onPreviousPerformanceChanged } from '../../redux/actions/exerciseActions'
+import { onExerciseMetaChanged, onPerformanceChanged, onPerformanceFieldInFlowChanged, onPerformanceFlowsSetAdded, onPerformanceRowCheckboxChanged, onPerformanceRowRepsChanged, onPerformanceRowWeightChanged, onPerformanceSetAdded, onPerformanceSetDeleted, onPreviousPerformanceChanged } from '../../redux/actions/exerciseActions'
 import { createStoredSetWithinExercise, deleteStoredPerformanceByExerciseID, deleteStoredSetWithinExercise, updateStoredSetFieldWithinExercise } from '../../res/helpers/secureStore'
 import ScrollDisappearing from '../../components/ScrollDisappearing/ScrollDisappearing'
 import PrimaryButton from '../../UI/PrimaryButton'
@@ -21,7 +21,7 @@ import { translateValue } from '../../res/helpers/converter'
 import AppContext from '../../../AppContext'
 
 
-export default function ExerciseCurrentInteraction({ redirectFunc }) {
+export default function ExerciseCurrentInteraction() {
 
     const exercise = useSelector(state => state.exerciseReducer.exercise)
     const performance = useSelector(state => state.exerciseReducer.performance)
@@ -176,7 +176,7 @@ export default function ExerciseCurrentInteraction({ redirectFunc }) {
                     for (let j = 0; j < performance.workload.sets[i].rows.length; j++) {
                         if (performance.workload.sets[i].rows[j].weight === '' ||performance.workload.sets[i].rows[j].reps === '') {
                             // validation failing..
-                            // return false
+                            return false
                         }
                     }
                 }
@@ -308,16 +308,17 @@ export default function ExerciseCurrentInteraction({ redirectFunc }) {
             const newRecords = { leaderboard, previous }
 
             // 9¾ Update exercise in Redux and DB!
-            
+            await service.updateJSONinTable('exercise', exercise.id, newRecords)
+            dispatch(onExerciseMetaChanged(newRecords))
             // 4. delete stored data
             // use exerciseID value
-            //await deleteStoredPerformanceByExerciseID(performance.exerciseID)
+            await deleteStoredPerformanceByExerciseID(performance.exerciseID)
             // 5. set new object as the previous
-            //dispatch(onPreviousPerformanceChanged(newPerformance))
+            dispatch(onPreviousPerformanceChanged(newPerformance))
             // 6. set the current performance as an empty object
-            //dispatch(onPerformanceChanged({}))
+            dispatch(onPerformanceChanged({}))
             // 7. return true as the result
-            return false
+            return true
         } catch (e) {
             console.error(e)
         }
@@ -331,7 +332,6 @@ export default function ExerciseCurrentInteraction({ redirectFunc }) {
         >
             <TimerPanel 
                 buttonHandlerFunc={createNewPerformanceHandler}
-                redirectFunc={redirectFunc}
                 durationSetup={performance.breakDuration}
             />
             <WorkloadHeaders/>

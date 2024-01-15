@@ -1,5 +1,7 @@
 import { 
+    ON_ACTIVE_TAB_CHANGED,
     ON_EXERCISE_CHANGED, 
+    ON_EXERCISE_META_CHANGED, 
     ON_PERFORMANCE_CHANGED, 
     ON_PERFORMANCE_FIELD_IN_FLOW_CHANGED, 
     ON_PERFORMANCE_FLOWS_SET_ADDED, 
@@ -14,6 +16,20 @@ const onExerciseChanged = (data) => {
     return {
         type: ON_EXERCISE_CHANGED,
         payload: data,
+    }
+}
+
+const onExerciseMetaChanged = (data) => {
+    return {
+        type: ON_EXERCISE_META_CHANGED,
+        payload: data,
+    }
+}
+
+const onActiveTabChanged = (activeTab) => {
+    return {
+        type: ON_ACTIVE_TAB_CHANGED,
+        payload: activeTab,
     }
 }
 
@@ -89,4 +105,6 @@ export {
     onPerformanceFieldInFlowChanged,
     onPerformanceFlowsSetAdded,
     onPerformanceLoaded,
+    onExerciseMetaChanged,
+    onActiveTabChanged,
 }

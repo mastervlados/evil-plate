@@ -1,5 +1,7 @@
 import { 
+    ON_ACTIVE_TAB_CHANGED,
     ON_EXERCISE_CHANGED, 
+    ON_EXERCISE_META_CHANGED, 
     ON_PERFORMANCE_CHANGED,  
     ON_PERFORMANCE_FIELD_IN_FLOW_CHANGED,  
     ON_PERFORMANCE_FLOWS_SET_ADDED,  
@@ -11,12 +13,15 @@ import {
 } from "../constants"
 
 const initialState = {
+    activeTab: 'current',
+    isPerformanceReady: false,
     exercise: {},
     performance: {},
     previousPerformance: {},
 }
 
 const testState = {
+    activeTab: 'current',
     exercise: {
         id: 16,
         title: 'Test exercise for back so long title behavior',
@@ -315,6 +320,19 @@ const exerciseReducer = (state = testState, action) => {
                 return {
                     ...state,
                     isPerformanceReady: action.payload,
+                }
+            case ON_ACTIVE_TAB_CHANGED:
+                return {
+                    ...state,
+                    activeTab: action.payload,
+                }
+            case ON_EXERCISE_META_CHANGED:
+                return {
+                    state,
+                    exercise: {
+                        ...state.exercise,
+                        records: action.payload,
+                    }
                 } 
         default:
             return state

@@ -186,4 +186,27 @@ export default class AppService {
         
         return await createPerformanceAndGetInsertedId
     }
+
+    async updateJSONinTable(table, id, data) {
+        await this.initDatabase();
+        const JSONinTables = {
+            ['exercise']: 'exr_best_results',
+            ['performance']: 'per_work_load',
+        }
+        const field = JSONinTables[table]
+        this.database.transaction(tx => {
+            tx.executeSql(
+                `UPDATE ${table}
+                SET ${field} = ?
+                WHERE ${table+'.id'} = ?`,
+                [JSON.stringify(data), id],
+                function(_, result) {
+                    console.log(result);
+                },
+                function(_, error) {
+                    console.error(error.message);
+                }
+            )
+        });
+    }
 }
