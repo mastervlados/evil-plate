@@ -36,7 +36,7 @@ export default function ExerciseScreen() {
       activeModule = <ExercisePrevious/>
       break
     case 'current':
-      activeModule = <ExerciseCurrent/>
+      activeModule = <ExerciseCurrent redirectFunc={setActiveTabName}/>
       break
     case 'progress':
       activeModule = <ExerciseProgress/>

@@ -26,7 +26,45 @@ const testState = {
         rowsCount: 2,
         records: {
             leaderboard: {
-
+                isExist: true,
+                headers: [
+                    {
+                        header: 'es0007',
+                        data: [
+                            {
+                                content: 'weight',
+                                prefix: null,
+                                weight: 55,
+                                reps: 7,
+                                lethal: true, 
+                            },
+                            {
+                                content: 'weight',
+                                prefix: null,
+                                weight: 75,
+                                reps: 7,
+                                lethal: true, 
+                            }
+                        ],
+                    },
+                    {
+                        header: 'es0008',
+                        data: [
+                            {
+                                content: 'tonnage',
+                                prefix: null,
+                                tonnage: 1570,
+                                sets: 5,
+                            },
+                            {
+                                content: 'tonnage',
+                                prefix: null,
+                                tonnage: 300,
+                                sets: 5,
+                            },
+                        ],
+                    }
+                ]
             },
             previous: {
                 isExist: true,

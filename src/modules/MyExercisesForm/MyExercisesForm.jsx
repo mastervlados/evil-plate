@@ -126,6 +126,7 @@ export default function MyExercisesForm() {
                 type: pickedMode, 
                 breakDuration: pickedTimer,
                 colorNumber: pickedColor,
+                rowsCount: pickedMode === 'stereo' ? 2 : 1,
             }
             const getNewExercise = await service.createExercise(newExercise);
             dispatch(onAddExercise(getNewExercise));

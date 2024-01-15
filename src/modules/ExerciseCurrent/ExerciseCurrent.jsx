@@ -9,7 +9,7 @@ import { onPerformanceChanged, onPerformanceFieldInFlowChanged, onPerformanceLoa
 import Spinner from '../../components/Spinner'
 
 
-export default function ExerciseCurrent() {
+export default function ExerciseCurrent({ redirectFunc }) {
 
     const performance = useSelector(state => state.exerciseReducer.performance)
     const isPerformanceReady = useSelector(state => state.exerciseReducer.isPerformanceReady)
@@ -58,7 +58,7 @@ export default function ExerciseCurrent() {
     if (performance.exerciseID === exercise.id 
         && typeof(performance.exerciseID) !== 'undefined'
         && typeof(exercise.id) !== 'undefined') {
-        return <ExerciseCurrentInteraction/>
+        return <ExerciseCurrentInteraction redirectFunc={redirectFunc}/>
     }
 
     return (

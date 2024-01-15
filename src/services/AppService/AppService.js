@@ -11,16 +11,30 @@ export default class AppService {
     }
 
     _transformExercise(oneExerciseObj) {
-        const item = {
+        const exercise = {
             id: oneExerciseObj.id,
             title: oneExerciseObj.exr_name,
             type: oneExerciseObj.exr_global_type,
             breakDuration: oneExerciseObj.exr_global_break_duration,
             colorNumber: oneExerciseObj.exr_color_number,
+            rowsCount: oneExerciseObj.exr_global_rows_count,
             records: JSON.parse(oneExerciseObj.exr_best_results),
             created: oneExerciseObj.exr_created
         }
-        return item
+        return exercise
+    }
+
+    _transformPerformance(onePerformanceObj) {
+        const performance = {
+            id: onePerformanceObj.id,
+            exerciseID: onePerformanceObj.exr_id,
+            type: onePerformanceObj.per_type,
+            breakDuration: onePerformanceObj.per_break_duration,
+            measureUnit: onePerformanceObj.per_measure_unit,
+            workload: JSON.parse(onePerformanceObj.per_work_load),
+            created: onePerformanceObj.per_created
+        }
+        return performance
     }
     
     async initDatabase() {
@@ -48,6 +62,7 @@ export default class AppService {
                 exr_color_number VARCHAR(20) NULL DEFAULT NULL,
                 exr_global_type VARCHAR(20) NULL DEFAULT NULL,
                 exr_global_break_duration INT NULL DEFAULT NULL,
+                exr_global_rows_count INT NULL DEFAULT NULL,
                 exr_best_results JSON NULL DEFAULT NULL,
                 exr_created DATETIME NULL DEFAULT CURRENT_TIMESTAMP
                 );
@@ -65,7 +80,6 @@ export default class AppService {
                 per_measure_unit VARCHAR(10) NULL DEFAULT NULL,
                 per_work_load JSON NULL DEFAULT NULL,
                 per_created DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
-                is_finished TINYINT NULL DEFAULT NULL,
                 FOREIGN KEY (exr_id) REFERENCES exercise (id)
                 );
             `, null,
@@ -144,5 +158,32 @@ export default class AppService {
         });
 
         return await this._transformExercise(getNewExercise);
+    }
+
+    async createPerformance({ 
+        exerciseID, 
+        type, 
+        breakDuration, 
+        measureUnit,
+        workload, 
+    }) {
+        await this.initDatabase();
+        const createPerformanceAndGetInsertedId = await new Promise((resolve, reject) => {
+            this.database.transaction(tx => {
+                tx.executeSql(
+                    `INSERT INTO performance (exr_id, per_type, per_break_duration, per_measure_unit, per_work_load)
+                    VALUES (?, ?, ?, ?, ?)`,
+                    [exerciseID, type, breakDuration, measureUnit, JSON.stringify(workload)],
+                    function(_, { insertId }) {
+                        resolve(insertId);
+                    },
+                    function(_, error) {
+                        reject(error.message);
+                    }
+                )
+            });
+        });
+        
+        return await createPerformanceAndGetInsertedId
     }
 }

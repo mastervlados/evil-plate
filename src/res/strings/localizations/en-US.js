@@ -49,6 +49,9 @@ const exerciseScreen = {
 	es0006: 'There are no previous results..',
 	es0007: 'Max weight:',
 	es0008: 'Tonnage:',
+	es1009: 'Max number of reps:',
+	es1010: 'Weak:',
+	es1011: 'Strong:',
 	// TonnageIndicatorBar
 	es0009: 'Total',
 	es0010: 'Under water',

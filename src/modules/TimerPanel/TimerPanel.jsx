@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, Alert } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import { styles } from './style'
 import RoundedButton from '../../UI/RoundedButton'
@@ -11,11 +11,16 @@ import * as Animatable from 'react-native-animatable'
 import PrimaryButton from '../../UI/PrimaryButton'
 
 
-export default function TimerPanel({ buttonHandlerFunc, durationSetup }) {
+export default function TimerPanel({ 
+    buttonHandlerFunc, 
+    durationSetup, 
+    redirectFunc 
+}) {
 
     const [isActive, setActive] = useState(false)
     const [minutes, setMinutes] = useState('00')
     const [seconds, setSeconds] = useState('00')
+    const acceptRef = useRef(false)
     const timerRef = useRef(new AccurateTimer())
 
     let timerButtonStyles
@@ -60,6 +65,41 @@ export default function TimerPanel({ buttonHandlerFunc, durationSetup }) {
         }
     }
 
+    async function createPerformanceHandler() {
+        if (!acceptRef.current) {
+            // turn it into pressed mode
+            acceptRef.current = true
+            if (await buttonHandlerFunc()) {
+                // disable timer
+                // we need only
+                // clear timeout!
+                timerRef.current.cancel()
+                // redirect:
+                // -> to progress tab
+                redirectFunc('progress')
+            } else {
+                // validation failing
+                // or smth. bad happend
+                // we can try to push
+                // add button again!
+                acceptRef.current = false
+                // display Alert
+                // suggest to check
+                // each set and rows
+                // weight and reps columns
+                // are not empty!
+                Alert.alert(
+                    'this is top',
+                    'this is bottom',
+                    [
+                        {
+                            text: 'I\'ll do my best!',
+                        }
+                    ]
+                )
+            }
+        }
+    }
     return (
         <View style={{
             ...AppContainers.styles.appContainerWithLeftAndRightPaddings, 
@@ -71,7 +111,7 @@ export default function TimerPanel({ buttonHandlerFunc, durationSetup }) {
                 vwidth={56}
                 vheight={56}
                 brRadiusSize={20}
-                onPressFunc={buttonHandlerFunc}
+                onPressFunc={createPerformanceHandler}
                 iconSvg={<DoneSvg/>}
                 iconSize={24}
                 iconColor={Theme.positive}
