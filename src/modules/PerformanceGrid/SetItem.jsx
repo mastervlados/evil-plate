@@ -18,22 +18,22 @@ export default function SetItem({ exerciseID, setIndex, rowIndex, row, position 
 
     const locale = useSelector(state => state.appSettingsReducer.language)
     const i18n = useContext(AppLocalizationContext)
+    const dispatch = useDispatch()
     const previousPerformance = useSelector(state => state.exerciseReducer.previousPerformance)
     // !important
     // if we change app unit
     // via settings screen
     // it keeps its own value
     const performance = useSelector(state => state.exerciseReducer.performance)
-    if (('workload' in performance) !== true) { return }
     // check for previous units
     // might be different and
     // we should verify it before
     const applyPreviousUnits = previousPerformance.measureUnit || performance.measureUnit
-
+    if (!('workload' in performance)) { return }
     const [weight, setWeight] = useState(row.weight)
     const [reps, setReps] = useState(row.reps)
-    const dispatch = useDispatch()
-// console.log(rowIndex, setIndex)
+    
+    // console.log(rowIndex, setIndex)
     const updateRowTonnage = () => {
         try {
             const args = [setIndex, rowIndex]

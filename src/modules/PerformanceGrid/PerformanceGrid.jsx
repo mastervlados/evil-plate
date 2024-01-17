@@ -14,9 +14,6 @@ export default function PerformanceGrid({ exerciseID }) {
 
     const performance = useSelector(state => state.exerciseReducer.performance)
 
-    // check for data to avoid the error
-    if (('workload' in performance) !== true) { return }
-
     const dispatch = useDispatch()
     let sequence = 0
 

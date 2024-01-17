@@ -35,7 +35,7 @@ export default function SettingsScreen() {
         <TabsPannel 
           listOfTabs={languageSwitcher}
           activeTab={target}
-          setActiveTabFunc={(active) => {
+          setActiveTabFunc={async (active) => {
             if (target !== active) {
               dispatch(onSettingsLanguageChanged(active))
               i18n.locale = active
@@ -63,10 +63,9 @@ export default function SettingsScreen() {
         <TabsPannel 
           listOfTabs={unitsSwitcher}
           activeTab={appUnitSystem}
-          setActiveTabFunc={(active) => {
+          setActiveTabFunc={async (active) => {
             if (appUnitSystem !== active) {
               dispatch(onSettingsUnitsChanged(active))
-              i18n.locale = active
               saveValueAs('storedUnitSystem', active)
             }}}
           defaultTabStyles={{...Buttons.styles.switcherBox, ...Buttons.styles.switcherDefaultBox}}

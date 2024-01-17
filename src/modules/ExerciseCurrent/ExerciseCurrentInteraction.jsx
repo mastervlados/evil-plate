@@ -31,6 +31,7 @@ export default function ExerciseCurrentInteraction({ addNewSetFunc }) {
     const service = useContext(AppContext)
     const navigation = useNavigation()
     const dispatch = useDispatch()
+    if (!('workload' in performance)) { return }
     const [isFooterVisible, setFooterVisible] = useState(true)
 
     useEffect(() => {
