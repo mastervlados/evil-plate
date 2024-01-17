@@ -1,9 +1,15 @@
 const cutFloatPartOfNumber = (float) => {
-    for (let i = float.length - 1; i >= 0; i--) {
-        if (float[i] == 0 || float[i] == '.') {
-            float = float.substring(0, i)
-        } else {
-            break
+    const regexp = /\./
+    if (regexp.test(float)) {
+        for (let i = float.length - 1; i >= 0; i--) {
+            if (float[i] == 0) {
+                float = float.substring(0, i)
+            } else if (float[i] == '.') {
+                float = float.substring(0, i)
+                break
+            } else {
+                break
+            }
         }
     }
     return float

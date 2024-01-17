@@ -32,7 +32,6 @@ export default function ExerciseCurrentInteraction({ addNewSetFunc }) {
     const navigation = useNavigation()
     const dispatch = useDispatch()
     const [isFooterVisible, setFooterVisible] = useState(true)
-    if (('workload' in performance) !== true) { return }
 
     useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener(

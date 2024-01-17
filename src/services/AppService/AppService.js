@@ -196,7 +196,6 @@ export default class AppService {
                     [id],
                     function(_, result) {
                         resolve(result.rows._array[0]);
-                        console.log(result)
                     },
                     function(_, error) {
                         reject(error.message);
