@@ -113,7 +113,7 @@ export default class AppService {
         return await formatedExercises.reverse();
     }
 
-    async createExercise({ title, type, breakDuration, colorNumber }) {
+    async createExercise({ title, type, breakDuration, colorNumber, rowsCount }) {
 
         await this.initDatabase();
 
@@ -129,9 +129,9 @@ export default class AppService {
         const createExerciseAndGetInsertedId = await new Promise((resolve, reject) => {
             this.database.transaction(tx => {
                 tx.executeSql(
-                    `INSERT INTO exercise (exr_name, exr_color_number, exr_global_type, exr_global_break_duration, exr_best_results)
-                    VALUES (?, ?, ?, ?, ?)`,
-                    [title, colorNumber, type, breakDuration, JSON.stringify(records)],
+                    `INSERT INTO exercise (exr_name, exr_color_number, exr_global_type, exr_global_break_duration, exr_global_rows_count, exr_best_results)
+                    VALUES (?, ?, ?, ?, ?, ?)`,
+                    [title, colorNumber, type, breakDuration, rowsCount, JSON.stringify(records)],
                     function(_, { insertId }) {
                         resolve(insertId);
                     },
@@ -185,6 +185,46 @@ export default class AppService {
         });
         
         return await createPerformanceAndGetInsertedId
+    }
+
+    async getPerformance(id) {
+        await this.initDatabase();
+        const performance = await new Promise((resolve, reject) => {
+            this.database.transaction(tx => {
+                tx.executeSql(
+                    `SELECT * FROM performance WHERE id = ?`,
+                    [id],
+                    function(_, result) {
+                        resolve(result.rows._array[0]);
+                    },
+                    function(_, error) {
+                        reject(error.message);
+                    }
+                )
+            })
+        });
+
+        return await this._transformPerformance(performance);
+    }
+
+    async getExercise(id) {
+        await this.initDatabase();
+        const exercise = await new Promise((resolve, reject) => {
+            this.database.transaction(tx => {
+                tx.executeSql(
+                    `SELECT * FROM exercise WHERE id = ?`,
+                    [id],
+                    function(_, result) {
+                        resolve(result.rows._array[0]);
+                    },
+                    function(_, error) {
+                        reject(error.message);
+                    }
+                )
+            })
+        });
+
+        return await this._transformExercise(exercise);
     }
 
     async updateJSONinTable(table, id, data) {

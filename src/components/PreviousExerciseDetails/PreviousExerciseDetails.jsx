@@ -12,6 +12,7 @@ const Line = ({ line, units, styles }) => {
 
     const appUnits = useSelector(state => state.appSettingsReducer.unitsFromSettings)
     const locale = useSelector(state => state.appSettingsReducer.language)
+    const i18n = useContext(AppLocalizationContext)
 
     if (line.content === 'weight') {
         const formatWeight = translateValue(line.weight, units, appUnits)
@@ -20,7 +21,7 @@ const Line = ({ line, units, styles }) => {
                 ...styles, 
                 ...AppTextStyles.styles.textCommonAlternate
             }}>
-                { line.prefix }
+                { line.prefix ? i18n.t(line.prefix) + ' ' : null }
                 <Text style={AppTextStyles.styles.textPositiveBold}>
                     { formatWeight } </Text>
                 { endingFor(formatWeight, appUnits, locale) }

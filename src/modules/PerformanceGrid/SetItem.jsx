@@ -18,14 +18,17 @@ export default function SetItem({ exerciseID, setIndex, rowIndex, row, position 
 
     const locale = useSelector(state => state.appSettingsReducer.language)
     const i18n = useContext(AppLocalizationContext)
-    const previousSets = useSelector(state => state.exerciseReducer.previousPerformance.workload.sets)
+    const previousPerformance = useSelector(state => state.exerciseReducer.previousPerformance)
     // !important
     // if we change app unit
     // via settings screen
     // it keeps its own value
-    const performanceUnit = useSelector(state => state.exerciseReducer.performance.measureUnit)
-    const previousPerformanceUnit = useSelector(state => state.exerciseReducer.previousPerformance.measureUnit)
-    const applyPreviousUnits = previousPerformanceUnit ? previousPerformanceUnit : performanceUnit
+    const performance = useSelector(state => state.exerciseReducer.performance)
+    if (('workload' in performance) !== true) { return }
+    // check for previous units
+    // might be different and
+    // we should verify it before
+    const applyPreviousUnits = previousPerformance.measureUnit || performance.measureUnit
 
     const [weight, setWeight] = useState(row.weight)
     const [reps, setReps] = useState(row.reps)
@@ -49,11 +52,11 @@ export default function SetItem({ exerciseID, setIndex, rowIndex, row, position 
 
     const definePlaceholder = (field, whenever, isBool = false) => {
         try {
-            const value = previousSets[position - 1].rows[rowIndex][field]
+            const value = previousPerformance.workload.sets[position - 1].rows[rowIndex][field]
             if (isBool) {
                 return value
             } else if (field === 'weight') {
-                return translateValue(value, applyPreviousUnits, performanceUnit) + ''
+                return translateValue(value, applyPreviousUnits, performance.measureUnit) + ''
             }
             return value + ''
         } catch (e) {
@@ -62,7 +65,7 @@ export default function SetItem({ exerciseID, setIndex, rowIndex, row, position 
         return whenever
     }
     
-    const weightPlaceholder = definePlaceholder('weight', endingFor(10, performanceUnit, locale))
+    const weightPlaceholder = definePlaceholder('weight', endingFor(10, performance.measureUnit, locale))
     const repsPlaceholder = definePlaceholder('reps', i18n.t('es0015').toLowerCase())
     const isLethalWasChecked = definePlaceholder('isLethal', false, true)
 

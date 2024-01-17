@@ -10,7 +10,7 @@ import ExercisePrevious from '../../modules/ExercisePrevious'
 import ExerciseCurrent from '../../modules/ExerciseCurrent'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
-import { onActiveTabChanged } from '../../redux/actions/exerciseActions'
+import { onActiveTabChanged, onExerciseChanged } from '../../redux/actions/exerciseActions'
 
 
 export default function ExerciseScreen() {

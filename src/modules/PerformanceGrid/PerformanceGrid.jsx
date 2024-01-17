@@ -12,15 +12,15 @@ import { onPerformanceFieldInFlowChanged, onPerformanceSetFieldChanged } from '.
 
 export default function PerformanceGrid({ exerciseID }) {
 
-    const workload = useSelector(state => state.exerciseReducer.performance.workload)
+    const performance = useSelector(state => state.exerciseReducer.performance)
 
     // check for data to avoid the error
-    if (!workload.sets) { return }
+    if (('workload' in performance) !== true) { return }
 
     const dispatch = useDispatch()
     let sequence = 0
 
-    const rows = workload.sets.map((set, setIndex) => {
+    const rows = performance.workload.sets.map((set, setIndex) => {
 
         // Skip this row if it's not visible
         if (!set.visible) { return }
@@ -54,7 +54,7 @@ export default function PerformanceGrid({ exerciseID }) {
                 // 1. update Redux without deleted item
                 dispatch(onPerformanceSetFieldChanged(setIndex, 'visible'))
                 // 2. abandon tonnage in flows!
-                for (let i = 0; i < workload.rowsCount; i++) {
+                for (let i = 0; i < performance.workload.rowsCount; i++) {
                     const args = [setIndex, i]
                     dispatch(onPerformanceFieldInFlowChanged(...args))
                 }

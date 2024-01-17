@@ -60,11 +60,11 @@ export default function AppNavigation() {
   return (
     <NavigationContainer>
         <Stack.Navigator screenOptions={headerStyles}>
-            {/* <Stack.Screen
+            <Stack.Screen
                 name='Root'
                 component={Root}
                 options={{ headerShown: false }}
-            /> */}
+            />
             <Stack.Screen
                 name='ExerciseScreen'
                 component={ExerciseScreen}

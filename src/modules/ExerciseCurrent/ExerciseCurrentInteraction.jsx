@@ -21,7 +21,7 @@ import { translateValue } from '../../res/helpers/converter'
 import AppContext from '../../../AppContext'
 
 
-export default function ExerciseCurrentInteraction() {
+export default function ExerciseCurrentInteraction({ addNewSetFunc }) {
 
     const exercise = useSelector(state => state.exerciseReducer.exercise)
     const performance = useSelector(state => state.exerciseReducer.performance)
@@ -32,8 +32,8 @@ export default function ExerciseCurrentInteraction() {
     const navigation = useNavigation()
     const dispatch = useDispatch()
     const [isFooterVisible, setFooterVisible] = useState(true)
-    const initRows = useRef(true)
-    // console.log(performance.workload.flows)
+    if (('workload' in performance) !== true) { return }
+
     useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener(
             'keyboardDidShow',
@@ -93,76 +93,33 @@ export default function ExerciseCurrentInteraction() {
         )})
         
     }, [])
-
-    const addNewSetHandler = async () => {
-        const initialSet = {
-            visible: true,
-            rows: []
-        }
-        for (let i = 0; i < performance.workload.rowsCount; i++) {
-            initialSet.rows.push({ 
-                weight: '', 
-                reps: '', 
-                isLethal: false, 
-                tonnage: 0 
-            })
-        }
-        // update Redux
-        dispatch(onPerformanceSetAdded(initialSet))
-        // init default tonnage values
-        dispatch(onPerformanceFlowsSetAdded())
-        // put it into store
-        createStoredSetWithinExercise(performance.exerciseID, initialSet)   
-    }
-
-    async function onLayoutCreateRows() {
-        // console.log('onLayout')
-        let initRowsCount
-        try {
-            initRowsCount = previousPerformance.workload.sets.length
-            if (initRowsCount < 3) {
-                initRowsCount = 3
-            }
-            if (initRowsCount > performance.workload.sets.length) {
-                for (let i = 0; i < initRowsCount; i++) {
-                    addNewSetHandler()
-                }
-            }
-        } catch (e) {
-    
-        } finally {
-            // Skip this function
-            // next re-renders
-            initRows.current = false
-        }
-    }
     
     // 1. how many rows or flows are exist
     // 2. start iteration from 0 to length
     // update value
     const Indicators = () => {
-        try {
-            const indicators = performance.workload.flows.map((flow, i) => {
-                const currentTonnage = flow.tonnage.reduce((partialSum, x) => partialSum + x, 0)
-                return (
-                    <TonnageIndicatorBar 
-                        key={`indicator-${i}`} 
-                        currentTonnage={currentTonnage} 
-                        previousTonnage={
-                            translateValue(
-                                previousPerformance.workload.flows[i].tonnage, 
-                                previousPerformance.measureUnit, 
-                                performance.measureUnit
-                            )
-                        }
-                    />
-                )
-            })
-            return indicators
-        } catch (e) {
-
+        if ('workload' in performance) {
+            if ('flows' in performance.workload) {
+                const indicators = performance.workload.flows.map((flow, i) => {
+                    const currentTonnage = flow.tonnage.reduce((partialSum, x) => partialSum + x, 0)
+                    return (
+                        <TonnageIndicatorBar 
+                            key={`indicator-${i}`} 
+                            currentTonnage={currentTonnage} 
+                            previousTonnage={
+                                'workload' in previousPerformance ?
+                                translateValue(
+                                    previousPerformance.workload.flows[i].tonnage, 
+                                    previousPerformance.measureUnit, 
+                                    performance.measureUnit
+                                ) : null
+                            }
+                        />
+                    )
+                });
+                return indicators
+            }
         }
-        return null
     }
     
     async function createNewPerformanceHandler() {
@@ -326,10 +283,7 @@ export default function ExerciseCurrentInteraction() {
     }
     
     return (
-        <View 
-            style={AppContainers.styles.appContainerWithoutVerticalCentred}
-            onLayout={initRows.current ? onLayoutCreateRows : null}
-        >
+        <View style={AppContainers.styles.appContainerWithoutVerticalCentred}>
             <TimerPanel 
                 buttonHandlerFunc={createNewPerformanceHandler}
                 durationSetup={performance.breakDuration}
@@ -347,7 +301,7 @@ export default function ExerciseCurrentInteraction() {
                     vheight={40}
                     vwidth={56}
                     brRadiusSize={3}
-                    onPressFunc={addNewSetHandler}
+                    onPressFunc={() => addNewSetFunc(performance.exerciseID, performance.workload.rowsCount)}
                     iconSvg={<AddSvg/>}
                     iconSize={20}
                     iconColor={Theme.agressive}

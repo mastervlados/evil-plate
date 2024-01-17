@@ -73,7 +73,7 @@ const testState = {
             },
             previous: {
                 isExist: true,
-                id: 13,
+                id: 75,
                 measureUnit: 'kg',
                 date: '2024-01-04T15:00:44.534Z',
                 headers: [
@@ -157,7 +157,7 @@ const testState = {
     }
 }
 
-const exerciseReducer = (state = testState, action) => {
+const exerciseReducer = (state = initialState, action) => {
 
     function updateRowValue(setID, rowID, field, payload) {
 

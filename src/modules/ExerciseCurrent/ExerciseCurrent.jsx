@@ -1,12 +1,13 @@
 import { View, Text } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { styles } from './style'
 import ExerciseCurrentInfo from './ExerciseCurrentInfo'
 import ExerciseCurrentInteraction from './ExerciseCurrentInteraction'
 import { useDispatch, useSelector } from 'react-redux'
-import { getOpenPefrormances } from '../../res/helpers/secureStore'
-import { onPerformanceChanged, onPerformanceFieldInFlowChanged, onPerformanceLoaded, onPreviousPerformanceChanged } from '../../redux/actions/exerciseActions'
+import { createStoredSetWithinExercise, getOpenPefrormances } from '../../res/helpers/secureStore'
+import { onPerformanceChanged, onPerformanceFieldInFlowChanged, onPerformanceFlowsSetAdded, onPerformanceLoaded, onPerformanceSetAdded, onPreviousPerformanceChanged } from '../../redux/actions/exerciseActions'
 import Spinner from '../../components/Spinner'
+import AppContext from '../../../AppContext'
 
 
 export default function ExerciseCurrent() {
@@ -14,6 +15,7 @@ export default function ExerciseCurrent() {
     const performance = useSelector(state => state.exerciseReducer.performance)
     const isPerformanceReady = useSelector(state => state.exerciseReducer.isPerformanceReady)
     const exercise = useSelector(state => state.exerciseReducer.exercise)
+    const service = useContext(AppContext)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -39,8 +41,11 @@ export default function ExerciseCurrent() {
                 })
                 // Also loading previous performance
                 // ...
-                // const previousPerformance = {}
-                // dispatch(onPreviousPerformanceChanged(previousPerformance))
+                const previouPerformanceID = exercise.records.previous.id || false
+                if (previouPerformanceID) {
+                    const previousPerformance = await service.getPerformance(previouPerformanceID)
+                    dispatch(onPreviousPerformanceChanged(previousPerformance))
+                }
             }
             // Whenever we ready to display smth. to user!
             // ~ isPerformanceReady
@@ -51,6 +56,27 @@ export default function ExerciseCurrent() {
 
     }, [])
 
+    const addNewSetHandler = async (exerciseID, rowsCount) => {
+        const initialSet = {
+            visible: true,
+            rows: []
+        }
+        for (let i = 0; i < rowsCount; i++) {
+            initialSet.rows.push({ 
+                weight: '', 
+                reps: '', 
+                isLethal: false, 
+                tonnage: 0 
+            })
+        }
+        // update Redux
+        dispatch(onPerformanceSetAdded(initialSet))
+        // init default tonnage values
+        dispatch(onPerformanceFlowsSetAdded())
+        // put it into store
+        await createStoredSetWithinExercise(exerciseID, initialSet)   
+    }
+
     if (!isPerformanceReady) {
         return <Spinner size={150}/>
     }
@@ -58,10 +84,10 @@ export default function ExerciseCurrent() {
     if (performance.exerciseID === exercise.id 
         && typeof(performance.exerciseID) !== 'undefined'
         && typeof(exercise.id) !== 'undefined') {
-        return <ExerciseCurrentInteraction/>
+        return <ExerciseCurrentInteraction addNewSetFunc={addNewSetHandler}/>
     }
 
     return (
-        <ExerciseCurrentInfo/>
+        <ExerciseCurrentInfo addNewSetFunc={addNewSetHandler}/>
     )
 }

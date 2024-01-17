@@ -15,9 +15,10 @@ import { createStoredPerformance, getOpenPefrormances, getValueFor, saveValueAs 
 import { onPerformanceChanged } from '../../redux/actions/exerciseActions'
 
 
-export default function ExerciseCurrentInfo() {
+export default function ExerciseCurrentInfo({ addNewSetFunc }) {
 
     const exercise = useSelector(state => state.exerciseReducer.exercise)
+    const previousPerformance = useSelector(state => state.exerciseReducer.previousPerformance)
     useSelector(state => state.appSettingsReducer.language)
     const appUnits = useSelector(state => state.appSettingsReducer.unitsFromSettings)
     const navigation = useNavigation()
@@ -65,6 +66,18 @@ export default function ExerciseCurrentInfo() {
         if (await createStoredPerformance(performance)) {
             // put initial performance to Redux
             dispatch(onPerformanceChanged(performance))
+            let initRowsCount = 0
+            if ('workload' in previousPerformance) {
+                if ('sets' in previousPerformance.workload) {
+                    initRowsCount = previousPerformance.workload.sets.length
+                } 
+            }
+            if (initRowsCount < 3) {
+                initRowsCount = 3
+            }
+            for (let i = 0; i < initRowsCount; i++) {
+                await addNewSetFunc(exercise.id, exercise.rowsCount)
+            }
         }
     }
 

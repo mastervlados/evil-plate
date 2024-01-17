@@ -15,8 +15,7 @@ import { onActiveTabChanged } from '../../redux/actions/exerciseActions'
 
 export default function TimerPanel({ 
     buttonHandlerFunc, 
-    durationSetup, 
-    redirectFunc 
+    durationSetup,
 }) {
 
     const [isActive, setActive] = useState(false)
