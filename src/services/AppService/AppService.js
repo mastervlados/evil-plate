@@ -196,6 +196,7 @@ export default class AppService {
                     [id],
                     function(_, result) {
                         resolve(result.rows._array[0]);
+                        console.log(result)
                     },
                     function(_, error) {
                         reject(error.message);
@@ -241,7 +242,7 @@ export default class AppService {
                 WHERE ${table+'.id'} = ?`,
                 [JSON.stringify(data), id],
                 function(_, result) {
-                    console.log(result);
+                    // console.log(result);
                 },
                 function(_, error) {
                     console.error(error.message);

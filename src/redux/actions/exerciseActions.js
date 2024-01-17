@@ -8,7 +8,8 @@ import {
     ON_PERFORMANCE_LOADED, 
     ON_PERFORMANCE_SET_ADDED,
     ON_PERFORMANCE_SET_FIELD_CHANGED,
-    ON_PERFORMANCE_SET_ROW_FIELD_CHANGED
+    ON_PERFORMANCE_SET_ROW_FIELD_CHANGED,
+    ON_PREVIOUS_PERFORMANCE_CHANGED
 } from "../constants"
 
 
@@ -42,7 +43,7 @@ const onPerformanceChanged = (data) => {
 
 const onPreviousPerformanceChanged = (data) => {
     return {
-        type: ON_PERFORMANCE_CHANGED,
+        type: ON_PREVIOUS_PERFORMANCE_CHANGED,
         payload: data,
     }
 }
