@@ -40,6 +40,11 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    info: {
+        backgroundColor: relaxing,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
     infoOutline: {
         backgroundColor: 'transparent',
         borderWidth: 1,

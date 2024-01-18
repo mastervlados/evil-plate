@@ -1,7 +1,7 @@
 import { TouchableOpacity, View } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { styles } from './style'
-import { AddSvg, CogSvg } from '../../res/svgs'
+import { AddSvg, CogSvg, WeightScaleSvg } from '../../res/svgs'
 import { AppContainers, AppTextStyles, Buttons, Theme } from '../../styles'
 import RoundedButton from '../../UI/RoundedButton'
 import PrimaryButton from '../../UI/PrimaryButton'
@@ -13,11 +13,14 @@ import PreviousExerciseDetails from '../../components/PreviousExerciseDetails'
 import { useNavigation } from '@react-navigation/native'
 import { createStoredPerformance, getOpenPefrormances, getValueFor, saveValueAs } from '../../res/helpers/secureStore'
 import { onPerformanceChanged } from '../../redux/actions/exerciseActions'
+import InputSelfWeightModal from '../../components/InputSelfWeightModal/InputSelfWeightModal'
+import { onWeightedFieldChanged } from '../../redux/actions/selfWeightActions'
 
 
 export default function ExerciseCurrentInfo({ addNewSetFunc }) {
 
     const exercise = useSelector(state => state.exerciseReducer.exercise)
+    const selfWeight = useSelector(state => state.selfWeightReducer)
     const previousPerformance = useSelector(state => state.exerciseReducer.previousPerformance)
     useSelector(state => state.appSettingsReducer.language)
     const appUnits = useSelector(state => state.appSettingsReducer.unitsFromSettings)
@@ -35,6 +38,14 @@ export default function ExerciseCurrentInfo({ addNewSetFunc }) {
     }, [])
 
     const createPerformance = async () => {
+        // we need to ask a champion
+        // about its self weight
+        // in current moment
+        // so that we show a modal..
+        if (exercise.type === 'self' && !selfWeight.isWeighted) {
+            dispatch(onWeightedFieldChanged('showModal', true))
+            return
+        }
         // First of all we create stored object,
         // [key, value] -> storedOpenPerformances
         // Champion types values and update it
@@ -63,6 +74,16 @@ export default function ExerciseCurrentInfo({ addNewSetFunc }) {
             },
         }
 
+        // Add details about self weight
+        // put it within the workload field
+        if (exercise.type === 'self') {
+            performance.workload = {
+                ...performance.workload,
+                selfWeight: selfWeight.selfWeight,
+                weightedUnit: selfWeight.weightedUnit,
+            }
+        }
+
         if (await createStoredPerformance(performance)) {
             // put initial performance to Redux
             dispatch(onPerformanceChanged(performance))
@@ -81,17 +102,36 @@ export default function ExerciseCurrentInfo({ addNewSetFunc }) {
         }
     }
 
-    return (
-        <View style={AppContainers.styles.appContainerWithoutVerticalCentred}>
-            <View style={styles.infoButtonAddPerformancePosition}>
+    const ActionButton = () => {
+        if (exercise.type === 'self' && !selfWeight.isWeighted) {
+            return (
                 <RoundedButton 
-                    styles={Buttons.styles.primary} 
+                    styles={Buttons.styles.warning} 
                     size={56}
                     onPressFunc={createPerformance}
-                    iconSvg={<AddSvg/>}
-                    iconSize={16}
+                    iconSvg={<WeightScaleSvg/>}
+                    iconSize={30}
                     iconColor={Theme.base}
                 />
+            )
+        }
+        return (
+            <RoundedButton 
+                styles={Buttons.styles.primary} 
+                size={56}
+                onPressFunc={createPerformance}
+                iconSvg={<AddSvg/>}
+                iconSize={16}
+                iconColor={Theme.base}
+            />
+        )
+    }
+
+    return (
+        <View style={AppContainers.styles.appContainerWithoutVerticalCentred}>
+            <InputSelfWeightModal/>
+            <View style={styles.infoButtonAddPerformancePosition}>
+                <ActionButton/>
             </View>
             
             <InfoMiddleBox previousExercise={exercise.records.previous}/>
@@ -117,7 +157,7 @@ export default function ExerciseCurrentInfo({ addNewSetFunc }) {
                     </View>
                 </View>
 
-                <View style={styles.infoInfoButtonPosition}>
+                {/* <View style={styles.infoInfoButtonPosition}>
                     <PrimaryButton
                         styles={Buttons.styles.infoOutline} 
                         vheight={42}
@@ -130,7 +170,7 @@ export default function ExerciseCurrentInfo({ addNewSetFunc }) {
                         isDisable={!exercise.records.previous.isExist}
                         disableStyles={Buttons.styles.infoOutlineDisable}
                     />
-                </View>
+                </View> */}
             </View>
         </View>
     )

@@ -26,9 +26,9 @@ export default function ExerciseScreen() {
   }, []) // ! componentDidMount behavior (once)
 
   tabs = [
-    { id: 0, name: 'previous'},
-    { id: 1, name: 'current'},
-    { id: 2, name: 'progress'},
+    // { id: 0, name: 'previous'},
+    { id: 0, name: 'current'},
+    { id: 1, name: 'progress'},
   ]
 
   let activeModule;
@@ -58,9 +58,9 @@ export default function ExerciseScreen() {
           defaultTextStyles={styles.defaultTabText}
           activeTextStyles={styles.activeTabText}
       >
-          <SmartBlock 
+          {/* <SmartBlock 
             blockText={i18n.t('es0001')}  
-          />
+          /> */}
           <SmartBlock 
             blockText={i18n.t('es0002')}
           />

@@ -1,11 +1,12 @@
-import { StyleSheet } from 'react-native'
+import { Dimensions, StyleSheet } from 'react-native'
 import { Theme } from '../../styles'
 
 export const styles = StyleSheet.create({
     defaultTab: {
         backgroundColor: Theme.levelOne,
         height: 48,
-        width: 120,
+        // width: 120,
+        width: Dimensions.get('window').width / 2,
         borderBottomWidth: 1,
         borderBottomColor: Theme.base,
     },

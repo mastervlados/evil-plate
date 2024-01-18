@@ -8,7 +8,7 @@ import { updateStoredSetRowFieldWithinExercise } from '../../res/helpers/secureS
 import { Theme } from '../../styles'
 import CheckBox from '../../UI/CheckBox'
 import SkullSvg from '../../res/svgs/SkullSvg'
-import { checkForInteger, checkForReal } from '../../res/helpers/validation'
+import { checkForInteger, checkForReal, completeRealNumber } from '../../res/helpers/validation'
 import AppLocalizationContext from '../../../AppLocalizationContext'
 import { endingFor } from '../../res/helpers/endings'
 import { translateValue } from '../../res/helpers/converter'
@@ -77,6 +77,7 @@ export default function SetItem({ exerciseID, setIndex, rowIndex, row, position 
                 defaultStyles={styles.inputDefaultStyles}
                 updateValueFunc={(text) => checkForReal(text, setWeight)}
                 onBlurFunc={async () => {
+                    completeRealNumber(weight, setWeight)
                     const args = [setIndex, rowIndex, 'weight', weight]
                     dispatch(onPerformanceSetRowFieldChanged(...args))
                     updateRowTonnage()

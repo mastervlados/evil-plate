@@ -23,7 +23,7 @@ const checkExerciseName = (exerciseName, messageLocale = 'en') => {
 }
 
 function checkForReal(term, callback) {
-    const regexp = /(^[1-9]$)|(^[1-9]\d+\.?$)|(^[1-9]\d+\.\d+$)|(^$)/
+    const regexp = /(^[1-9]$)|(^[1-9]\d+\.?$)|(^[1-9]\d+\.\d?\d$)|(^$)/
     // console.log('validation: ', term, 'result: ', regexp.test(term))
     if (regexp.test(term)) { 
         callback(term) 
@@ -38,9 +38,17 @@ function checkForInteger(term, callback) {
     }
 }
 
+function completeRealNumber(number, callback) {
+    const regexp = /\.$/
+    if (regexp.test(number)) {
+        callback(number.substring(0, number.length - 1))
+    }
+}
+
 export {
     checkExerciseName,
     checkForReal,
     checkForInteger,
+    completeRealNumber,
 }
 

@@ -62,6 +62,10 @@ const exerciseScreen = {
 	es0014: 'Weight',
 	es0015: 'Reps',
 	es0016: 'Failure',
+	// InputSelfWeightModal
+	es0017: 'Done!',
+	es0018: 'Type your current weight:',
+	es0019: 'You\'re about doing an exercise with self weight. You have to weigh yourself and type results before you continue..',
 }
 
 const en = {

@@ -15,6 +15,8 @@ export default function PerformanceGrid({ exerciseID }) {
     const performance = useSelector(state => state.exerciseReducer.performance)
 
     const dispatch = useDispatch()
+
+    if (!('workload' in performance)) { return }
     let sequence = 0
 
     const rows = performance.workload.sets.map((set, setIndex) => {

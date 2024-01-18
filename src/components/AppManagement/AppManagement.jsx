@@ -13,7 +13,7 @@ import { getLocales } from 'expo-localization'
 import { I18n } from 'i18n-js'
 import languages from '../../res/strings/languages'
 import { useDispatch, useSelector } from 'react-redux'
-import { onSettingsHintExercisesFormChanged, onSettingsLanguageChanged, onSettingsLocalizationsLoaded } from '../../redux/actions/appSettingsActions'
+import { onSettingsHintExercisesFormChanged, onSettingsLanguageChanged, onSettingsLocalizationsLoaded, onSettingsUnitsChanged } from '../../redux/actions/appSettingsActions'
 import { getValueFor, saveValueAs } from '../../res/helpers/secureStore'
 
 
@@ -25,7 +25,7 @@ export default function AppManagement() {
     const service = useContext(AppContext)
     const i18n = useContext(AppLocalizationContext)
     const dispatch = useDispatch()
-    const target = useSelector(state => state.appSettingsReducer.language)
+    const target = useSelector(state => state.appSettingsReducer)
     // *****************************
     // **** Localization Target ****
     // *****************************
@@ -35,23 +35,30 @@ export default function AppManagement() {
         if (localeFromStore !== -1) {
           // try to get value 
           // from user settings..
-          if (localeFromStore !== target) {
+          if (localeFromStore !== target.language) {
             dispatch(onSettingsLanguageChanged(localeFromStore))
             i18n.locale = localeFromStore
           }
         } else if (getLocales()[0].languageCode === 'ru') {
-          if (target !== 'ru') {
+          if (target.language !== 'ru') {
             dispatch(onSettingsLanguageChanged('ru'))
             i18n.locale = 'ru'
           }
         } else {
-          if (target !== 'en') {
+          if (target.language !== 'en') {
             dispatch(onSettingsLanguageChanged('en'))
             i18n.locale = 'en'
           }
         }
       }
+      async function setupUnitSystem() {
+        const unitSystemFromStore = await getValueFor('storedUnitSystem')
+        if (target.unitsFromSettings !== unitSystemFromStore) {
+          dispatch(onSettingsUnitsChanged(unitSystemFromStore))
+        }
+      }
       setupLanguage();
+      setupUnitSystem();
     }, [])
 
     useEffect(() => {
