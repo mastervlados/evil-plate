@@ -55,6 +55,17 @@ export const styles = StyleSheet.create({
         fontWeight: '900',
         fontFamily: 'roboto-black',
     },
+    inputDisableStyles: {
+        width: 96,
+        height: 40,
+        borderRadius: 3,
+        textAlign: 'center',
+        backgroundColor: Theme.levelOne,
+        color: Theme.textCommon,
+        fontSize: 14,
+        fontWeight: '900',
+        fontFamily: 'roboto-black',
+    },
     inputActiveStyles: {
         width: 96,
         height: 40,

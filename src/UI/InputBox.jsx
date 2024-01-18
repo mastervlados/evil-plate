@@ -12,6 +12,7 @@ export default function InputBox({
     ownStyles,
     onBlurFunc,
     onFocusFunc,
+    disabled = false,
 }) {
 
   const [isPressed, setPress] = useState(false)
@@ -49,6 +50,8 @@ export default function InputBox({
         // plus '' to convert value to string
         value={currentValue}
         placeholderTextColor={placeholderColor}
+        editable={!disabled}
+        selectTextOnFocus={!disabled}
     />
 
   )

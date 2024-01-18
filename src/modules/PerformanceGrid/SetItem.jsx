@@ -30,7 +30,9 @@ export default function SetItem({ exerciseID, setIndex, rowIndex, row, position 
     // we should verify it before
     const applyPreviousUnits = previousPerformance.measureUnit || performance.measureUnit
     if (!('workload' in performance)) { return }
-    const [weight, setWeight] = useState(row.weight)
+    const [weight, setWeight] = useState(performance.type === 'self' 
+    ? translateValue(performance.workload.selfWeight, performance.workload.weightedUnit, performance.measureUnit) 
+    : row.weight)
     const [reps, setReps] = useState(row.reps)
     
     // console.log(rowIndex, setIndex)
@@ -74,7 +76,9 @@ export default function SetItem({ exerciseID, setIndex, rowIndex, row, position 
             <InputBox
                 setInputMode={'numeric'}
                 activeStyles={styles.inputActiveStyles}
-                defaultStyles={styles.inputDefaultStyles}
+                defaultStyles={performance.type === 'self' 
+                ? styles.inputDisableStyles 
+                : styles.inputDefaultStyles}
                 updateValueFunc={(text) => checkForReal(text, setWeight)}
                 onBlurFunc={async () => {
                     completeRealNumber(weight, setWeight)
@@ -86,6 +90,7 @@ export default function SetItem({ exerciseID, setIndex, rowIndex, row, position 
                 currentValue={weight}
                 placeholder={weightPlaceholder}
                 placeholderColor={Theme.levelOne}
+                disabled={performance.type === 'self' ? true : false}
             />
             <InputBox
                 setInputMode={'numeric'}
