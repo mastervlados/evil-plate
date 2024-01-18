@@ -8,6 +8,7 @@ import { createStoredSetWithinExercise, getOpenPefrormances } from '../../res/he
 import { onPerformanceChanged, onPerformanceFieldInFlowChanged, onPerformanceFlowsSetAdded, onPerformanceLoaded, onPerformanceSetAdded, onPreviousPerformanceChanged } from '../../redux/actions/exerciseActions'
 import Spinner from '../../components/Spinner'
 import AppContext from '../../../AppContext'
+import { translateValue } from '../../res/helpers/converter'
 
 
 export default function ExerciseCurrent() {
@@ -56,14 +57,25 @@ export default function ExerciseCurrent() {
 
     }, [])
 
-    const addNewSetHandler = async (exerciseID, rowsCount) => {
+    const addNewSetHandler = async (
+        exerciseID, 
+        rowsCount, 
+        performanceType,
+        selfWeight,
+        weightedUnit,
+        performanceMeasureUnit
+        ) => {
         const initialSet = {
             visible: true,
             rows: []
         }
+        let weight = ''
+        if (performanceType === 'self') {
+            weight = translateValue(selfWeight, weightedUnit, performanceMeasureUnit)
+        }
         for (let i = 0; i < rowsCount; i++) {
             initialSet.rows.push({ 
-                weight: '', 
+                weight: weight, 
                 reps: '', 
                 isLethal: false, 
                 tonnage: 0 

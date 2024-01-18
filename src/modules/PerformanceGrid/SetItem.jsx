@@ -1,5 +1,5 @@
 import { View, Text } from 'react-native'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { styles } from './style'
 import { useDispatch, useSelector } from 'react-redux'
 import InputBox from '../../UI/InputBox'
@@ -29,12 +29,19 @@ export default function SetItem({ exerciseID, setIndex, rowIndex, row, position 
     // might be different and
     // we should verify it before
     const applyPreviousUnits = previousPerformance.measureUnit || performance.measureUnit
-    if (!('workload' in performance)) { return }
-    const [weight, setWeight] = useState(performance.type === 'self' 
-    ? translateValue(performance.workload.selfWeight, performance.workload.weightedUnit, performance.measureUnit) 
-    : row.weight)
+    const [weight, setWeight] = useState(row.weight)
     const [reps, setReps] = useState(row.reps)
-    
+    if (!('workload' in performance)) { return }
+
+    // useEffect(() => {
+    //     if (performance.type === 'self') {
+    //         setWeight(translateValue(performance.workload.selfWeight, performance.workload.weightedUnit, performance.measureUnit))
+    //         const args = [setIndex, rowIndex, 'weight', weight]
+    //         dispatch(onPerformanceSetRowFieldChanged(...args))
+    //         updateStoredSetRowFieldWithinExercise(exerciseID, ...args)
+    //     }
+    // }, [])
+   
     // console.log(rowIndex, setIndex)
     const updateRowTonnage = () => {
         try {

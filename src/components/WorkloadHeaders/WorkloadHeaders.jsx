@@ -12,6 +12,7 @@ export default function WorkloadHeaders({ isTopPressed = false }) {
     const locale = useSelector(state => state.appSettingsReducer.language)
     const i18n = useContext(AppLocalizationContext)
 
+    if (typeof(performance) !== 'object') { return }
     if (!('workload' in performance)) { return }
 
     return (

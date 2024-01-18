@@ -97,7 +97,12 @@ export default function ExerciseCurrentInfo({ addNewSetFunc }) {
                 initRowsCount = 3
             }
             for (let i = 0; i < initRowsCount; i++) {
-                await addNewSetFunc(exercise.id, exercise.rowsCount)
+                if (exercise.type === 'self') {
+                    await addNewSetFunc(exercise.id, exercise.rowsCount, exercise.type, selfWeight.selfWeight, selfWeight.weightedUnit, appUnits)
+                } else {
+                    await addNewSetFunc(exercise.id, exercise.rowsCount)
+                }
+                
             }
         }
     }
