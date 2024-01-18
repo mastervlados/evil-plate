@@ -17,7 +17,7 @@ export default function TonnageIndicatorBar({ currentTonnage, previousTonnage, }
         return (
             <View style={styles.container}>
                 <Text style={AppTextStyles.styles.indicatorTextUnderWater}>
-                    { currentTonnage ? currentTonnage : '--' } 
+                    { currentTonnage ? cutFloatPartOfNumber(currentTonnage.toFixed(2)) : '--' } 
                     { ' ' + endingFor(currentTonnage, unit, locale) }
                 </Text>
                 <Text style={AppTextStyles.styles.indicatorTextUnderWater}>

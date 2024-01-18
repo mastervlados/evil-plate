@@ -21,6 +21,10 @@ export default function ExerciseCurrent() {
 
     useEffect(() => {
         const getOpenPerformanceIfExist = async (id) => {
+            // when we change exercise
+            // we load data again
+            // and show spinner to a champion
+            dispatch(onPerformanceLoaded(false))
             const storedOpenPerformances = await getOpenPefrormances()
             const currentPerformance = storedOpenPerformances.find((perf) => perf.exerciseID === id)
             if (typeof(currentPerformance) !== 'undefined') {
@@ -46,6 +50,8 @@ export default function ExerciseCurrent() {
                 if (previouPerformanceID) {
                     const previousPerformance = await service.getPerformance(previouPerformanceID)
                     dispatch(onPreviousPerformanceChanged(previousPerformance))
+                } else {
+                    dispatch(onPreviousPerformanceChanged({}))
                 }
             }
             // Whenever we ready to display smth. to user!
@@ -55,7 +61,7 @@ export default function ExerciseCurrent() {
 
         getOpenPerformanceIfExist(exercise.id)
 
-    }, [])
+    }, [exercise])
 
     const addNewSetHandler = async (
         exerciseID, 
