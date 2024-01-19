@@ -11,7 +11,7 @@ import InfoMiddleBox from '../../components/InfoMiddleBox'
 import ExerciseSvg from '../../components/ExerciseSvg'
 import PreviousExerciseDetails from '../../components/PreviousExerciseDetails'
 import { useNavigation } from '@react-navigation/native'
-import { createStoredPerformance, getOpenPefrormances, getValueFor, saveValueAs } from '../../res/helpers/secureStore'
+import { createStoredPerformance, getOpenPefrormances, getValueFor, saveOpenPerformance, saveValueAs } from '../../res/helpers/secureStore'
 import { onPerformanceChanged } from '../../redux/actions/exerciseActions'
 import InputSelfWeightModal from '../../components/InputSelfWeightModal/InputSelfWeightModal'
 import { onWeightedFieldChanged } from '../../redux/actions/selfWeightActions'
@@ -84,7 +84,7 @@ export default function ExerciseCurrentInfo({ addNewSetFunc }) {
             }
         }
 
-        if (await createStoredPerformance(performance)) {
+        if (await saveOpenPerformance(exercise.id, performance)) {
             // put initial performance to Redux
             dispatch(onPerformanceChanged(performance))
             let initRowsCount = 0

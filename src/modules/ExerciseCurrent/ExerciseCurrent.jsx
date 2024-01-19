@@ -4,7 +4,7 @@ import { styles } from './style'
 import ExerciseCurrentInfo from './ExerciseCurrentInfo'
 import ExerciseCurrentInteraction from './ExerciseCurrentInteraction'
 import { useDispatch, useSelector } from 'react-redux'
-import { createStoredSetWithinExercise, getOpenPefrormances } from '../../res/helpers/secureStore'
+import { addSetToStoredPerformance, createStoredSetWithinExercise, getOpenPefrormances, getOpenPerformance } from '../../res/helpers/secureStore'
 import { onPerformanceChanged, onPerformanceFieldInFlowChanged, onPerformanceFlowsSetAdded, onPerformanceLoaded, onPerformanceSetAdded, onPreviousPerformanceChanged } from '../../redux/actions/exerciseActions'
 import Spinner from '../../components/Spinner'
 import AppContext from '../../../AppContext'
@@ -18,16 +18,16 @@ export default function ExerciseCurrent() {
     const exercise = useSelector(state => state.exerciseReducer.exercise)
     const service = useContext(AppContext)
     const dispatch = useDispatch()
-
+    // console.log(exercise)
     useEffect(() => {
-        const getOpenPerformanceIfExist = async (id) => {
+        const getOpenPerformanceIfExist = async () => {
             // when we change exercise
             // we load data again
             // and show spinner to a champion
             dispatch(onPerformanceLoaded(false))
-            const storedOpenPerformances = await getOpenPefrormances()
-            const currentPerformance = storedOpenPerformances.find((perf) => perf.exerciseID === id)
-            if (typeof(currentPerformance) !== 'undefined') {
+            const currentPerformance = await getOpenPerformance(exercise.id)
+            // != instead of !== 'cause it might be a string value..
+            if (currentPerformance != -1) {
                 // console.log(currentPerformance)
                 dispatch(onPerformanceChanged(currentPerformance))
                 // Init tonnage in flows
@@ -46,9 +46,8 @@ export default function ExerciseCurrent() {
                 })
                 // Also loading previous performance
                 // ...
-                const previouPerformanceID = exercise.records.previous.id || false
-                if (previouPerformanceID) {
-                    const previousPerformance = await service.getPerformance(previouPerformanceID)
+                if (exercise.records.previous.isExist) {
+                    const previousPerformance = await service.getPerformance(exercise.records.previous.id)
                     dispatch(onPreviousPerformanceChanged(previousPerformance))
                 } else {
                     dispatch(onPreviousPerformanceChanged({}))
@@ -59,7 +58,7 @@ export default function ExerciseCurrent() {
             dispatch(onPerformanceLoaded(true))
         }
 
-        getOpenPerformanceIfExist(exercise.id)
+        getOpenPerformanceIfExist()
 
     }, [exercise])
 
@@ -92,11 +91,11 @@ export default function ExerciseCurrent() {
         // init default tonnage values
         dispatch(onPerformanceFlowsSetAdded())
         // put it into store
-        await createStoredSetWithinExercise(exerciseID, initialSet)   
+        await addSetToStoredPerformance(exerciseID, initialSet)   
     }
 
     if (!isPerformanceReady) {
-        return <Spinner size={150}/>
+        return <Spinner size={250} animation={'rotate'}/>
     }
 
     if (performance.exerciseID === exercise.id 

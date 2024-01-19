@@ -6,7 +6,7 @@ import { AddSvg, CancelSvg } from '../../res/svgs'
 import { AppContainers, AppTextStyles, Buttons, Theme } from '../../styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { onExerciseMetaChanged, onPerformanceChanged, onPerformanceFieldInFlowChanged, onPerformanceFlowsSetAdded, onPerformanceRowCheckboxChanged, onPerformanceRowRepsChanged, onPerformanceRowWeightChanged, onPerformanceSetAdded, onPerformanceSetDeleted, onPreviousPerformanceChanged } from '../../redux/actions/exerciseActions'
-import { createStoredSetWithinExercise, deleteStoredPerformanceByExerciseID, deleteStoredSetWithinExercise, updateStoredSetFieldWithinExercise } from '../../res/helpers/secureStore'
+import { createStoredSetWithinExercise, deleteStoredPerformance, deleteStoredPerformanceByExerciseID, deleteStoredSetWithinExercise, updateStoredSetFieldWithinExercise } from '../../res/helpers/secureStore'
 import ScrollDisappearing from '../../components/ScrollDisappearing/ScrollDisappearing'
 import PrimaryButton from '../../UI/PrimaryButton'
 import InputBox from '../../UI/InputBox'
@@ -19,6 +19,7 @@ import TimerPanel from '../TimerPanel'
 import PerformanceGrid from '../PerformanceGrid/PerformanceGrid'
 import { translateValue } from '../../res/helpers/converter'
 import AppContext from '../../../AppContext'
+import { onExercisesListItemUpdated } from '../../redux/actions/myExercisesListActions'
 
 
 export default function ExerciseCurrentInteraction({ addNewSetFunc }) {
@@ -64,7 +65,7 @@ export default function ExerciseCurrentInteraction({ addNewSetFunc }) {
                 // for 'performance'
                 dispatch(onPerformanceChanged({}))
                 // 2. update stored opened performances
-                deleteStoredPerformanceByExerciseID(performance.exerciseID)
+                await deleteStoredPerformance(performance.exerciseID)
             }
 
             Alert.alert(
@@ -176,8 +177,8 @@ export default function ExerciseCurrentInteraction({ addNewSetFunc }) {
                 let target = -1
                 let maxValue = -1
                 for (let i = 0; i < setsCount; i++) {
-                    if (newPerformance.workload.sets[i].rows[f][field] > maxValue) {
-                        maxValue = newPerformance.workload.sets[i].rows[f][field]
+                    if (Number(newPerformance.workload.sets[i].rows[f][field]) > maxValue) {
+                        maxValue = Number(newPerformance.workload.sets[i].rows[f][field])
                         target = i
                     }
                 }
@@ -266,10 +267,13 @@ export default function ExerciseCurrentInteraction({ addNewSetFunc }) {
 
             // 9¾ Update exercise in Redux and DB!
             await service.updateJSONinTable('exercise', exercise.id, newRecords)
+            // -- Update current exercise meta
             dispatch(onExerciseMetaChanged(newRecords))
+            // -- Update the main list of exercises
+            dispatch(onExercisesListItemUpdated(exercise.id, exercise))
             // 4. delete stored data
             // use exerciseID value
-            await deleteStoredPerformanceByExerciseID(performance.exerciseID)
+            await deleteStoredPerformance(performance.exerciseID)
             // 5. set new object as the previous
             dispatch(onPreviousPerformanceChanged(newPerformance))
             // 6. set the current performance as an empty object
@@ -301,7 +305,19 @@ export default function ExerciseCurrentInteraction({ addNewSetFunc }) {
                     vheight={40}
                     vwidth={56}
                     brRadiusSize={3}
-                    onPressFunc={() => addNewSetFunc(performance.exerciseID, performance.workload.rowsCount)}
+                    onPressFunc={() => {
+                        const args = [
+                            performance.exerciseID, 
+                            performance.workload.rowsCount
+                        ]
+                        if (performance.type === 'self') {
+                            args.push(performance.type)
+                            args.push(performance.workload.selfWeight)
+                            args.push(performance.workload.weightedUnit)
+                            args.push(performance.measureUnit)
+                        }
+                        addNewSetFunc(...args)
+                    }}
                     iconSvg={<AddSvg/>}
                     iconSize={20}
                     iconColor={Theme.agressive}

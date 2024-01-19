@@ -68,7 +68,7 @@ export default function AppNavigation() {
             <Stack.Screen
                 name='ExerciseScreen'
                 component={ExerciseScreen}
-                options={{ headerShadowVisible: false, title: '?' }}
+                options={{ headerShadowVisible: true, title: '?' }}
             />
         </Stack.Navigator>
     </NavigationContainer>

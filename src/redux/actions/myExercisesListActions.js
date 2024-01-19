@@ -1,4 +1,9 @@
-import { ON_ADD_EXERCISE, ON_EXERCISES_LIST_LOADED, PUT_NAVIGATION } from "../constants"
+import { 
+    ON_ADD_EXERCISE, 
+    ON_EXERCISES_LIST_ITEM_UPDATED, 
+    ON_EXERCISES_LIST_LOADED
+ } from "../constants"
+
 
 const onExercisesListLoaded = (exercises) => {
     return {
@@ -14,7 +19,16 @@ const onAddExercise = (exercise) => {
     }
 }
 
+const onExercisesListItemUpdated = (exerciseID, obj) => {
+    return {
+        type: ON_EXERCISES_LIST_ITEM_UPDATED,
+        id: exerciseID,
+        payload: obj,
+    }
+}
+
 export {
     onExercisesListLoaded,
     onAddExercise,
+    onExercisesListItemUpdated,
 }

@@ -4,7 +4,7 @@ import { styles } from './style'
 import { useDispatch, useSelector } from 'react-redux'
 import InputBox from '../../UI/InputBox'
 import { onPerformanceFieldInFlowChanged, onPerformanceSetRowFieldChanged } from '../../redux/actions/exerciseActions'
-import { updateStoredSetRowFieldWithinExercise } from '../../res/helpers/secureStore'
+import { updateFieldInSetRowWithinStoredPerformance, updateStoredSetRowFieldWithinExercise } from '../../res/helpers/secureStore'
 import { Theme } from '../../styles'
 import CheckBox from '../../UI/CheckBox'
 import SkullSvg from '../../res/svgs/SkullSvg'
@@ -92,7 +92,7 @@ export default function SetItem({ exerciseID, setIndex, rowIndex, row, position 
                     const args = [setIndex, rowIndex, 'weight', weight]
                     dispatch(onPerformanceSetRowFieldChanged(...args))
                     updateRowTonnage()
-                    updateStoredSetRowFieldWithinExercise(exerciseID, ...args)
+                    updateFieldInSetRowWithinStoredPerformance(exerciseID, ...args)
                 }}
                 currentValue={weight}
                 placeholder={weightPlaceholder}
@@ -108,7 +108,7 @@ export default function SetItem({ exerciseID, setIndex, rowIndex, row, position 
                     const args = [setIndex, rowIndex, 'reps', reps]
                     dispatch(onPerformanceSetRowFieldChanged(...args))
                     updateRowTonnage()
-                    updateStoredSetRowFieldWithinExercise(exerciseID, ...args)
+                    updateFieldInSetRowWithinStoredPerformance(exerciseID, ...args)
                 }}
                 currentValue={reps}
                 placeholder={repsPlaceholder}
@@ -118,7 +118,7 @@ export default function SetItem({ exerciseID, setIndex, rowIndex, row, position 
                 valueFunc={async () => {
                     const args = [setIndex, rowIndex, 'isLethal']
                     dispatch(onPerformanceSetRowFieldChanged(...args))
-                    updateStoredSetRowFieldWithinExercise(exerciseID, ...args)
+                    updateFieldInSetRowWithinStoredPerformance(exerciseID, ...args)
                 }}
                 isChecked={row.isLethal}
                 checkedStyles={styles.checkboxActiveStyles}

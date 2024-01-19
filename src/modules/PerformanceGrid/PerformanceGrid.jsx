@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppTextStyles, Theme } from '../../styles'
 import { CancelSvg } from '../../res/svgs'
 import { formatString } from '../../res/helpers/endings'
-import { updateStoredSetFieldWithinExercise } from '../../res/helpers/secureStore'
+import { updateFieldInSetWithinStoredPerformance, updateStoredSetFieldWithinExercise } from '../../res/helpers/secureStore'
 import { onPerformanceFieldInFlowChanged, onPerformanceSetFieldChanged } from '../../redux/actions/exerciseActions'
 
 
@@ -58,7 +58,7 @@ export default function PerformanceGrid({ exerciseID }) {
                     dispatch(onPerformanceFieldInFlowChanged(...args))
                 }
                 // 3. update stored data
-                await updateStoredSetFieldWithinExercise(exerciseID, setIndex, 'visible')
+                await updateFieldInSetWithinStoredPerformance(exerciseID, setIndex, 'visible')
             }
 
             Alert.alert(

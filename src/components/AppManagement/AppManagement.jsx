@@ -83,13 +83,6 @@ export default function AppManagement() {
           if (await getValueFor('storedShowHintInMyExercisesForm') !== -1) {
             dispatch(onSettingsHintExercisesFormChanged(false))
           }
-          // ***************************
-          // **** Open performances ****
-          // ***************************
-          if (await getValueFor('storedOpenPerformances') === -1) {
-            // should be equal an empty array
-            await saveValueAs('storedOpenPerformances', JSON.stringify([]))
-          }
         } catch (e) {
             console.warn(e) // ! important
         } finally {

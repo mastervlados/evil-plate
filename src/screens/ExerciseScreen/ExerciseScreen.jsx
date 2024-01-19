@@ -25,25 +25,33 @@ export default function ExerciseScreen() {
     navigation.setOptions({ title: exercise.title })
   }, []) // ! componentDidMount behavior (once)
 
-  tabs = [
-    // { id: 0, name: 'previous'},
-    { id: 0, name: 'current'},
-    { id: 1, name: 'progress'},
-  ]
+  // tabs = [
+  //   { id: 0, name: 'previous'},
+  //   { id: 1, name: 'current'},
+  //   { id: 2, name: 'progress'},
+  // ]
 
-  let activeModule;
+  // let activeModule;
 
-  switch (activeTab) {
-    case 'previous':
-      activeModule = <ExercisePrevious/>
-      break
-    case 'current':
-      activeModule = <ExerciseCurrent/>
-      break
-    case 'progress':
-      activeModule = <ExerciseProgress/>
-      break
-  }
+  // switch (activeTab) {
+  //   case 'previous':
+  //     activeModule = <ExercisePrevious/>
+  //     break
+  //   case 'current':
+  //     activeModule = <ExerciseCurrent/>
+  //     break
+  //   case 'progress':
+  //     activeModule = <ExerciseProgress/>
+  //     break
+  // }
+
+  return (
+    <View 
+      style={AppContainers.styles.appContainerWithoutVerticalCentred}
+    >
+      <ExerciseCurrent/>
+    </View>
+  )
 
   return (
     <View 

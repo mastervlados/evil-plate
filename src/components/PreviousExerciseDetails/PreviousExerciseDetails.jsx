@@ -4,7 +4,7 @@ import { styles } from './style'
 import { AppTextStyles } from '../../styles'
 import AppLocalizationContext from '../../../AppLocalizationContext'
 import { useSelector } from 'react-redux'
-import { translateValue } from '../../res/helpers/converter'
+import { cutFloatPartOfNumber, translateValue } from '../../res/helpers/converter'
 import { endingFor } from '../../res/helpers/endings'
 
 
@@ -42,7 +42,7 @@ const Line = ({ line, units, styles }) => {
                 ...AppTextStyles.styles.textCommonAlternate
             }}>
                 <Text style={AppTextStyles.styles.textPositiveBold}>
-                    { formatTonnage } </Text>
+                    { cutFloatPartOfNumber(formatTonnage.toFixed(2)) } </Text>
                 { endingFor(formatTonnage, appUnits, locale) }
                 <Text style={AppTextStyles.styles.textAgressive}> / </Text>
                 <Text style={AppTextStyles.styles.textPositiveBold}>{ line.sets } </Text>

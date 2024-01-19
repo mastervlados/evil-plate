@@ -1,4 +1,5 @@
 export const ON_EXERCISES_LIST_LOADED='on-exercises-list-loaded'
+export const ON_EXERCISES_LIST_ITEM_UPDATED='on-exercises-list-item-updated'
 export const ON_ADD_EXERCISE='on-add-exercise'
 export const ON_EXERCISES_FORM_VISIBLE_CHANGED='on-exercises-form-visible-changed'
 export const ON_EXERCISES_FORM_NAME_CHANGED='on-exercise-form-name-changed'
