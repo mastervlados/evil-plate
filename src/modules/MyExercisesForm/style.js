@@ -10,16 +10,17 @@ export const styles = StyleSheet.create({
     header: {
         // flex: 1,
         flexDirection: 'row',
+        alignItems: 'flex-start',
     },
     body: {
         // flex: 1,
         // borderWidth: 4,
-        position: 'relative',
-        paddingLeft: 10,
-        paddingTop: 30,
+        // position: 'relative',
+        paddingLeft: 0,
+        paddingTop: 0,
     },
     insideBodyContainer: {
-        paddingRight: 10,
+        // paddingRight: 10,
         // borderWidth: 5,
     },
     footer: {
@@ -30,12 +31,14 @@ export const styles = StyleSheet.create({
     headerLeft: {
         flex: 1,
         // borderWidth: 3,
-        paddingHorizontal: 10,
+        // paddingHorizontal: 10,
+        paddingRight: 10,
     },
     headerRight: {
         // flex: 1,
         // borderWidth: 3,
         justifyContent: 'center',
+        marginTop: 10,
     },
     headerTextContainer: {
         marginHorizontal: 30,
@@ -55,16 +58,16 @@ export const styles = StyleSheet.create({
     },
     textHeaderPosition: {
         width: 200,
-        marginLeft: 20,
+        marginLeft: 0,
         marginVertical: 10,
     },
     textHeaderInScrollPosition: {
-        marginLeft: 30,
+        marginLeft: 0,
     },
     textDescriptionPosition: {
         marginTop: 'auto',
         marginBottom: 10,
-        width: '90%',
+        width: '95%',
     },
     textInfoPosition: {
         marginLeft: 20,
@@ -75,9 +78,11 @@ export const styles = StyleSheet.create({
           height: 50,
     },
     headerTopTab: {
-        borderTopLeftRadius: 20
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
     },
     headerBottomTab: {
-        borderBottomLeftRadius: 20
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
     },
 })

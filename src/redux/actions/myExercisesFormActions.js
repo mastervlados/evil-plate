@@ -3,6 +3,7 @@ import {
     ON_EXERCISES_FORM_MESSAGE_VISIBLE_CHANGED,
     ON_EXERCISES_FORM_MODE_CHANGED, 
     ON_EXERCISES_FORM_NAME_CHANGED, 
+    ON_EXERCISES_FORM_OWN_MODE_CHANGED, 
     ON_EXERCISES_FORM_TIMER_CHANGED, 
     ON_EXERCISES_FORM_VISIBLE_CHANGED,
 } from "../constants"
@@ -49,6 +50,13 @@ const onExercisesFormMessageVisibleChanged = (isVisible) => {
     }
 }
 
+const onExercisesFormOwnModeChanged = (mode) => {
+    return {
+        type: ON_EXERCISES_FORM_OWN_MODE_CHANGED,
+        payload: mode,
+    }
+}
+
 export {
     onExercisesFormVisibleChanged,
     onExercisesFormNameChanged,
@@ -56,6 +64,7 @@ export {
     onExercisesFormTimerChanged,
     onExercisesFormColorChanged,
     onExercisesFormMessageVisibleChanged,
+    onExercisesFormOwnModeChanged,
 }
 
 

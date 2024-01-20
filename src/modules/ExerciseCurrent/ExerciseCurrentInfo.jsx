@@ -15,6 +15,8 @@ import { createStoredPerformance, getOpenPefrormances, getValueFor, saveOpenPerf
 import { onPerformanceChanged } from '../../redux/actions/exerciseActions'
 import InputSelfWeightModal from '../../components/InputSelfWeightModal/InputSelfWeightModal'
 import { onWeightedFieldChanged } from '../../redux/actions/selfWeightActions'
+import MyExercisesForm from '../MyExercisesForm'
+import { onExercisesFormOwnModeChanged, onExercisesFormVisibleChanged } from '../../redux/actions/myExercisesFormActions'
 
 
 export default function ExerciseCurrentInfo({ addNewSetFunc }) {
@@ -30,7 +32,10 @@ export default function ExerciseCurrentInfo({ addNewSetFunc }) {
     useEffect(() => {
         navigation.setOptions({headerRight: () => (
             <View style={styles.headerButtonPosition}>
-                <TouchableOpacity onPress={() => console.log('Settings pressed!')}>
+                <TouchableOpacity onPress={() => {
+                    dispatch(onExercisesFormOwnModeChanged('edit'))
+                    dispatch(onExercisesFormVisibleChanged(true))
+                }}>
                     <CogSvg size={36} fill={Theme.textCommon}/>
                 </TouchableOpacity>
             </View>
@@ -134,6 +139,7 @@ export default function ExerciseCurrentInfo({ addNewSetFunc }) {
 
     return (
         <View style={AppContainers.styles.appContainerWithoutVerticalCentred}>
+            <MyExercisesForm/>
             <InputSelfWeightModal/>
             <View style={styles.infoButtonAddPerformancePosition}>
                 <ActionButton/>

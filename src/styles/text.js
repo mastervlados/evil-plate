@@ -58,7 +58,7 @@ export const styles = StyleSheet.create({
     },
     textHint: {
         color: textHint,
-        fontSize: 13,
+        fontSize: 12,
         fontWeight: '300',
         fontFamily: 'roboto-light',
     },

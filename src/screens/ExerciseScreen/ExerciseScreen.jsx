@@ -23,7 +23,7 @@ export default function ExerciseScreen() {
 
   useEffect(() => {
     navigation.setOptions({ title: exercise.title })
-  }, []) // ! componentDidMount behavior (once)
+  }, [exercise.title]) // after update title // ! componentDidMount behavior (once)
 
   // tabs = [
   //   { id: 0, name: 'previous'},

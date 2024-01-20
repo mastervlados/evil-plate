@@ -20,15 +20,18 @@ import { onExercisesFormColorChanged, onExercisesFormMessageVisibleChanged, onEx
 import { checkExerciseName } from '../../res/helpers/validation'
 import AppContext from '../../../AppContext'
 import AppLocalizationContext from '../../../AppLocalizationContext'
-import { onAddExercise } from '../../redux/actions/myExercisesListActions'
+import { onAddExercise, onExercisesListItemUpdated } from '../../redux/actions/myExercisesListActions'
 import { saveValueAs } from '../../res/helpers/secureStore'
 import { onSettingsHintExercisesFormChanged } from '../../redux/actions/appSettingsActions'
 import * as Animatable from 'react-native-animatable'
+import ScrollDisappearing from '../../components/ScrollDisappearing/ScrollDisappearing'
+import { onExerciseChanged } from '../../redux/actions/exerciseActions'
 
 
 export default function MyExercisesForm() {
   const dispatch = useDispatch()
   const modalOpen = useSelector(state => state.myExercisesFormReducer.isExercisesFormOpened)
+  const ownMode = useSelector(state => state.myExercisesFormReducer.currentMode)
   const service = useContext(AppContext)
   
   const initialInteractions = {
@@ -45,6 +48,7 @@ export default function MyExercisesForm() {
   const pickedTimer = useSelector(state => state.myExercisesFormReducer.interactions.pickedTimer)
   const pickedColor = useSelector(state => state.myExercisesFormReducer.interactions.pickedColor)
   const showHint = useSelector(state => state.appSettingsReducer.showHintInMyExercisesForm)
+  const currentExercise = useSelector(state => state.exerciseReducer.exercise)
   const [wasSubmitButtonPressed, setSubmitButtonPressed] = useState(false)
   const [isFooterShowStyles, setFooterShowStyles] = useState(true)
   const [scrollRef, setScrollRef] = useState(null)
@@ -56,6 +60,8 @@ export default function MyExercisesForm() {
     { id: 1, name: 'stereo', hint: i18n.t('mefs0002') },
     { id: 2, name: 'mono', hint: i18n.t('mefs0003') },
   ]
+
+  let headerPosition = 0
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -77,6 +83,23 @@ export default function MyExercisesForm() {
     };
   }, []);
 
+  useEffect(() => {
+    if (ownMode === 'create') {
+        dispatch(onExercisesFormNameChanged(initialInteractions.exerciseName))
+        dispatch(onExercisesFormModeChanged(initialInteractions.pickedMode))
+        dispatch(onExercisesFormTimerChanged(initialInteractions.pickedTimer))
+        dispatch(onExercisesFormColorChanged(initialInteractions.pickedColor))
+        dispatch(onExercisesFormMessageVisibleChanged(initialInteractions.isMessageVisible))
+    }
+    if (ownMode === 'edit') {
+        dispatch(onExercisesFormNameChanged(currentExercise.title))
+        // dispatch(onExercisesFormModeChanged(currentExercise.type))
+        dispatch(onExercisesFormTimerChanged(currentExercise.breakDuration))
+        dispatch(onExercisesFormColorChanged(currentExercise.colorNumber))
+        dispatch(onExercisesFormMessageVisibleChanged(initialInteractions.isMessageVisible))
+    }
+  }, [ownMode])
+
   const closeFunc = () => {
     dispatch(onExercisesFormNameChanged(initialInteractions.exerciseName))
     dispatch(onExercisesFormModeChanged(initialInteractions.pickedMode))
@@ -87,33 +110,36 @@ export default function MyExercisesForm() {
   }
 
   const closeThisForm = () => {
-
-    if (exerciseName !== initialInteractions.exerciseName || 
-        pickedMode !== initialInteractions.pickedMode ||
-        pickedTimer !== initialInteractions.pickedTimer ||
-        pickedColor !== initialInteractions.pickedColor) {
-        // State was changed and 
-        // we should ask user about clousing this form 
-        // without saving data..
-        Alert.alert(
-            'this is top',
-            'this is bottom',
-            [
-                {
-                    text: 'Yes',
-                    onPress: () => {
-                        closeFunc()
+    if (ownMode === 'create') {
+        if (exerciseName !== initialInteractions.exerciseName || 
+            pickedMode !== initialInteractions.pickedMode ||
+            pickedTimer !== initialInteractions.pickedTimer ||
+            pickedColor !== initialInteractions.pickedColor) {
+            // State was changed and 
+            // we should ask user about clousing this form 
+            // without saving data..
+            Alert.alert(
+                null,
+                i18n.t('alert1001'),
+                [
+                    {
+                        text: i18n.t('alert1002'),
+                        onPress: () => {
+                            closeFunc()
+                        },
                     },
-                },
-                {
-                    text: 'No',
-                }
-            ]
-        )
-    } else {
-        closeFunc()
+                    {
+                        text: i18n.t('alert1003'),
+                    }
+                ]
+            )
+        } else {
+            closeFunc()
+        }
+    } else if (ownMode === 'edit') {
+        dispatch(onExercisesFormMessageVisibleChanged(initialInteractions.isMessageVisible))
+        dispatch(onExercisesFormVisibleChanged(false))
     }
-    
   }
 
   const onSubmit = async () => {
@@ -150,6 +176,55 @@ export default function MyExercisesForm() {
     // ... Do nothing!
   }
 
+  const onSaveChanges = async () => {
+    if (!wasSubmitButtonPressed) {
+        setSubmitButtonPressed(true)
+        const details = checkExerciseName(exerciseName)
+        if (details.status) {
+            const updatedExercise = {
+                ...currentExercise,
+                title: exerciseName, 
+                breakDuration: pickedTimer,
+                colorNumber: pickedColor,
+            }
+            // update exercise in DB
+            await service.updateExercise(currentExercise.id, updatedExercise)
+            // update list of exercises!
+            dispatch(onExercisesListItemUpdated(currentExercise.id, updatedExercise))
+            // update exercise in exerciseReducer
+            dispatch(onExerciseChanged(updatedExercise))
+            closeFunc();
+        } else {
+            dispatch(onExercisesFormMessageVisibleChanged(true))
+            scrollRef.scrollTo({ x: 0, y: 0, animated: true })
+        }
+        // make this button
+        // pressable again
+        setSubmitButtonPressed(false)
+    }
+    // ... Do nothing!
+  }
+
+  const LazyButtonInEditMode = () => {
+    if (exerciseName === currentExercise.title && 
+        pickedTimer === currentExercise.breakDuration &&
+        pickedColor === currentExercise.colorNumber) {
+        // console.log(exerciseName, currentExercise.title)
+        // console.log(pickedTimer, currentExercise.breakDuration)
+        // console.log(pickedColor, currentExercise.colorNumber)
+        return
+    }
+    return (
+        <Animatable.View animation='fadeInUp' duration={800}>
+            <LazyButton
+                buttonStyles={Buttons.styles.warning}
+                textStyles={styles.buttonTextStyles}
+                text={i18n.t('mefs0011')}
+                onPressFunc={async () => await onSaveChanges()}
+            />
+        </Animatable.View>
+    )
+  }
   const hint = showHint ? (
     <Animatable.View animation='fadeInLeft' duration={500}>
         <Text style={{...AppTextStyles.styles.textInfo, ...styles.textInfoPosition}}>{i18n.t('mefs0006')}</Text>
@@ -173,78 +248,56 @@ export default function MyExercisesForm() {
 
         
 
-  
-        <LinearGradient
-            colors={[Theme.levelOne, 'transparent']}
-            locations={[0, 1]}
-            start={{x: 0, y: 0}}
-            end={{x: 0, y: 1}}
-            style={{
-                width: '100%',
-                height: 30,
-                position: 'absolute',
-                top: 75,
-                zIndex: 100,
-            }}/>
-
-        {isFooterShowStyles ? <LinearGradient
-                                colors={[Theme.levelOne, 'transparent']}
-                                start={{x: 0, y: 1}}
-                                end={{x: 0, y: 0}}
-                                style={{
-                                    width: '100%',
-                                    height: 30,
-                                    position: 'absolute',
-                                    bottom: 55,
-                                    zIndex: 101,
-                                }}/> : null}
-        
-        <ScrollView
-            ref={ref => setScrollRef(ref)}
-            style={styles.body}
-            showsVerticalScrollIndicator={false}
+        <ScrollDisappearing
+            setRefFunc={setScrollRef}
+            applyStyles={styles.body}
+            bgColor={Theme.levelOne}
+            displayBottom={isFooterShowStyles}
         >
-
-            <View style={styles.header}>
+            { ownMode === 'create' ? (
+                <View style={styles.header}>
                 <View style={styles.headerLeft}>
                         {/* choose mode and descripton */}
-                        <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition}}>{i18n.t('mefs0004')}</Text>
+                        <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition}}>
+                            {`${++headerPosition}. ${i18n.t('mefs0004')}`}
+                        </Text>
                         
                         <Text style={{...AppTextStyles.styles.textHint, ...styles.textDescriptionPosition}}>
                             {modeTabs.find((tab) => tab.name === pickedMode).hint}
                         </Text>
-                        
-                        
                 </View>
                 <View style={styles.headerRight}>
                     <TabsPannel 
-                            isVertical={true}
-                            listOfTabs={modeTabs}
-                            activeTab={pickedMode}
-                            setActiveTabFunc={(active) => dispatch(onExercisesFormModeChanged(active))}
-                            defaultTabStyles={AppFormStyles.styles.formDefaultViewBox}
-                            activeTabStyles={AppFormStyles.styles.formActiveViewBox}
-                            defaultIconSize={38}
-                            defaultIconColor={Theme.relaxing}
-                            activeIconColor={Theme.agressive}
-                        >
-                            <SmartBlock 
-                                iconSvg={<BodySvg/>} 
-                                ownBoxStyles={{...styles.headerTab, ...styles.headerTopTab}}
-                            />
-                            <SmartBlock 
-                                iconSvg={<DumbbellsSvg/>} 
-                                ownBoxStyles={styles.headerTab}
-                            />
-                            <SmartBlock 
-                                iconSvg={<KettlebellSvg/>} 
-                                ownBoxStyles={{...styles.headerTab, ...styles.headerBottomTab}}
-                            />
-                        </TabsPannel>
+                        isVertical={true}
+                        listOfTabs={modeTabs}
+                        activeTab={pickedMode}
+                        setActiveTabFunc={(active) => dispatch(onExercisesFormModeChanged(active))}
+                        defaultTabStyles={AppFormStyles.styles.formDefaultViewBox}
+                        activeTabStyles={AppFormStyles.styles.formActiveViewBox}
+                        defaultIconSize={38}
+                        defaultIconColor={Theme.relaxing}
+                        activeIconColor={Theme.agressive}
+                    >
+                        <SmartBlock 
+                            iconSvg={<BodySvg/>} 
+                            ownBoxStyles={{...styles.headerTab, ...styles.headerTopTab}}
+                        />
+                        <SmartBlock 
+                            iconSvg={<DumbbellsSvg/>} 
+                            ownBoxStyles={styles.headerTab}
+                        />
+                        <SmartBlock 
+                            iconSvg={<KettlebellSvg/>} 
+                            ownBoxStyles={{...styles.headerTab, ...styles.headerBottomTab}}
+                        />
+                    </TabsPannel>
                 </View>
-            </View>
+                </View>
+            ) : null }
             <View style={styles.insideBodyContainer}>
-                <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition, ...styles.textHeaderInScrollPosition}}>{i18n.t('mefs0005')}</Text>
+                <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition, ...styles.textHeaderInScrollPosition}}>
+                    {`${++headerPosition}. ${i18n.t('mefs0005')}`}
+                </Text>
 
                 { hint }
 
@@ -260,7 +313,9 @@ export default function MyExercisesForm() {
                         placeholderText={i18n.t('mefs0010')}
                     />
                 </View>    
-                <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition, ...styles.textHeaderInScrollPosition}}>{i18n.t('mefs0007')}</Text>
+                <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition, ...styles.textHeaderInScrollPosition}}>
+                    {`${++headerPosition}. ${i18n.t('mefs0007')}`}
+                </Text>
 
                 { hint }
 
@@ -269,7 +324,9 @@ export default function MyExercisesForm() {
                     setValueFunc={(timer) => dispatch(onExercisesFormTimerChanged(timer))}
                 />
 
-                <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition, ...styles.textHeaderInScrollPosition}}>{i18n.t('mefs0008')}</Text>
+                <Text style={{...AppTextStyles.styles.textHeader, ...styles.textHeaderPosition, ...styles.textHeaderInScrollPosition}}>
+                    {`${++headerPosition}. ${i18n.t('mefs0008')}`}
+                </Text>
 
                 { hint }
 
@@ -277,17 +334,21 @@ export default function MyExercisesForm() {
                     currentValue={pickedColor} 
                     setValueFunc={(color) => dispatch(onExercisesFormColorChanged(color))}
                 />
-                <View style={{height: Dimensions.get('window').height / 3}} />
             </View>
-        </ScrollView>
+        </ScrollDisappearing>
 
         <View style={isFooterShowStyles ? {...styles.footer, display: 'block'} : {...styles.footer, display: 'none'} }>
-            <LazyButton
-                buttonStyles={Buttons.styles.success}
-                textStyles={styles.buttonTextStyles}
-                text={i18n.t('mefs0009')}
-                onPressFunc={async () => await onSubmit()}
-            />
+            { ownMode === 'create' ? (
+                <LazyButton
+                    buttonStyles={Buttons.styles.success}
+                    textStyles={styles.buttonTextStyles}
+                    text={i18n.t('mefs0009')}
+                    onPressFunc={async () => await onSubmit()}
+                />
+            ) : null }
+            { ownMode === 'edit' ? (
+                <LazyButtonInEditMode/>
+            ) : null }
         </View>
     </View>
     

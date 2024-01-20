@@ -9,7 +9,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { useDispatch, useSelector } from 'react-redux'
 import AppContext from '../../../AppContext'
 import { onExercisesListLoaded } from '../../redux/actions/myExercisesListActions'
-import { onExercisesFormVisibleChanged } from '../../redux/actions/myExercisesFormActions'
+import { onExercisesFormOwnModeChanged, onExercisesFormVisibleChanged } from '../../redux/actions/myExercisesFormActions'
 import Spinner from '../../components/Spinner/Spinner'
 import * as Animatable from 'react-native-animatable'
 
@@ -67,7 +67,10 @@ export default function MyExercisesList() {
           <RoundedButton 
             styles={Buttons.styles.success} 
             size={56}
-            onPressFunc={() => dispatch(onExercisesFormVisibleChanged(true))}
+            onPressFunc={() => {
+              dispatch(onExercisesFormOwnModeChanged('create'))
+              dispatch(onExercisesFormVisibleChanged(true))
+            }}
             iconSvg={<AddSvg/>}
             iconSize={16}
             iconColor={Theme.base}

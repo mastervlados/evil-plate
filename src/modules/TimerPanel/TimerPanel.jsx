@@ -1,5 +1,5 @@
 import { View, Text, Alert } from 'react-native'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { styles } from './style'
 import RoundedButton from '../../UI/RoundedButton'
 import { AppContainers, AppTextStyles, Buttons, Theme } from '../../styles'
@@ -11,6 +11,7 @@ import * as Animatable from 'react-native-animatable'
 import PrimaryButton from '../../UI/PrimaryButton'
 import { useDispatch } from 'react-redux'
 import { onActiveTabChanged } from '../../redux/actions/exerciseActions'
+import AppLocalizationContext from '../../../AppLocalizationContext'
 
 
 export default function TimerPanel({ 
@@ -18,6 +19,7 @@ export default function TimerPanel({
     durationSetup,
 }) {
 
+    const i18n = useContext(AppLocalizationContext)
     const [isActive, setActive] = useState(false)
     const [minutes, setMinutes] = useState('00')
     const [seconds, setSeconds] = useState('00')
@@ -76,7 +78,7 @@ export default function TimerPanel({
                 timerRef.current.cancel()
                 // redirect:
                 // -> to progress tab
-                dispatch(onActiveTabChanged('progress'))
+                // dispatch(onActiveTabChanged('progress'))
             } else {
                 // validation failing
                 // or smth. bad happend
@@ -89,11 +91,11 @@ export default function TimerPanel({
                 // weight and reps columns
                 // are not empty!
                 Alert.alert(
-                    'this is top',
-                    'this is bottom',
+                    null,
+                    i18n.t('alert3001'),
                     [
                         {
-                            text: 'I\'ll do my best!',
+                            text: i18n.t('alert3002'),
                         }
                     ]
                 )
@@ -103,17 +105,17 @@ export default function TimerPanel({
             // turn it into pressed mode
             acceptRef.current = true
             Alert.alert(
-                'this is top',
-                'this is bottom',
+                null,
+                i18n.t('alert3101'),
                 [
                     {
-                        text: 'Yes',
+                        text: i18n.t('alert3102'),
                         onPress: async () => {
                             await createPerformance()
                         },
                     },
                     {
-                        text: 'No',
+                        text: i18n.t('alert3103'),
                         onPress: () => {
                             // make button pressabe
                             acceptRef.current = false

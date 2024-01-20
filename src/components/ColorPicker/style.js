@@ -3,7 +3,8 @@ import { Theme } from '../../styles'
 
 export const styles = StyleSheet.create({
     container: {
-        width: 280,
+        // flex: 1,
+        width: 250,
         marginLeft: 'auto',
         marginRight: 'auto',
         // borderWidth: 3,

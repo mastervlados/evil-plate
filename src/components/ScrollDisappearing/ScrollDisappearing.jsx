@@ -6,7 +6,8 @@ import { LinearGradient } from 'expo-linear-gradient'
 
 export default function ScrollDisappearing({ 
     children,
-    applyStyles, 
+    applyStyles,
+    setRefFunc, 
     bgColor = 'red', 
     displayBottom = true
 }) {
@@ -39,6 +40,7 @@ export default function ScrollDisappearing({
             }}/>
         ) : null }
         <ScrollView 
+            ref={setRefFunc ? (ref) => setRefFunc(ref) : null}
             style={applyStyles}
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}

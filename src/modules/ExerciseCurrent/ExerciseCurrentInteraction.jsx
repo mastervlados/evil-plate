@@ -20,6 +20,7 @@ import PerformanceGrid from '../PerformanceGrid/PerformanceGrid'
 import { translateValue } from '../../res/helpers/converter'
 import AppContext from '../../../AppContext'
 import { onExercisesListItemUpdated } from '../../redux/actions/myExercisesListActions'
+import AppLocalizationContext from '../../../AppLocalizationContext'
 
 
 export default function ExerciseCurrentInteraction({ addNewSetFunc }) {
@@ -32,6 +33,7 @@ export default function ExerciseCurrentInteraction({ addNewSetFunc }) {
     const service = useContext(AppContext)
     const navigation = useNavigation()
     const dispatch = useDispatch()
+    const i18n = useContext(AppLocalizationContext)
     if (!('workload' in performance)) { return }
     const [isFooterVisible, setFooterVisible] = useState(true)
 
@@ -69,17 +71,17 @@ export default function ExerciseCurrentInteraction({ addNewSetFunc }) {
             }
 
             Alert.alert(
-                'this is top',
-                'this is bottom',
+                null,
+                i18n.t('alert2001'),
                 [
                     {
-                        text: 'Yes',
+                        text: i18n.t('alert2002'),
                         onPress: () => {
                             closeCurrentPerformance()
                         },
                     },
                     {
-                        text: 'No',
+                        text: i18n.t('alert2003'),
                     }
                 ]
             )

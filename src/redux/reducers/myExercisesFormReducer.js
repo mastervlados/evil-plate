@@ -3,6 +3,7 @@ import {
     ON_EXERCISES_FORM_MESSAGE_VISIBLE_CHANGED,
     ON_EXERCISES_FORM_MODE_CHANGED, 
     ON_EXERCISES_FORM_NAME_CHANGED, 
+    ON_EXERCISES_FORM_OWN_MODE_CHANGED, 
     ON_EXERCISES_FORM_TIMER_CHANGED, 
     ON_EXERCISES_FORM_VISIBLE_CHANGED,
 } from "../constants"
@@ -10,6 +11,7 @@ import {
 const initialState = {
     isExercisesFormOpened: false,
     isMessageVisible: false,
+    currentMode: 'create',
     interactions: {
         exerciseName: '',
         pickedMode: 'mono',
@@ -62,6 +64,11 @@ const myExercisesFormReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isMessageVisible: action.payload,
+            }
+        case ON_EXERCISES_FORM_OWN_MODE_CHANGED:
+            return {
+                ...state,
+                currentMode: action.payload,
             }  
         default:
             return state

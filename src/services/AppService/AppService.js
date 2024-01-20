@@ -249,4 +249,26 @@ export default class AppService {
             )
         });
     }
+
+    async updateExercise(id, { title, type, breakDuration, colorNumber, rowsCount }) {
+        await this.initDatabase();
+        this.database.transaction(tx => {
+            tx.executeSql(
+                `UPDATE exercise
+                SET exr_name = ?,
+                    exr_global_type = ?,
+                    exr_global_break_duration = ?,
+                    exr_color_number = ?,
+                    exr_global_rows_count = ?
+                WHERE id = ?`,
+                [title, type, breakDuration, colorNumber, rowsCount, id],
+                function(_, result) {
+                    // console.log(result);
+                },
+                function(_, error) {
+                    console.error(error.message);
+                }
+            )
+        });
+    }
 }
