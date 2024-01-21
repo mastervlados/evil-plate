@@ -28,7 +28,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#324458"
-      }
+      },
+      "package": "com.mastervlados.evilplate"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -38,6 +39,11 @@
     ],
     "locales": {
       "ru": "./src/res/strings/russian.json"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "8dd47e88-e311-4be4-a004-d9a054d9607d"
+      }
     }
   }
 }
