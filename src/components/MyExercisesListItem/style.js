@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { Dimensions, StyleSheet } from 'react-native'
 import { Theme } from '../../styles'
 
 export const styles = StyleSheet.create({
@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     itemBox: {
-        width: 165,
+        width: (Dimensions.get('window').width - 40 - 20) / 2,
         height: 64,
         borderRadius: 3,
         paddingVertical: 5,

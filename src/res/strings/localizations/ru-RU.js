@@ -92,6 +92,7 @@ const exerciseScreen = {
 const ru = {
     str0001: 'Мои Упражнения',
     str0002: 'Настройки',
+	str0003: 'Таймер',
 	...alerts,
 	...myExercisesFormScreen,
 	...timerPickerComponent,

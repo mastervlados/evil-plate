@@ -21,6 +21,7 @@ import { translateValue } from '../../res/helpers/converter'
 import AppContext from '../../../AppContext'
 import { onExercisesListItemUpdated } from '../../redux/actions/myExercisesListActions'
 import AppLocalizationContext from '../../../AppLocalizationContext'
+import * as Animatable from 'react-native-animatable'
 
 
 export default function ExerciseCurrentInteraction({ addNewSetFunc }) {
@@ -301,29 +302,33 @@ export default function ExerciseCurrentInteraction({ addNewSetFunc }) {
                 displayBottom={isFooterVisible}
             >
                 <PerformanceGrid exerciseID={performance.exerciseID}/>
-    
-                <PrimaryButton
-                    styles={Buttons.styles.primaryOutline} 
-                    vheight={40}
-                    vwidth={56}
-                    brRadiusSize={3}
-                    onPressFunc={() => {
-                        const args = [
-                            performance.exerciseID, 
-                            performance.workload.rowsCount
-                        ]
-                        if (performance.type === 'self') {
-                            args.push(performance.type)
-                            args.push(performance.workload.selfWeight)
-                            args.push(performance.workload.weightedUnit)
-                            args.push(performance.measureUnit)
-                        }
-                        addNewSetFunc(...args)
-                    }}
-                    iconSvg={<AddSvg/>}
-                    iconSize={20}
-                    iconColor={Theme.agressive}
-                />
+                <Animatable.View
+                    animation={'fadeInUpBig'}
+                    duration={1000}
+                >
+                    <PrimaryButton
+                        styles={Buttons.styles.primaryOutline} 
+                        vheight={40}
+                        vwidth={56}
+                        brRadiusSize={3}
+                        onPressFunc={() => {
+                            const args = [
+                                performance.exerciseID, 
+                                performance.workload.rowsCount
+                            ]
+                            if (performance.type === 'self') {
+                                args.push(performance.type)
+                                args.push(performance.workload.selfWeight)
+                                args.push(performance.workload.weightedUnit)
+                                args.push(performance.measureUnit)
+                            }
+                            addNewSetFunc(...args)
+                        }}
+                        iconSvg={<AddSvg/>}
+                        iconSize={20}
+                        iconColor={Theme.agressive}
+                    />
+                </Animatable.View>
             </ScrollDisappearing>
             { isFooterVisible ? (
                 <View style={styles.interactionFooter}>

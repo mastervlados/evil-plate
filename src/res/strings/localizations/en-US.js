@@ -91,6 +91,7 @@ const exerciseScreen = {
 const en = {
     str0001: 'My Exercises',
     str0002: 'Settings',
+	str0003: 'Free Timer',
 	...alerts,
 	...myExercisesFormScreen,
 	...timerPickerComponent,

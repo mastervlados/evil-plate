@@ -17,6 +17,7 @@ import InputSelfWeightModal from '../../components/InputSelfWeightModal/InputSel
 import { onWeightedFieldChanged } from '../../redux/actions/selfWeightActions'
 import MyExercisesForm from '../MyExercisesForm'
 import { onExercisesFormOwnModeChanged, onExercisesFormVisibleChanged } from '../../redux/actions/myExercisesFormActions'
+import * as Animatable from 'react-native-animatable'
 
 
 export default function ExerciseCurrentInfo({ addNewSetFunc }) {
@@ -141,9 +142,13 @@ export default function ExerciseCurrentInfo({ addNewSetFunc }) {
         <View style={AppContainers.styles.appContainerWithoutVerticalCentred}>
             <MyExercisesForm/>
             <InputSelfWeightModal/>
-            <View style={styles.infoButtonAddPerformancePosition}>
+            <Animatable.View 
+                style={styles.infoButtonAddPerformancePosition}
+                animation={'bounceIn'}
+                duration={1000}
+            >
                 <ActionButton/>
-            </View>
+            </Animatable.View>
             
             <InfoMiddleBox previousExercise={exercise.records.previous}/>
 
@@ -152,20 +157,28 @@ export default function ExerciseCurrentInfo({ addNewSetFunc }) {
                 ...styles.infoFooterBox
             }}>
                 <View style={styles.infoPreviousContainer}>
-                    <View style={styles.infoPreviousLeft}>
+                    <Animatable.View 
+                        style={styles.infoPreviousLeft}
+                        animation={'bounceInLeft'}
+                        duration={1000}
+                    >
                         <PreviousExerciseDetails 
                             data={exercise}
                             headerStyles={styles.infoTextHeaderPosition}
                             lineStyles={styles.infoTextResultsPosition}
                         />
-                    </View>
-                    <View style={styles.infoPreviousRight}>
+                    </Animatable.View>
+                    <Animatable.View 
+                        style={styles.infoPreviousRight}
+                        animation={'bounceInRight'}
+                        duration={1000}
+                    >
                         <ExerciseSvg 
                             exerciseType={exercise.type} 
                             size={42} 
                             color={Theme.positive}
                         />
-                    </View>
+                    </Animatable.View>
                 </View>
 
                 {/* <View style={styles.infoInfoButtonPosition}>

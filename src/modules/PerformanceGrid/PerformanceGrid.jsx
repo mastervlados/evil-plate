@@ -8,6 +8,7 @@ import { CancelSvg } from '../../res/svgs'
 import { formatString } from '../../res/helpers/endings'
 import { updateFieldInSetWithinStoredPerformance, updateStoredSetFieldWithinExercise } from '../../res/helpers/secureStore'
 import { onPerformanceFieldInFlowChanged, onPerformanceSetFieldChanged } from '../../redux/actions/exerciseActions'
+import * as Animatable from 'react-native-animatable'
 
 
 export default function PerformanceGrid({ exerciseID }) {
@@ -79,7 +80,12 @@ export default function PerformanceGrid({ exerciseID }) {
         }
         // Return one set
         return (
-            <View key={`main-${setIndex}`} style={styles.rowBox}>
+            <Animatable.View
+                key={`main-${setIndex}`} 
+                style={styles.rowBox}
+                animation={'bounceInLeft'}
+                duration={1000}
+            >
                 <View style={styles.rowControl}>
                     <TouchableWithoutFeedback onPress={deleteSetHandler}>
                         <View style={styles.setBox}>
@@ -95,7 +101,7 @@ export default function PerformanceGrid({ exerciseID }) {
                 <View style={styles.rowContent}>
                    { items }
                 </View>
-            </View>
+            </Animatable.View>
         )
     })
 

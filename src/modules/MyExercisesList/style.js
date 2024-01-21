@@ -1,6 +1,10 @@
-import { StyleSheet } from 'react-native'
+import { Dimensions, StyleSheet } from 'react-native'
 
 export const styles = StyleSheet.create({
+    headerContainer: {
+        width: Dimensions.get('window').width,
+        alignItems: 'center',
+    },
     buttonPosition: {
         marginTop: 20,
         marginBottom: 5, // 17 - 5 = 12
@@ -14,12 +18,12 @@ export const styles = StyleSheet.create({
     },
     scrollContainer: {
         flex: 1,
-        paddingVertical: 30,
-        width: 340,
+        // paddingVertical: 30,
+        width: Dimensions.get('window').width - 40,
     },
     flatListPosition: {
         flex: 1,
-        width: 340,
+        width: Dimensions.get('window').width - 40,
         // marginLeft: 'auto',
         // marginRight: 'auto',
         // marginBottom: 17,

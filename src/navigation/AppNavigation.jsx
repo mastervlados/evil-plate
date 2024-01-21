@@ -7,7 +7,8 @@ import MyExercisesScreen from '../screens/MyExercisesScreen'
 import MyTrainingScreen from '../screens/MyTrainingScreen'
 import SettingsScreen from '../screens/SettingsScreen'
 import ExerciseScreen from '../screens/ExerciseScreen/ExerciseScreen'
-import { BookmarkSvg, CogSvg, HumanBarbellSvg } from '../res/svgs'
+import FreeTimerScreen from '../screens/FreeTimerScreen'
+import { BookmarkSvg, CogSvg, HumanBarbellSvg, TimerSandSvg } from '../res/svgs'
 import { Theme } from '../styles'
 import AppLocalizationContext from '../../AppLocalizationContext'
 import { useSelector } from 'react-redux'
@@ -37,6 +38,16 @@ function Root() {
                 component={MyTrainingScreen}
                 options={{
                     drawerIcon: () => <BookmarkSvg 
+                                        size={24} 
+                                        fill={Theme.textCommon}/>
+                }}
+            /> */}
+            {/* <Drawer.Screen
+                name='FreeTimerScreen'
+                component={FreeTimerScreen}
+                options={{
+                    title: i18n.t('str0003'),
+                    drawerIcon: () => <TimerSandSvg 
                                         size={24} 
                                         fill={Theme.textCommon}/>
                 }}

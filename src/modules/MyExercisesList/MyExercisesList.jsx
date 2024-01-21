@@ -1,7 +1,7 @@
 import { View, FlatList, ScrollView, Dimensions } from 'react-native'
 import React, { useContext, useEffect } from 'react'
 import RoundedButton from '../../UI/RoundedButton'
-import { Buttons, Theme } from '../../styles'
+import { AppContainers, Buttons, Theme } from '../../styles'
 import { AddSvg } from '../../res/svgs'
 import { styles } from './style'
 import MyExercisesListItem from '../../components/MyExercisesListItem'
@@ -12,6 +12,7 @@ import { onExercisesListLoaded } from '../../redux/actions/myExercisesListAction
 import { onExercisesFormOwnModeChanged, onExercisesFormVisibleChanged } from '../../redux/actions/myExercisesFormActions'
 import Spinner from '../../components/Spinner/Spinner'
 import * as Animatable from 'react-native-animatable'
+import ScrollDisappearing from '../../components/ScrollDisappearing/ScrollDisappearing'
 
 
 export default function MyExercisesList() {
@@ -58,11 +59,11 @@ export default function MyExercisesList() {
 
   return (
     <View style={{ flex: 1 }}>
-      <View style={{width: 360, alignItems: 'center'}}>
+      <View style={styles.headerContainer}>
         <Animatable.View 
           style={styles.buttonPosition}
           animation={'bounceIn'}
-          duration={500}
+          duration={1000}
         >
           <RoundedButton 
             styles={Buttons.styles.success} 
@@ -77,55 +78,25 @@ export default function MyExercisesList() {
           />
         </Animatable.View>
       </View>
-      <View style={styles.body}>
-          <LinearGradient
-                colors={[Theme.base, 'transparent']}
-                locations={[0, 1]}
-                start={{x: 0, y: 0}}
-                end={{x: 0, y: 1}}
-                style={{
-                    width: '100%',
-                    height: 30,
-                    position: 'absolute',
-                    top: 0,
-                    zIndex: 100,
-                }}/>
-
-          <LinearGradient
-              colors={[Theme.base, 'transparent']}
-              start={{x: 0, y: 1}}
-              end={{x: 0, y: 0}}
-              style={{
-                  width: '100%',
-                  height: 30,
-                  position: 'absolute',
-                  bottom: 0,
-                  zIndex: 101,
-              }}/>
-
-          <ScrollView 
-            style={styles.scrollContainer}
-            showsVerticalScrollIndicator={false}
-          >
-              <Animatable.View
-                style={{ flex: 1 }}
-                animation={'fadeInLeft'}
-                duration={500}
-              >
-                <FlatList 
-                  scrollEnabled={false}
-                  keyExtractor={(item) => item.id}
-                  data={formatData(exercises, 2)}
-                  style={{flex: 1}}
-                  numColumns={2}
-                  renderItem={({ item }) => <MyExercisesListItem {...item}/>}
-                />
-              </Animatable.View>
-              
-            
-            <View style={{height: Dimensions.get('window').height / 3}} />
-          </ScrollView>
-      </View>
+      <ScrollDisappearing
+        applyStyles={styles.scrollContainer}
+        bgColor={Theme.base}
+      >
+        <Animatable.View
+          style={{ flex: 1 }}
+          animation={'fadeInLeftBig'}
+          duration={1000}
+        >
+          <FlatList 
+            scrollEnabled={false}
+            keyExtractor={(item) => item.id}
+            data={formatData(exercises, 2)}
+            style={{flex: 1}}
+            numColumns={2}
+            renderItem={({ item }) => <MyExercisesListItem {...item}/>}
+          />
+        </Animatable.View>
+      </ScrollDisappearing>
     </View>
   )
 }

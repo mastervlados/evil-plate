@@ -53,8 +53,10 @@ export default function AppManagement() {
       }
       async function setupUnitSystem() {
         const unitSystemFromStore = await getValueFor('storedUnitSystem')
-        if (target.unitsFromSettings !== unitSystemFromStore) {
-          dispatch(onSettingsUnitsChanged(unitSystemFromStore))
+        if (unitSystemFromStore != -1) {
+          if (target.unitsFromSettings !== unitSystemFromStore) {
+            dispatch(onSettingsUnitsChanged(unitSystemFromStore))
+          }
         }
       }
       setupLanguage();
