@@ -30,8 +30,8 @@ import { onExerciseChanged } from '../../redux/actions/exerciseActions'
 
 export default function MyExercisesForm() {
   const dispatch = useDispatch()
-  const modalOpen = useSelector(state => state.myExercisesFormReducer.isExercisesFormOpened)
   const ownMode = useSelector(state => state.myExercisesFormReducer.currentMode)
+  const modalOpen = useSelector(state => state.myExercisesFormReducer.isExercisesFormOpened)
   const service = useContext(AppContext)
   
   const initialInteractions = {
@@ -84,19 +84,23 @@ export default function MyExercisesForm() {
   }, []);
 
   useEffect(() => {
-    if (ownMode === 'create') {
-        dispatch(onExercisesFormNameChanged(initialInteractions.exerciseName))
-        dispatch(onExercisesFormModeChanged(initialInteractions.pickedMode))
-        dispatch(onExercisesFormTimerChanged(initialInteractions.pickedTimer))
-        dispatch(onExercisesFormColorChanged(initialInteractions.pickedColor))
-        dispatch(onExercisesFormMessageVisibleChanged(initialInteractions.isMessageVisible))
-    }
-    if (ownMode === 'edit') {
-        dispatch(onExercisesFormNameChanged(currentExercise.title))
-        // dispatch(onExercisesFormModeChanged(currentExercise.type))
-        dispatch(onExercisesFormTimerChanged(currentExercise.breakDuration))
-        dispatch(onExercisesFormColorChanged(currentExercise.colorNumber))
-        dispatch(onExercisesFormMessageVisibleChanged(initialInteractions.isMessageVisible))
+    switch (ownMode) {
+        case 'create':
+            dispatch(onExercisesFormNameChanged(initialInteractions.exerciseName))
+            dispatch(onExercisesFormModeChanged(initialInteractions.pickedMode))
+            dispatch(onExercisesFormTimerChanged(initialInteractions.pickedTimer))
+            dispatch(onExercisesFormColorChanged(initialInteractions.pickedColor))
+            dispatch(onExercisesFormMessageVisibleChanged(initialInteractions.isMessageVisible))
+            break
+        case 'edit':
+            dispatch(onExercisesFormNameChanged(currentExercise.title))
+            // dispatch(onExercisesFormModeChanged(currentExercise.type))
+            dispatch(onExercisesFormTimerChanged(currentExercise.breakDuration))
+            dispatch(onExercisesFormColorChanged(currentExercise.colorNumber))
+            dispatch(onExercisesFormMessageVisibleChanged(initialInteractions.isMessageVisible))
+            break
+        default:
+            break
     }
   }, [ownMode])
 

@@ -1,5 +1,5 @@
 import { View, Text, TouchableWithoutFeedback, Alert } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { styles } from './style'
 import SetItem from './SetItem'
 import { useDispatch, useSelector } from 'react-redux'
@@ -9,12 +9,13 @@ import { formatString } from '../../res/helpers/endings'
 import { updateFieldInSetWithinStoredPerformance, updateStoredSetFieldWithinExercise } from '../../res/helpers/secureStore'
 import { onPerformanceFieldInFlowChanged, onPerformanceSetFieldChanged } from '../../redux/actions/exerciseActions'
 import * as Animatable from 'react-native-animatable'
+import AppLocalizationContext from '../../../AppLocalizationContext'
 
 
 export default function PerformanceGrid({ exerciseID }) {
 
     const performance = useSelector(state => state.exerciseReducer.performance)
-
+    const i18n = useContext(AppLocalizationContext)
     const dispatch = useDispatch()
 
     if (!('workload' in performance)) { return }
@@ -63,17 +64,17 @@ export default function PerformanceGrid({ exerciseID }) {
             }
 
             Alert.alert(
-                formatString('this is the %s set', position),
-                'this is bottom',
+                null,
+                formatString(i18n.t('alert4001'), position),
                 [
                     {
-                        text: 'Delete',
+                        text: i18n.t('alert4002'),
                         onPress: () => {
                             deleteSet()
                         },
                     },
                     {
-                        text: 'Cancel',
+                        text: i18n.t('alert4003'),
                     }
                 ]
             )

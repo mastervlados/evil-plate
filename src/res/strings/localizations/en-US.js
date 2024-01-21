@@ -24,6 +24,10 @@ const alerts = {
 	alert3101: 'You are going to finish this exercise and save new results.',
 	alert3102: 'Create',
 	alert3103: 'Back',
+	// 4 - Performance Grid
+	alert4001: 'Do you really want to delete the set at position %s?',
+	alert4002: 'Delete',
+	alert4003: 'Cancel',
 }
 
 const myExercisesFormScreen = {
