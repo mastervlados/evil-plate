@@ -1,4 +1,4 @@
-import { View, TouchableWithoutFeedback, Keyboard } from 'react-native'
+import { View, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import * as SplashScreen from 'expo-splash-screen'
 import * as Font from 'expo-font'
@@ -14,7 +14,7 @@ import { I18n } from 'i18n-js'
 import languages from '../../res/strings/languages'
 import { useDispatch, useSelector } from 'react-redux'
 import { onSettingsHintExercisesFormChanged, onSettingsLanguageChanged, onSettingsLocalizationsLoaded, onSettingsUnitsChanged } from '../../redux/actions/appSettingsActions'
-import { getValueFor, saveValueAs } from '../../res/helpers/secureStore'
+import { deleteValueFor, getValueFor, saveValueAs } from '../../res/helpers/secureStore'
 
 
 export default function AppManagement() {
@@ -53,10 +53,41 @@ export default function AppManagement() {
       }
       async function setupUnitSystem() {
         const unitSystemFromStore = await getValueFor('storedUnitSystem')
+        // await deleteValueFor('storedUnitSystem')
         if (unitSystemFromStore != -1) {
           if (target.unitsFromSettings !== unitSystemFromStore) {
             dispatch(onSettingsUnitsChanged(unitSystemFromStore))
           }
+        } else if (unitSystemFromStore === -1 
+          && getLocales()[0].languageCode !== 'ru') {
+          // we have to ask a champion about
+          // which one unit system should apply
+          Alert.alert(
+            i18n.t('alert5001'),
+            i18n.t('alert5002'),
+            [
+                {
+                    text: i18n.t('ass0004'),
+                    onPress: async () => {
+                      // Kilograms (kgs)
+                      if (target.unitsFromSettings !== 'kg') {
+                        dispatch(onSettingsUnitsChanged('kg'))
+                      }
+                      await saveValueAs('storedUnitSystem', 'kg')
+                    },
+                },
+                {
+                  text: i18n.t('ass0005'),
+                  onPress: async () => {
+                     // Pounds (lbs)
+                     if (target.unitsFromSettings !== 'lb') {
+                      dispatch(onSettingsUnitsChanged('lb'))
+                    }
+                    await saveValueAs('storedUnitSystem', 'lb')
+                  },
+                }
+            ]
+        )
         }
       }
       setupLanguage();
@@ -86,7 +117,7 @@ export default function AppManagement() {
             dispatch(onSettingsHintExercisesFormChanged(false))
           }
         } catch (e) {
-            console.warn(e) // ! important
+            // console.warn(e) // ! important
         } finally {
             setAppIsReady(true)
         }
@@ -108,8 +139,8 @@ export default function AppManagement() {
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View style={styles.container} onLayout={onLayoutRootView}>
-                <StatusBar style="light" />
-                  <AppNavigation />
+                <StatusBar style="light"/>
+                <AppNavigation />
             </View>
         </TouchableWithoutFeedback>
     )

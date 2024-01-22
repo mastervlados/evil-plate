@@ -28,6 +28,9 @@ const alerts = {
 	alert4001: 'Do you really want to delete the set at position %s?',
 	alert4002: 'Delete',
 	alert4003: 'Cancel',
+	// 5 - AppManagement
+	alert5001: 'Pick your unit system',
+	alert5002: 'How do you measure weight?',
 }
 
 const myExercisesFormScreen = {

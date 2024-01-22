@@ -1,3 +1,6 @@
+import * as React from 'react';
+import * as Haptics from 'expo-haptics';
+
 export default class AccurateTimer {
     // -- interval
     // -- callback (func)
@@ -46,6 +49,10 @@ export default class AccurateTimer {
             // Logic end of current timer
             // steps:
             // wait a second
+            // Impact once.. too low..
+            await Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Warning
+            );
             await new Promise(resolve => setTimeout(resolve, 1000))
             // update numbers
             this.callback(this.mainDuration)

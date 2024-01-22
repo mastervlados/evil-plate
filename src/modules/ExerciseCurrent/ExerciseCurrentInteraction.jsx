@@ -303,8 +303,8 @@ export default function ExerciseCurrentInteraction({ addNewSetFunc }) {
             >
                 <PerformanceGrid exerciseID={performance.exerciseID}/>
                 <Animatable.View
-                    animation={'fadeInUpBig'}
-                    duration={1000}
+                    animation={'fadeIn'}
+                    duration={2000}
                 >
                     <PrimaryButton
                         styles={Buttons.styles.primaryOutline} 

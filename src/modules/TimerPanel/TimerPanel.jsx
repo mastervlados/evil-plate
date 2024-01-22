@@ -5,13 +5,14 @@ import RoundedButton from '../../UI/RoundedButton'
 import { AppContainers, AppTextStyles, Buttons, Theme } from '../../styles'
 import DoneSvg from '../../res/svgs/DoneSvg'
 import TimerSvg from '../../res/svgs/TimerSvg'
-import { CancelSvg } from '../../res/svgs'
+import { CancelSvg, TimerSandSvg } from '../../res/svgs'
 import AccurateTimer from './AccurateTimer'
 import * as Animatable from 'react-native-animatable'
 import PrimaryButton from '../../UI/PrimaryButton'
 import { useDispatch } from 'react-redux'
 import { onActiveTabChanged } from '../../redux/actions/exerciseActions'
 import AppLocalizationContext from '../../../AppLocalizationContext'
+import { useKeepAwake } from 'expo-keep-awake'
 
 
 export default function TimerPanel({ 
@@ -33,9 +34,11 @@ export default function TimerPanel({
     if (isActive) {
         timerButtonStyles = Buttons.styles.danger
         timerTextStyles = AppTextStyles.styles.timerDigitsActive
+        useKeepAwake('ExpoKeepAwakeTag', true);
     } else {
         timerButtonStyles = Buttons.styles.warning
         timerTextStyles = AppTextStyles.styles.timerDigitsDefault
+        useKeepAwake('ExpoKeepAwakeTag', false);
     }
 
     const updateTimer = (milliseconds) => {
@@ -130,7 +133,7 @@ export default function TimerPanel({
             ...AppContainers.styles.appContainerWithLeftAndRightPaddings, 
             ...styles.timerPanelContainer
         }}>
-                
+
             <PrimaryButton 
                 styles={Buttons.styles.successOutline} 
                 vwidth={56}
@@ -152,7 +155,7 @@ export default function TimerPanel({
                     styles={timerButtonStyles} 
                     size={56}
                     onPressFunc={timerButtonHandler}
-                    iconSvg={isActive ? <CancelSvg/> : <TimerSvg/>}
+                    iconSvg={isActive ? <CancelSvg/> : <TimerSandSvg/>}
                     iconSize={35}
                     iconColor={Theme.base}
                 />

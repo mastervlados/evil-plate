@@ -28,6 +28,9 @@ const alerts = {
 	alert4001: 'Вы действительно хотите удалить подход номер %s?',
 	alert4002: 'Удалить',
 	alert4003: 'Отмена',
+	// 5 - AppManagement
+	alert5001: '',
+	alert5002: '',
 }
 
 const myExercisesFormScreen = {
