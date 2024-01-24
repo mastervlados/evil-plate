@@ -29,8 +29,11 @@ const alerts = {
 	alert4002: 'Удалить',
 	alert4003: 'Отмена',
 	// 5 - AppManagement
-	alert5001: '',
-	alert5002: '',
+	alert5001: 'Выберите систему единиц измерения',
+	alert5002: 'В каких единицах вы измеряете вес?',
+	// 6 - InputSelfWeightModal
+	alert6001: 'Чтобы заполнить эту форму, вам необходимо ввести свой текущий вес.',
+	alert6002: 'Понятно!',
 }
 
 const myExercisesFormScreen = {

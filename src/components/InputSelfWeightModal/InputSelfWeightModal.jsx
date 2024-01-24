@@ -57,11 +57,11 @@ export default function InputSelfWeightModal() {
         }
         if (weight === '') {
             Alert.alert(
-                'this is top',
-                'this is bottom',
+                null,
+                i18n.t('alert6001'),
                 [
                     {
-                        text: 'Got it!',
+                        text: i18n.t('alert6002'),
                     }
                 ]
             )

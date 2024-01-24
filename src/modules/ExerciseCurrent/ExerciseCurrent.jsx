@@ -95,7 +95,7 @@ export default function ExerciseCurrent() {
     }
 
     if (!isPerformanceReady) {
-        return <Spinner size={250} animation={'rotate'}/>
+        return <Spinner animation={'rotate'}/>
     }
 
     if (performance.exerciseID === exercise.id 

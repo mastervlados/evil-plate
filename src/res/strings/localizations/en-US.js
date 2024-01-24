@@ -31,6 +31,9 @@ const alerts = {
 	// 5 - AppManagement
 	alert5001: 'Pick your unit system',
 	alert5002: 'How do you measure weight?',
+	// 6 - InputSelfWeightModal
+	alert6001: 'To complete this form you have to type your current self weight.',
+	alert6002: 'Got it!',
 }
 
 const myExercisesFormScreen = {

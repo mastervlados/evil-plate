@@ -98,10 +98,11 @@ export default function ExerciseCurrentInfo({ addNewSetFunc }) {
                 if ('sets' in previousPerformance.workload) {
                     initRowsCount = previousPerformance.workload.sets.length
                 } 
-            }
-            if (initRowsCount < 3) {
+            } else {
                 initRowsCount = 3
             }
+            console.log('AFTER: ', initRowsCount)
+            
             for (let i = 0; i < initRowsCount; i++) {
                 if (exercise.type === 'self') {
                     await addNewSetFunc(exercise.id, exercise.rowsCount, exercise.type, selfWeight.selfWeight, selfWeight.weightedUnit, appUnits)

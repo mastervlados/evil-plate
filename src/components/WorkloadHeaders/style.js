@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
     },
     workloadHeadersBox: {
         backgroundColor: Theme.levelOne,
-        width: 96,
+        width: (Dimensions.get('window').width - (6 * 3) - 76 - 74) / 2,
         height: 40,
         borderRadius: 3,
         justifyContent: 'center',

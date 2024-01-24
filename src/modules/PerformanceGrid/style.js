@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
         // 40 - left and right paddings ~ 20px each
         // 56 - control box size
         // ((Dimensions.get('window').width - 76 - 74 - (96 * 2)) / 3)
-        width: Dimensions.get('window').width - 40 - 56 - ((Dimensions.get('window').width - 76 - 74 - (96 * 2)) / 3),
+        width: Dimensions.get('window').width - 40 - 56 - ((Dimensions.get('window').width - 76 - 74 - (((Dimensions.get('window').width - (6 * 3) - 76 - 74) / 2) * 2)) / 3),
         // borderWidth: 1,
     },
     rowContentItem: {
@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
         left: 0,
     },
     inputDefaultStyles: {
-        width: 96,
+        width: (Dimensions.get('window').width - (6 * 3) - 76 - 74) / 2,
         height: 40,
         borderWidth: 2,
         borderRadius: 3,
@@ -56,7 +56,7 @@ export const styles = StyleSheet.create({
         fontFamily: 'roboto-black',
     },
     inputDisableStyles: {
-        width: 96,
+        width: (Dimensions.get('window').width - (6 * 3) - 76 - 74) / 2,
         height: 40,
         borderRadius: 3,
         textAlign: 'center',
