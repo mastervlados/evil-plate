@@ -26,6 +26,7 @@ export default function ExerciseCurrent() {
             // we load data again
             // and show spinner to a champion
             dispatch(onPerformanceLoaded(false))
+            // Load current performance from stored performances
             const currentPerformance = await getOpenPerformance(exercise.id)
             // != instead of !== 'cause it might be a string value..
             if (currentPerformance != -1) {
@@ -45,6 +46,11 @@ export default function ExerciseCurrent() {
                         }
                     })
                 })
+            } else {
+                // We havent open one
+                // should set as default 
+                // for current performance
+                dispatch(onPerformanceChanged({}))
             }
             // Also loading previous performance
             // ...
