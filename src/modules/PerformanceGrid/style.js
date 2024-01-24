@@ -67,7 +67,7 @@ export const styles = StyleSheet.create({
         fontFamily: 'roboto-black',
     },
     inputActiveStyles: {
-        width: 96,
+        width: (Dimensions.get('window').width - (6 * 3) - 76 - 74) / 2,
         height: 40,
         borderWidth: 2,
         borderRadius: 3,

@@ -14,6 +14,7 @@ import { translateValue } from '../../res/helpers/converter'
 export default function ExerciseCurrent() {
 
     const performance = useSelector(state => state.exerciseReducer.performance)
+    const prevPerfState = useSelector(state => state.exerciseReducer.previousPerformance)
     const isPerformanceReady = useSelector(state => state.exerciseReducer.isPerformanceReady)
     const exercise = useSelector(state => state.exerciseReducer.exercise)
     const service = useContext(AppContext)
@@ -44,14 +45,14 @@ export default function ExerciseCurrent() {
                         }
                     })
                 })
-                // Also loading previous performance
-                // ...
-                if (exercise.records.previous.isExist) {
-                    const previousPerformance = await service.getPerformance(exercise.records.previous.id)
-                    dispatch(onPreviousPerformanceChanged(previousPerformance))
-                } else {
-                    dispatch(onPreviousPerformanceChanged({}))
-                }
+            }
+            // Also loading previous performance
+            // ...
+            if (exercise.records.previous.isExist) {
+                const previousPerformance = await service.getPerformance(exercise.records.previous.id)
+                dispatch(onPreviousPerformanceChanged(previousPerformance))
+            } else {
+                dispatch(onPreviousPerformanceChanged({}))
             }
             // Whenever we ready to display smth. to user!
             // ~ isPerformanceReady

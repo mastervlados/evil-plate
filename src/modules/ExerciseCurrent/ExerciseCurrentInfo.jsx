@@ -101,7 +101,7 @@ export default function ExerciseCurrentInfo({ addNewSetFunc }) {
             } else {
                 initRowsCount = 3
             }
-            console.log('AFTER: ', initRowsCount)
+            // console.log('AFTER: ', initRowsCount)
             
             for (let i = 0; i < initRowsCount; i++) {
                 if (exercise.type === 'self') {
