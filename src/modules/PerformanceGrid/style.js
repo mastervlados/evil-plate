@@ -42,6 +42,7 @@ export const styles = StyleSheet.create({
         backgroundColor: Theme.crimson,
         height: '100%',
         left: 0,
+        zIndex: 133,
     },
     inputDefaultStyles: {
         width: (Dimensions.get('window').width - (6 * 3) - 76 - 74) / 2,
@@ -95,5 +96,8 @@ export const styles = StyleSheet.create({
         borderColor: Theme.textCommon,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    selfWeightBox: {
+        position: 'relative',
     },
 })

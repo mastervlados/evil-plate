@@ -141,8 +141,8 @@ export default function ExerciseCurrentInfo({ addNewSetFunc }) {
 
     return (
         <View style={AppContainers.styles.appContainerWithoutVerticalCentred}>
-            <MyExercisesForm/>
-            <InputSelfWeightModal/>
+            {/* <MyExercisesForm/>
+            <InputSelfWeightModal/> */}
             <Animatable.View 
                 style={styles.infoButtonAddPerformancePosition}
                 animation={'bounceIn'}

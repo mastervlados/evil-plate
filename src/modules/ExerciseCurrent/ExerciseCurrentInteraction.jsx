@@ -22,6 +22,7 @@ import AppContext from '../../../AppContext'
 import { onExercisesListItemUpdated } from '../../redux/actions/myExercisesListActions'
 import AppLocalizationContext from '../../../AppLocalizationContext'
 import * as Animatable from 'react-native-animatable'
+import InputSelfWeightModal from '../../components/InputSelfWeightModal/InputSelfWeightModal'
 
 
 export default function ExerciseCurrentInteraction({ addNewSetFunc }) {
@@ -102,6 +103,9 @@ export default function ExerciseCurrentInteraction({ addNewSetFunc }) {
     // 2. start iteration from 0 to length
     // update value
     const Indicators = () => {
+        // useEffect(() => {
+        //     console.log('Effect!')
+        // }, [performance])
         if ('workload' in performance) {
             if ('flows' in performance.workload) {
                 const indicators = performance.workload.flows.map((flow, i) => {
@@ -273,7 +277,10 @@ export default function ExerciseCurrentInteraction({ addNewSetFunc }) {
             // -- Update current exercise meta
             dispatch(onExerciseMetaChanged(newRecords))
             // -- Update the main list of exercises
-            dispatch(onExercisesListItemUpdated(exercise.id, exercise))
+            dispatch(onExercisesListItemUpdated(exercise.id, {
+                ...exercise,
+                records: newRecords,
+            }))
             // 4. delete stored data
             // use exerciseID value
             await deleteStoredPerformance(performance.exerciseID)
@@ -291,6 +298,7 @@ export default function ExerciseCurrentInteraction({ addNewSetFunc }) {
     
     return (
         <View style={AppContainers.styles.appContainerWithoutVerticalCentred}>
+            <InputSelfWeightModal/>
             <TimerPanel 
                 buttonHandlerFunc={createNewPerformanceHandler}
                 durationSetup={performance.breakDuration}

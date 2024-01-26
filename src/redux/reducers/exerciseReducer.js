@@ -328,7 +328,7 @@ const exerciseReducer = (state = initialState, action) => {
                 }
             case ON_EXERCISE_META_CHANGED:
                 return {
-                    state,
+                    ...state,
                     exercise: {
                         ...state.exercise,
                         records: action.payload,

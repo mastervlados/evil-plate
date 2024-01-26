@@ -44,6 +44,36 @@ async function addSetToStoredPerformance(exerciseID, set) {
     await saveOpenPerformance(exerciseID, performance)
 }
 
+async function updateFieldInStoredOpenPerformance(
+    exerciseID, 
+    field, 
+    payload
+) {
+    const performance = await getOpenPerformance(exerciseID);
+    // console.log('before', performance.workload[field])
+    try {
+        if (typeof(payload) !== 'undefined') {
+            performance.workload[field] = payload
+            if (field === 'selfWeight') {
+                for (let s = 0; s < performance.workload.sets.length; s++) {
+                    for (let r = 0; r < performance.workload.sets[s].rows.length; r++) {
+                        performance.workload.sets[s].rows[r].weight = payload
+                        // console.log(performance.workload.sets[s].rows[r].weight)
+                    }
+                }
+            }
+        } else {
+            const invert = !performance.workload[field]
+            performance.workload[field] = invert
+        }
+        // console.log('after', performance.workload[field])
+    } catch (e) {
+        // console.log(e)
+    } finally {
+        await saveOpenPerformance(exerciseID, performance);
+    }
+}
+
 async function updateFieldInSetWithinStoredPerformance(
     exerciseID, 
     setID,
@@ -219,6 +249,7 @@ export {
     saveOpenPerformance,
     deleteStoredPerformance,
     addSetToStoredPerformance,
+    updateFieldInStoredOpenPerformance,
     updateFieldInSetWithinStoredPerformance,
     updateFieldInSetRowWithinStoredPerformance,
     // getOpenPefrormances,

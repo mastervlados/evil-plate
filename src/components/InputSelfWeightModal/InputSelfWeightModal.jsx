@@ -11,6 +11,9 @@ import { endingFor } from '../../res/helpers/endings'
 import { useDispatch, useSelector } from 'react-redux'
 import { checkForReal, completeRealNumber } from '../../res/helpers/validation'
 import { onWeightedFieldChanged } from '../../redux/actions/selfWeightActions'
+import exerciseReducer from '../../redux/reducers/exerciseReducer'
+import { updateFieldInStoredOpenPerformance } from '../../res/helpers/secureStore'
+import { onPerformanceChanged } from '../../redux/actions/exerciseActions'
 
 
 export default function InputSelfWeightModal() {
@@ -19,9 +22,17 @@ export default function InputSelfWeightModal() {
     const locale = useSelector(state => state.appSettingsReducer.language)
     const i18n = useContext(AppLocalizationContext)
     const selfWeight = useSelector(state => state.selfWeightReducer)
+    const performance = useSelector(state => state.exerciseReducer.performance)
     const dispatch = useDispatch()
     const [weight, setWeight] = useState('')
     const [isFooterVisible, setFooterVisible] = useState(true)
+
+    useEffect(() => {
+        if (selfWeight.showModal
+            && 'workload' in performance) {
+            setWeight(performance.workload.selfWeight)
+        }
+    }, [selfWeight.showModal])
 
    useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener(
@@ -48,12 +59,41 @@ export default function InputSelfWeightModal() {
         dispatch(onWeightedFieldChanged('showModal', false))
     }
 
-    const setItOffHandler = () => {
-        const setItOff = () => {
+    const setItOffHandler = async () => {
+        const setItOff = async () => {
             dispatch(onWeightedFieldChanged('isWeighted', true))
             dispatch(onWeightedFieldChanged('weightedUnit', appUnits))
             dispatch(onWeightedFieldChanged('selfWeight', weight))
             dispatch(onWeightedFieldChanged('showModal', false))
+            if (performance != {} 
+                && weight != selfWeight.selfWeight
+                && performance.type === 'self') {
+                // 1. update Redux: workload. selfWeight and weightedUnit
+                const updatedPerformance = {
+                    ...performance,
+                    workload: {
+                        ...performance.workload,
+                        selfWeight: weight,
+                        weightedUnit: appUnits,
+                        sets: performance.workload.sets.map((set) => {
+                            const changed = set.rows.map((row) => {
+                                return {
+                                    ...row,
+                                    weight: weight,
+                                }
+                            })
+                            return {
+                                ...set,
+                                rows: changed,
+                            }
+                        })
+                    }
+                }
+                dispatch(onPerformanceChanged(updatedPerformance))
+                // 2. update Stored: workload. selfWeight and weightedUnit
+                await updateFieldInStoredOpenPerformance(performance.exerciseID, 'selfWeight', weight)
+                await updateFieldInStoredOpenPerformance(performance.exerciseID, 'weightedUnit', appUnits)
+            }
         }
         if (weight === '') {
             Alert.alert(
@@ -66,7 +106,7 @@ export default function InputSelfWeightModal() {
                 ]
             )
         } else {
-            setItOff()
+            await setItOff()
         }
         
     }

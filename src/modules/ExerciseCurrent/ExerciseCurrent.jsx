@@ -9,12 +9,13 @@ import { onPerformanceChanged, onPerformanceFieldInFlowChanged, onPerformanceFlo
 import Spinner from '../../components/Spinner'
 import AppContext from '../../../AppContext'
 import { translateValue } from '../../res/helpers/converter'
+import InputSelfWeightModal from '../../components/InputSelfWeightModal'
+import MyExercisesForm from '../MyExercisesForm'
 
 
 export default function ExerciseCurrent() {
 
     const performance = useSelector(state => state.exerciseReducer.performance)
-    const prevPerfState = useSelector(state => state.exerciseReducer.previousPerformance)
     const isPerformanceReady = useSelector(state => state.exerciseReducer.isPerformanceReady)
     const exercise = useSelector(state => state.exerciseReducer.exercise)
     const service = useContext(AppContext)
@@ -112,6 +113,10 @@ export default function ExerciseCurrent() {
     }
 
     return (
-        <ExerciseCurrentInfo addNewSetFunc={addNewSetHandler}/>
+        <React.Fragment>
+            <InputSelfWeightModal/>
+            <MyExercisesForm/>
+            <ExerciseCurrentInfo addNewSetFunc={addNewSetHandler}/>
+        </React.Fragment> 
     )
 }
