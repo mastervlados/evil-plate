@@ -15,6 +15,8 @@ import languages from '../../res/strings/languages'
 import { useDispatch, useSelector } from 'react-redux'
 import { onSettingsHintExercisesFormChanged, onSettingsLanguageChanged, onSettingsLocalizationsLoaded, onSettingsUnitsChanged } from '../../redux/actions/appSettingsActions'
 import { deleteValueFor, getValueFor, saveValueAs } from '../../res/helpers/secureStore'
+import InputSelfWeightModal from '../InputSelfWeightModal'
+import MyExercisesForm from '../../modules/MyExercisesForm'
 
 
 export default function AppManagement() {
@@ -140,6 +142,8 @@ export default function AppManagement() {
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View style={styles.container} onLayout={onLayoutRootView}>
                 <StatusBar style="light"/>
+                <InputSelfWeightModal/>
+                <MyExercisesForm/>
                 <AppNavigation />
             </View>
         </TouchableWithoutFeedback>

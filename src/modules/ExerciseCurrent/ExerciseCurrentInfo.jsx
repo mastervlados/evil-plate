@@ -31,7 +31,8 @@ export default function ExerciseCurrentInfo({ addNewSetFunc }) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        navigation.setOptions({headerRight: () => (
+        navigation.setOptions({
+            headerRight: () => (
             <View style={styles.headerButtonPosition}>
                 <TouchableOpacity onPress={() => {
                     dispatch(onExercisesFormOwnModeChanged('edit'))

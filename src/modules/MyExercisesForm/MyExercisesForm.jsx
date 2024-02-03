@@ -84,25 +84,29 @@ export default function MyExercisesForm() {
   }, []);
 
   useEffect(() => {
-    switch (ownMode) {
-        case 'create':
-            dispatch(onExercisesFormNameChanged(initialInteractions.exerciseName))
-            dispatch(onExercisesFormModeChanged(initialInteractions.pickedMode))
-            dispatch(onExercisesFormTimerChanged(initialInteractions.pickedTimer))
-            dispatch(onExercisesFormColorChanged(initialInteractions.pickedColor))
-            dispatch(onExercisesFormMessageVisibleChanged(initialInteractions.isMessageVisible))
-            break
-        case 'edit':
-            dispatch(onExercisesFormNameChanged(currentExercise.title))
-            // dispatch(onExercisesFormModeChanged(currentExercise.type))
-            dispatch(onExercisesFormTimerChanged(currentExercise.breakDuration))
-            dispatch(onExercisesFormColorChanged(currentExercise.colorNumber))
-            dispatch(onExercisesFormMessageVisibleChanged(initialInteractions.isMessageVisible))
-            break
-        default:
-            break
+    if (modalOpen) {
+        switch (ownMode) {
+            case 'create':
+                dispatch(onExercisesFormNameChanged(initialInteractions.exerciseName))
+                dispatch(onExercisesFormModeChanged(initialInteractions.pickedMode))
+                dispatch(onExercisesFormTimerChanged(initialInteractions.pickedTimer))
+                dispatch(onExercisesFormColorChanged(initialInteractions.pickedColor))
+                dispatch(onExercisesFormMessageVisibleChanged(initialInteractions.isMessageVisible))
+                // console.log('Create Effect!!')
+                break
+            case 'edit':
+                dispatch(onExercisesFormNameChanged(currentExercise.title))
+                // dispatch(onExercisesFormModeChanged(currentExercise.type))
+                dispatch(onExercisesFormTimerChanged(currentExercise.breakDuration))
+                dispatch(onExercisesFormColorChanged(currentExercise.colorNumber))
+                dispatch(onExercisesFormMessageVisibleChanged(initialInteractions.isMessageVisible))
+                // console.log('Edit Effect!')
+                break
+            default:
+                break
+        }
     }
-  }, [ownMode])
+  }, [modalOpen])
 
   const closeFunc = () => {
     dispatch(onExercisesFormNameChanged(initialInteractions.exerciseName))
