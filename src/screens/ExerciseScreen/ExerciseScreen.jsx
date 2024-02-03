@@ -11,6 +11,8 @@ import ExerciseCurrent from '../../modules/ExerciseCurrent'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 import { onActiveTabChanged, onExerciseChanged } from '../../redux/actions/exerciseActions'
+import InputSelfWeightModal from '../../components/InputSelfWeightModal'
+import MyExercisesForm from '../../modules/MyExercisesForm'
 
 
 export default function ExerciseScreen() {
@@ -49,6 +51,8 @@ export default function ExerciseScreen() {
     <View 
       style={AppContainers.styles.appContainerWithoutVerticalCentred}
     >
+      <InputSelfWeightModal/>
+      <MyExercisesForm/>
       <ExerciseCurrent/>
     </View>
   )

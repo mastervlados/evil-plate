@@ -22,11 +22,12 @@ export default function ExerciseCurrent() {
     const dispatch = useDispatch()
     // console.log(exercise)
     useEffect(() => {
+        // when we change exercise
+        // we load data again
+        // and show spinner to a champion
+        dispatch(onPerformanceLoaded(false))
+        // register func to handle loading..
         const getOpenPerformanceIfExist = async () => {
-            // when we change exercise
-            // we load data again
-            // and show spinner to a champion
-            dispatch(onPerformanceLoaded(false))
             // Load current performance from stored performances
             const currentPerformance = await getOpenPerformance(exercise.id)
             // != instead of !== 'cause it might be a string value..
@@ -112,11 +113,5 @@ export default function ExerciseCurrent() {
         return <ExerciseCurrentInteraction addNewSetFunc={addNewSetHandler}/>
     }
 
-    return (
-        <React.Fragment>
-            <InputSelfWeightModal/>
-            <MyExercisesForm/>
-            <ExerciseCurrentInfo addNewSetFunc={addNewSetHandler}/>
-        </React.Fragment> 
-    )
+    return <ExerciseCurrentInfo addNewSetFunc={addNewSetHandler}/>
 }
