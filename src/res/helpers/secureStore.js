@@ -21,6 +21,28 @@ async function deleteValueFor(key) {
     await SecureStore.deleteItemAsync(key)
 }
 
+async function colorFilterManager(colorNumber) {
+    const colors = await getValueFor('storedColorFilterData')
+    
+    if (colors === -1) {
+        // Create new value
+        await saveValueAs('storedColorFilterData', colorNumber)
+    } else {
+        // Update values
+        const newColors = colors.split(' ')
+        const index = newColors.indexOf(colorNumber)
+        if (index !== -1) {
+            // Color exists and 
+            // we need to delete it..
+            newColors.splice(index, 1)
+        } else {
+            // Add color
+            newColors.push(colorNumber)
+        }
+        await saveValueAs('storedColorFilterData', newColors.join(' '))
+    }
+}
+
 async function getOpenPerformance(exerciseID) {
     return await JSON.parse(await getValueFor(`storedOpenPerformance-${exerciseID}`))
 }
@@ -245,6 +267,7 @@ export {
     saveValueAs,
     getValueFor,
     deleteValueFor,
+    colorFilterManager,
     getOpenPerformance,
     saveOpenPerformance,
     deleteStoredPerformance,

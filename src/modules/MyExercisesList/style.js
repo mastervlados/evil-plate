@@ -1,13 +1,16 @@
 import { Dimensions, StyleSheet } from 'react-native'
+import { Theme } from '../../styles'
 
 export const styles = StyleSheet.create({
     headerContainer: {
         width: Dimensions.get('window').width,
         alignItems: 'center',
+        position: 'relative',
     },
     buttonPosition: {
-        marginTop: 20,
-        marginBottom: 5, // 17 - 5 = 12
+        marginTop: 30,
+        marginBottom: 5,
+        // 17 - 5 = 12
         // marginLeft: 'auto',
         // marginRight: 'auto',
     },
