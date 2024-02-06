@@ -1,5 +1,6 @@
 export const ON_EXERCISES_LIST_LOADED='on-exercises-list-loaded'
 export const ON_EXERCISES_LIST_ITEM_UPDATED='on-exercises-list-item-updated'
+export const ON_EXERCISES_LIST_ITEM_DELETED='on-exercises-list-item-deleted'
 export const ON_EXERCISES_LIST_COLOR_FILTER_RESET='on-exercises-list-color-filter-reset'
 export const ON_EXERCISES_LIST_COLOR_FILTER_CHANGED='on-exercises-list-color-filter-changed'
 export const ON_EXERCISES_LIST_COLOR_FILTER_LOADED='on-exercises-list-color-filter-loaded'

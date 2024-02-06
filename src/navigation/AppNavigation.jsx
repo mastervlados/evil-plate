@@ -12,6 +12,8 @@ import { BookmarkSvg, CogSvg, HumanBarbellSvg, TimerSandSvg } from '../res/svgs'
 import { Theme } from '../styles'
 import AppLocalizationContext from '../../AppLocalizationContext'
 import { useSelector } from 'react-redux'
+import InputSelfWeightModal from '../components/InputSelfWeightModal'
+import MyExercisesForm from '../modules/MyExercisesForm'
 
 
 const Drawer = createDrawerNavigator()
@@ -70,6 +72,8 @@ export default function AppNavigation() {
   useSelector(state => state.appSettingsReducer.language)
   return (
     <NavigationContainer>
+        <InputSelfWeightModal/>
+        <MyExercisesForm/>
         <Stack.Navigator screenOptions={headerStyles}>
             <Stack.Screen
                 name='Root'

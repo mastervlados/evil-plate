@@ -13,8 +13,8 @@ export default function TimerPicker({ currentValue, setValueFunc }) {
   const tabsProps = {
     defaultTabStyles: AppFormStyles.styles.formDefaultViewBox,
     activeTabStyles: AppFormStyles.styles.formActiveViewBox,
-    defaultTextStyles: AppFormStyles.styles.formDefaultHeader,
-    activeTextStyles: AppFormStyles.styles.formActiveHeader,
+    defaultTextStyles: {...AppFormStyles.styles.formDefaultHeader, textAlign: 'center'},
+    activeTextStyles: {...AppFormStyles.styles.formActiveHeader, textAlign: 'center'},
   }
 
   const timerTabsTopRow = [

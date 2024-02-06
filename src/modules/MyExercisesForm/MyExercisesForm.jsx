@@ -1,4 +1,4 @@
-import { Modal, View, Text, ScrollView, SafeAreaView, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Dimensions, ImageBackground, Alert } from 'react-native'
+import { Modal, View, Text, ScrollView, SafeAreaView, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Dimensions, ImageBackground, Alert, TouchableHighlight } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { styles } from './style'
 import RoundedButton from '../../UI/RoundedButton'
@@ -20,12 +20,14 @@ import { onExercisesFormColorChanged, onExercisesFormMessageVisibleChanged, onEx
 import { checkExerciseName } from '../../res/helpers/validation'
 import AppContext from '../../../AppContext'
 import AppLocalizationContext from '../../../AppLocalizationContext'
-import { onAddExercise, onExercisesListItemUpdated } from '../../redux/actions/myExercisesListActions'
-import { saveValueAs } from '../../res/helpers/secureStore'
+import { onAddExercise, onExercisesListItemDeleted, onExercisesListItemUpdated } from '../../redux/actions/myExercisesListActions'
+import { deleteStoredPerformance, saveValueAs } from '../../res/helpers/secureStore'
 import { onSettingsHintExercisesFormChanged } from '../../redux/actions/appSettingsActions'
 import * as Animatable from 'react-native-animatable'
 import ScrollDisappearing from '../../components/ScrollDisappearing/ScrollDisappearing'
 import { onExerciseChanged } from '../../redux/actions/exerciseActions'
+import { formatString } from '../../res/helpers/endings'
+import { useNavigation } from '@react-navigation/native'
 
 
 export default function MyExercisesForm() {
@@ -54,6 +56,7 @@ export default function MyExercisesForm() {
   const [scrollRef, setScrollRef] = useState(null)
   const [inputPosY, setInputPosY] = useState(0)
   const i18n = useContext(AppLocalizationContext)
+  const navigation = useNavigation()
   
   const modeTabs = [
     { id: 0, name: 'self', hint: i18n.t('mefs0001') },
@@ -107,6 +110,61 @@ export default function MyExercisesForm() {
         }
     }
   }, [modalOpen])
+
+  const onDeleteExerciseHandler = () => {
+
+    const onDeleteExercise = async () => {
+        const targetID = currentExercise.id
+        // delete by exerciseID current exercise in exercises
+        // place: MyExercisesList
+        dispatch(onExercisesListItemDeleted(targetID))
+        // delete stored open performance
+        // it might be unnecessary 'cause
+        // to delete exercise we haven't
+        // any open performances
+        await deleteStoredPerformance(targetID)
+        // DB data manipulations
+        await service.deleteExerciseCascade(targetID)
+        // close this form
+        dispatch(onExercisesFormVisibleChanged(false))
+        // navigate to exercises list
+        navigation.navigate('MyExercisesScreen')
+    }
+
+    const callSecondAlert = () => {
+        Alert.alert(
+            null,
+            formatString(i18n.t('alert1201'), currentExercise.title),
+            [
+                {
+                    text: i18n.t('alert1202'),
+                    onPress: async () => {
+                        await onDeleteExercise()
+                    },
+                },
+                {
+                    text: i18n.t('alert1203'),
+                }
+            ]
+        )
+    }
+
+    Alert.alert(
+        null,
+        formatString(i18n.t('alert1101'), currentExercise.title),
+        [
+            {
+                text: i18n.t('alert1102'),
+                onPress: () => {
+                    callSecondAlert()
+                },
+            },
+            {
+                text: i18n.t('alert1103'),
+            }
+        ]
+    )
+  }
 
   const closeFunc = () => {
     dispatch(onExercisesFormNameChanged(initialInteractions.exerciseName))
@@ -342,6 +400,18 @@ export default function MyExercisesForm() {
                     currentValue={pickedColor} 
                     setValueFunc={(color) => dispatch(onExercisesFormColorChanged(color))}
                 />
+                { ownMode === 'edit' ? (
+                    <View style={styles.deleteContainer}>
+                        <TouchableHighlight
+                            style={styles.deleteButtonArea}
+                            onPress={onDeleteExerciseHandler}
+                            underlayColor={'transperent'}
+                        >
+                            <Text style={{...AppTextStyles.styles.textDangerousActionHeader, textAlign: 'center'}}>{formatString(i18n.t('mefs0012'), currentExercise.title)}</Text>
+                        </TouchableHighlight>
+                    </View>
+                ) : null }
+                
             </View>
         </ScrollDisappearing>
 

@@ -271,4 +271,32 @@ export default class AppService {
             )
         });
     }
+
+    async deleteExerciseCascade(id) {
+        await this.initDatabase();
+        this.database.transaction(tx => {
+            tx.executeSql(
+                `DELETE FROM performance
+                WHERE exr_id = ?`,
+                [id],
+                function(_, result) {
+                    // console.log('performance: ', result);
+                },
+                function(_, error) {
+                    console.error('performance: ', error.message);
+                }
+            )
+            tx.executeSql(
+                `DELETE FROM exercise
+                WHERE id = ?`,
+                [id],
+                function(_, result) {
+                    // console.log('exercise: ', result);
+                },
+                function(_, error) {
+                    console.error('exercise: ', error.message);
+                }
+            )
+        });
+    }
 }

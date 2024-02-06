@@ -85,4 +85,16 @@ export const styles = StyleSheet.create({
         borderBottomLeftRadius: 10,
         borderBottomRightRadius: 10,
     },
+    deleteContainer: {
+        // borderWidth: 1,
+        width: Dimensions.get('window').width - (50 * 2),
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 50,
+    },
+    deleteButtonArea: {
+        // borderWidth: 1,
+        paddingVertical: 7,
+        paddingHorizontal: 14,
+    },
 })

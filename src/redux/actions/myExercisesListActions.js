@@ -3,6 +3,7 @@ import {
     ON_EXERCISES_LIST_COLOR_FILTER_CHANGED, 
     ON_EXERCISES_LIST_COLOR_FILTER_LOADED, 
     ON_EXERCISES_LIST_COLOR_FILTER_RESET, 
+    ON_EXERCISES_LIST_ITEM_DELETED, 
     ON_EXERCISES_LIST_ITEM_UPDATED, 
     ON_EXERCISES_LIST_LOADED
  } from "../constants"
@@ -19,6 +20,13 @@ const onAddExercise = (exercise) => {
     return {
         type: ON_ADD_EXERCISE,
         payload: exercise,
+    }
+}
+
+const onExercisesListItemDeleted = (id) => {
+    return {
+        type: ON_EXERCISES_LIST_ITEM_DELETED,
+        deletedID: id,
     }
 }
 
@@ -53,6 +61,7 @@ const onExercisesListColorFilterLoaded = (data) => {
 export {
     onExercisesListLoaded,
     onAddExercise,
+    onExercisesListItemDeleted,
     onExercisesListItemUpdated,
     onExercisesListColorFilterReset,
     onExercisesListColorFilterChanged,

@@ -3,6 +3,7 @@ import {
     ON_EXERCISES_LIST_COLOR_FILTER_CHANGED, 
     ON_EXERCISES_LIST_COLOR_FILTER_LOADED, 
     ON_EXERCISES_LIST_COLOR_FILTER_RESET, 
+    ON_EXERCISES_LIST_ITEM_DELETED, 
     ON_EXERCISES_LIST_ITEM_UPDATED, 
     ON_EXERCISES_LIST_LOADED 
 } from "../constants"
@@ -38,6 +39,15 @@ const myExercisesListReducer = (state = initialState, action) => {
                     ...state.exercises.slice(0, index),
                     action.payload,
                     ...state.exercises.slice(index + 1),
+                ]
+            }
+        case ON_EXERCISES_LIST_ITEM_DELETED:
+            const deletedIndex = state.exercises.findIndex(e => e.id === action.deletedID)
+            return {
+                ...state,
+                exercises: [
+                    ...state.exercises.slice(0, deletedIndex),
+                    ...state.exercises.slice(deletedIndex + 1),
                 ]
             }
         case ON_EXERCISES_LIST_COLOR_FILTER_RESET:

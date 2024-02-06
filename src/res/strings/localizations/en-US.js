@@ -12,6 +12,12 @@ const alerts = {
 	alert1001: 'Are you sure about closing this form?',
 	alert1002: 'Yes',
 	alert1003: 'No',
+	alert1101: 'Exercise <%s> will be deleted.',
+	alert1102: 'Delete',
+	alert1103: 'Cancel',
+	alert1201: 'It means that all associated data will be deleted and you can\'t restore them.\n\nDo you really want to delete <%s>?',
+	alert1202: 'Still delete',
+	alert1203: 'Abandon',
 	// 2 - Exercise Current Interaction
 	alert2001: 'Do you really want to cancel current progress?',
 	alert2002: 'Yes',
@@ -48,6 +54,7 @@ const myExercisesFormScreen = {
 	mefs0009: 'Create',
 	mefs0010: 'My exercise is called ..',
 	mefs0011: 'Save changes',
+	mefs0012: 'Delete <%s>',
 }
 
 const timerPickerComponent = {

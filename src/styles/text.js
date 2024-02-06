@@ -56,6 +56,12 @@ export const styles = StyleSheet.create({
         fontWeight: '400',
         fontFamily: 'roboto-regular',
     },
+    textDangerousActionHeader: {
+        color: textValidationFailing,
+        fontSize: 15,
+        fontWeight: '700',
+        fontFamily: 'roboto-bold',
+    },
     textHint: {
         color: textHint,
         fontSize: 12,
