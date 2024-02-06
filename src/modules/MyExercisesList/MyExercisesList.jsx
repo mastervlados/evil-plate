@@ -33,7 +33,7 @@ export default function MyExercisesList() {
       // --> set visible
       const isFilterVisible = await getValueFor('storedColorFilter')
       if (isFilterVisible !== -1) { 
-        setColorFilterVisible(isFilterVisible) 
+        setColorFilterVisible(isFilterVisible === 'true') 
       }
       // --> update filters
       const applyFilters = await getValueFor('storedColorFilterData')

@@ -1,5 +1,5 @@
 import { View, Text, TouchableWithoutFeedback, TouchableHighlight } from 'react-native'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { styles } from './style'
 import * as Animatable from 'react-native-animatable'
 import { AcceptSvg, CancelSvg, ColorFilterSvg, FilterOffSvg } from '../../res/svgs'
@@ -19,9 +19,33 @@ export default function ColorFilter({ exercises, isBoxVisible, boxVisibleFunc })
     const colors = {}
 
     for (let e = 0; e < exercises.length; e++) {
+        // 'cause we still need to balance each column
+        if (typeof(exercises[e].colorNumber) === 'undefined') { continue }
         colors[exercises[e].colorNumber] = (colors[exercises[e].colorNumber] || { count: 0, })
         colors[exercises[e].colorNumber].count = colors[exercises[e].colorNumber].count + 1
     }
+
+    // filter can only contain these exist colors
+    // that we get from object keys
+    // we need to update state and store
+    useEffect(() => {
+        // this func emulates like
+        // the filter button pressed
+        // effect (change state and store)
+        const clearEmptyColor = async (color) => {
+            dispatch(onExercisesListColorFilterChanged(color))
+            await colorFilterManager(color)
+        }
+        const existColors = Object.keys(colors)
+        for (let i = 0; i < filter.length; i++) {
+            if(!existColors.includes(filter[i])) {
+                clearEmptyColor(filter[i])
+            }
+        }
+    }, [colors])
+
+    // console.log(Object.keys(colors))
+    // console.log(filter)
 
     if (Object.keys(colors).length < 2) { 
         // if we have only one color
@@ -51,7 +75,7 @@ export default function ColorFilter({ exercises, isBoxVisible, boxVisibleFunc })
             } else {
                 for (let i = row.length; i < dimension; i++) {
                     row.push((
-                        <View style={styles.filterBox} />
+                        <View key={`EMPTY-${i}`} style={styles.filterBox} />
                     ))
                 }
                 return row
@@ -151,7 +175,7 @@ export default function ColorFilter({ exercises, isBoxVisible, boxVisibleFunc })
             </View>
         )
     }
-    
+
     return (
         <React.Fragment>
             <TouchableHighlight 
