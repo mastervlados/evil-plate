@@ -40,6 +40,11 @@ const alerts = {
 	// 6 - InputSelfWeightModal
 	alert6001: 'To complete this form you have to type your current self weight.',
 	alert6002: 'Got it!',
+	// 7 - onboarding
+	alert7000: 'Do you want to skip this step completely?',
+	alert7001: 'You also can see app’s features when the app starts up again.',
+	alert7002: 'Go back later',
+	alert7003: 'Finish',
 }
 
 const myExercisesFormScreen = {
@@ -55,6 +60,21 @@ const myExercisesFormScreen = {
 	mefs0010: 'My exercise is called ..',
 	mefs0011: 'Save changes',
 	mefs0012: 'Delete <%s>',
+}
+
+const onboarding = {
+	onbo0011: 'Welcome!',
+	onbo0012: 'In your hands the program – training diary. Write your sport results when you complete an exercise in a gym. It helps you to be confident that you have properly loaded muscles for their growth!',
+	onbo0021: 'Then and Now!',
+	onbo0022: 'When you start doing an exercise again – its previous results will be compare with the current. It makes a difference and helps you to complete tonnage with 110%. There is the indicator you should oversee. Be brave and achieve a new record!',
+	onbo0031: 'Associate!',
+	onbo0032: 'You can choose a color when you adding a new exercise. Exercises with one color can be filtered out. As an example, you can separate exercises by a training day…',
+	onbo0041: 'In fact, it’s easy!',
+	onbo0042: 'You should be familiar with existing record keeping modes. Read more about those when you create your first exercise. Each mode has its own special feature that is better suited in one situation or another.',
+	onbo0051: 'Everything is ready to use!',
+	onbo0052: 'There are results in the exercise screen, which you can see any time. Use the timer to manage the rest time between sets. This is a good moment to fill your diary!',
+	onbo1001: 'Let’s Start!',
+	onbo1002: 'Skip',
 }
 
 const timerPickerComponent = {
@@ -110,6 +130,7 @@ const en = {
     str0002: 'Settings',
 	str0003: 'Free Timer',
 	...alerts,
+	...onboarding,
 	...myExercisesFormScreen,
 	...timerPickerComponent,
 	...appSettingsScreen,

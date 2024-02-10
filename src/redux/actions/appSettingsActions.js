@@ -1,6 +1,7 @@
 import { 
     ON_SETTINGS_HINT_EXERCISES_FORM_CHANGED,
     ON_SETTINGS_LANGUAGE_CHANGED, 
+    ON_SETTINGS_ONBOARDING_VISIBLE_CHANGED, 
     ON_SETTINGS_UNITS_CHANGED, 
 } from "../constants"
 
@@ -26,8 +27,16 @@ const onSettingsHintExercisesFormChanged = (isVisible) => {
     }
 }
 
+const onSettingsOnboardingVisibleChanged = (showOnboardingScreen) => {
+    return {
+        type: ON_SETTINGS_ONBOARDING_VISIBLE_CHANGED,
+        payload: showOnboardingScreen,
+    }
+}
+
 export {
     onSettingsLanguageChanged,
     onSettingsUnitsChanged,
     onSettingsHintExercisesFormChanged,
+    onSettingsOnboardingVisibleChanged,
 }

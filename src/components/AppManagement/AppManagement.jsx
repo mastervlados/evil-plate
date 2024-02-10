@@ -13,8 +13,10 @@ import { getLocales } from 'expo-localization'
 import { I18n } from 'i18n-js'
 import languages from '../../res/strings/languages'
 import { useDispatch, useSelector } from 'react-redux'
-import { onSettingsHintExercisesFormChanged, onSettingsLanguageChanged, onSettingsLocalizationsLoaded, onSettingsUnitsChanged } from '../../redux/actions/appSettingsActions'
+import { onSettingsHintExercisesFormChanged, onSettingsLanguageChanged, onSettingsLocalizationsLoaded, onSettingsOnboardingVisibleChanged, onSettingsUnitsChanged } from '../../redux/actions/appSettingsActions'
 import { deleteValueFor, getValueFor, saveValueAs } from '../../res/helpers/secureStore'
+import Onboarding from '../../modules/Onboarding'
+import { Theme } from '../../styles'
 
 
 export default function AppManagement() {
@@ -90,8 +92,20 @@ export default function AppManagement() {
         )
         }
       }
+
+      async function setupOnboardingScreen() {
+        // await deleteValueFor('storedOnboardingScreenInfo')
+        const isOnboardingScreenVisible = await getValueFor('storedOnboardingScreenInfo')
+        if (isOnboardingScreenVisible === -1) {
+          // User never see onboarding screen yet
+          // we should update Redux
+          dispatch(onSettingsOnboardingVisibleChanged(true));
+        }
+      }
+
       setupLanguage();
       setupUnitSystem();
+      setupOnboardingScreen();
     }, [])
 
     useEffect(() => {
@@ -135,12 +149,16 @@ export default function AppManagement() {
     if (!appIsReady) {
       return null
     }
-
+ 
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View style={styles.container} onLayout={onLayoutRootView}>
                 <StatusBar style="light"/>
-                <AppNavigation />
+                { 
+                  target.showOnboardingScreen 
+                  ? <Onboarding/>
+                  : <AppNavigation />
+                }
             </View>
         </TouchableWithoutFeedback>
     )

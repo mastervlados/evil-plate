@@ -1,5 +1,15 @@
 import { Dimensions, StyleSheet } from 'react-native'
-import { agressive, itemMono, itemSelf, levelOne, maintain, positive, relaxing, textValidationFailing } from './generalStyles/theme'
+import { 
+    agressive, 
+    crimson, 
+    itemMono, 
+    itemSelf, 
+    levelOne, 
+    maintain, 
+    positive, 
+    relaxing, 
+    textValidationFailing 
+} from './generalStyles/theme'
 
 export const styles = StyleSheet.create({
     success: {
@@ -56,6 +66,13 @@ export const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         borderWidth: 1,
         borderColor: itemMono,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    crimsonOutline: {
+        backgroundColor: 'transparent',
+        borderWidth: 1,
+        borderColor: crimson,
         alignItems: 'center',
         justifyContent: 'center',
     },

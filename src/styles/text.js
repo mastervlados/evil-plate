@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { agressive, base, itemMono, itemSelf, itemStereo, maintain, positive, relaxing, textCommon, textHint, textValidationFailing } from './generalStyles/theme'
+import { agressive, base, crimson, itemMono, itemSelf, itemStereo, maintain, positive, relaxing, textCommon, textHint, textValidationFailing } from './generalStyles/theme'
 
 export const styles = StyleSheet.create({
     textCommon: {
@@ -124,5 +124,17 @@ export const styles = StyleSheet.create({
         fontWeight: '700',
         fontFamily: 'roboto-bold',
         textTransform: 'uppercase',
+    },
+    onboardingTextWithinButton: {
+        color: base,
+        fontSize: 15,
+        fontWeight: '700',
+        fontFamily: 'roboto-bold',
+    },
+    onboardingTextWithinButtonAlternate: {
+        color: crimson,
+        fontSize: 15,
+        fontWeight: '700',
+        fontFamily: 'roboto-bold',
     },
 })
