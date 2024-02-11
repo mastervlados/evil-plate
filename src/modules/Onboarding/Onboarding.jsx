@@ -2,7 +2,6 @@ import { View, Text, Modal, FlatList, Animated } from 'react-native'
 import React, { useRef, useState } from 'react'
 import { styles } from './style'
 import OnboardingItem from './OnboardingItem'
-import { AppContainers } from '../../styles'
 import slides from './slides'
 import Paginator from './Paginator'
 import Pagination from './Pagination'
@@ -34,28 +33,26 @@ export default function Onboarding() {
     return (
         <Modal visible={true} animationType='none'>
             <View style={styles.container}>
-                <View style={AppContainers.styles.appContainerWithLeftAndRightPaddings}>
-                    <FlatList
-                        data={slides}
-                        renderItem={({ item }) => <OnboardingItem slide={item}/>}
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        pagingEnabled
-                        bounces={false}
-                        keyExtractor={(item) => item.id}
-                        onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], {
-                            useNativeDriver: false,
-                        })}
-                        scrollEventThrottle={32}
-                        onViewableItemsChanged={viewableItemsChanged}
-                        viewabilityConfig={viewConfig}
-                        ref={slidesRef}
-                    />
-                    <View style={styles.footerContainer}>
-                        <Paginator scrollX={scrollX} />
-                        <Pagination currentIndex={currentIndex} prevHandler={scrollPrev} nextHandler={scrollNext}/>
-                    </View>
-                </View> 
+                <FlatList
+                    data={slides}
+                    renderItem={({ item }) => <OnboardingItem slide={item} currentIndex={currentIndex}/>}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    pagingEnabled
+                    bounces={false}
+                    keyExtractor={(item) => item.id}
+                    onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], {
+                        useNativeDriver: false,
+                    })}
+                    scrollEventThrottle={32}
+                    onViewableItemsChanged={viewableItemsChanged}
+                    viewabilityConfig={viewConfig}
+                    ref={slidesRef}
+                />
+                <View style={styles.footerContainer}>
+                    <Paginator scrollX={scrollX} />
+                    <Pagination currentIndex={currentIndex} prevHandler={scrollPrev} nextHandler={scrollNext}/>
+                </View>
             </View>
         </Modal>
     )

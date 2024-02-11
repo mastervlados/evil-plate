@@ -13,7 +13,7 @@ export default function Paginator({ scrollX }) {
             {
                 slides.map((_, index) => {
 
-                    const inputRange = [(index - 1) * (width - 40), index * (width - 40), (index + 1) * (width - 40)];
+                    const inputRange = [(index - 1) * width, index * width, (index + 1) * width];
 
                     const dotSize = scrollX.interpolate({
                         inputRange,

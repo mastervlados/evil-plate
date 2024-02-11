@@ -16,13 +16,17 @@ export default function TonnageIndicatorBar({ currentTonnage, previousTonnage, }
     if (!previousTonnage) {
         return (
             <View style={styles.container}>
-                <Text style={AppTextStyles.styles.indicatorTextUnderWater}>
-                    { currentTonnage ? cutFloatPartOfNumber(currentTonnage.toFixed(2)) : '--' } 
-                    { ' ' + endingFor(currentTonnage, unit, locale) }
-                </Text>
-                <Text style={AppTextStyles.styles.indicatorTextUnderWater}>
-                    { i18n.t('es0009') }
-                </Text>
+                <View style={styles.box}>
+                    <Text style={AppTextStyles.styles.indicatorTextUnderWater}>
+                        { currentTonnage ? cutFloatPartOfNumber(currentTonnage.toFixed(2)) : '--' } 
+                        { ' ' + endingFor(currentTonnage, unit, locale) }
+                    </Text>
+                </View>
+                <View style={styles.box}>
+                    <Text style={AppTextStyles.styles.indicatorTextUnderWater}>
+                        { i18n.t('es0009') }
+                    </Text>
+                </View> 
             </View> 
         )
     }
@@ -49,14 +53,18 @@ export default function TonnageIndicatorBar({ currentTonnage, previousTonnage, }
 
     return (
         <View style={styles.container}>
-            <Text style={textStyles}>
-                { difference > 0 ? '+' : null }
-                { difference ? cutFloatPartOfNumber(difference.toFixed(2)) : '--' } 
-                { ' ' + endingFor(difference, unit, locale) }
-            </Text>
-            <Text style={textStyles}>
-                { label }
-            </Text>
+            <View style={styles.box}>
+                <Text style={textStyles}>
+                    { difference > 0 ? '+' : null }
+                    { difference ? cutFloatPartOfNumber(difference.toFixed(2)) : '--' } 
+                    { ' ' + endingFor(difference, unit, locale) }
+                </Text>
+            </View>
+            <View style={styles.box}>
+                <Text style={textStyles}>
+                    { label }
+                </Text>
+            </View>
         </View>
     )
 }
