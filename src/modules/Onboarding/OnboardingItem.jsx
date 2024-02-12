@@ -1,14 +1,13 @@
-import { View, Text, useWindowDimensions, Image } from 'react-native'
+import { View, Text, useWindowDimensions, Image, Dimensions } from 'react-native'
 import React, { useContext } from 'react'
 import { styles } from './style'
 import AppLocalizationContext from '../../../AppLocalizationContext';
-import images from './images';
 import { useSelector } from 'react-redux';
 
 
-export default function OnboardingItem({ slide, currentIndex }) {
+export default function OnboardingItem({ slide }) {
 
-    const { title, text } = slide
+    const { title, text, ownStyles, imagePath } = slide
 
     const { width } = useWindowDimensions();
 
@@ -19,7 +18,7 @@ export default function OnboardingItem({ slide, currentIndex }) {
     return (
         <View style={[styles.slideContainer, { width }]}>
             <View style={styles.imageContainer}>
-                <Image style={[styles.image, currentIndex === 1 ? { bottom: 40 } : { top: -30 } ]} source={images[language][currentIndex]}/>
+                <Image style={[styles.image, ownStyles, { height: imagePath[language].height * (Dimensions.get('window').width / imagePath[language].width) }]} source={imagePath[language].src}/>
             </View>
             <View style={styles.slideDescription}>
                 <Text style={styles.textTitle}>{i18n.t(title)}</Text>

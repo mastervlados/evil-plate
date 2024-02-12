@@ -1,14 +1,22 @@
-import { Dimensions, StyleSheet } from 'react-native'
+import { Dimensions, StyleSheet, StatusBar } from 'react-native'
 import { Theme } from '../../styles'
 
-const footerHeight = (Dimensions.get('window').height / 3) - 48 - (16 * 2)
-const titlePadding = footerHeight < 135 ? 8 : 16
+
+// const slideDescriptionHeight = (Dimensions.get('window').height / 3) - 48 - (16 * 2)
+const footerHeight = 48 + (16 * 2)
+const slideDescriptionHeight = (Dimensions.get('window').height / 3) - footerHeight
+const imageContainerHeight = Dimensions.get('window').height - slideDescriptionHeight - footerHeight - StatusBar.currentHeight
+const titlePadding = slideDescriptionHeight < 135 ? 8 : 16
+
 
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: Theme.levelOne,
         alignItems: 'center',
+    },
+    slideContainer: {
+        flex: 1,
     },
     paginatorContainer: {
         flexDirection: 'row',
@@ -29,6 +37,7 @@ export const styles = StyleSheet.create({
     },
     footerContainer: {
         width: Dimensions.get('window').width,
+        height: footerHeight,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -36,19 +45,21 @@ export const styles = StyleSheet.create({
     },
     imageContainer: {
         position: 'relative',
-        height: Dimensions.get('window').height / 1.5,
+        height: imageContainerHeight,
         width: Dimensions.get('window').width,
         overflow: 'hidden',
+        // borderWidth: 1,
+        // borderColor: 'red',
     },
     image: {
         position: 'absolute',
         width: Dimensions.get('window').width,
-        height: 2340 * (Dimensions.get('window').width / 1080),
+        // height: 2340 * (Dimensions.get('window').width / 1080),
         zIndex: 666,
     },
     slideDescription: {
+        height: slideDescriptionHeight,
         width: Dimensions.get('window').width,
-        height: footerHeight,
         position: 'absolute',
         bottom: 0,
         paddingHorizontal: 20,

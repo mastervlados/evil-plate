@@ -35,7 +35,7 @@ export default function Onboarding() {
             <View style={styles.container}>
                 <FlatList
                     data={slides}
-                    renderItem={({ item }) => <OnboardingItem slide={item} currentIndex={currentIndex}/>}
+                    renderItem={({ item }) => <OnboardingItem slide={item} />}
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     pagingEnabled
