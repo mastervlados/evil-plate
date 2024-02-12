@@ -5,7 +5,7 @@
     "slug": "evil-plate",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icon-2.png",
     "userInterfaceStyle": "dark",
     "splash": {
       "image": "./assets/splash.png",

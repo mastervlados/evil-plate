@@ -291,9 +291,9 @@ export default function MyExercisesForm() {
         </Animatable.View>
     )
   }
-  const hint = showHint ? (
+  const hint = !showHint ? (
     <Animatable.View animation='fadeInLeft' duration={500}>
-        <Text style={{...AppTextStyles.styles.textInfo, ...styles.textInfoPosition}}>{i18n.t('mefs0006')}</Text>
+        <Text style={[AppTextStyles.styles.textInfo, styles.textInfoPosition]}>{i18n.t('mefs0006')}</Text>
     </Animatable.View>
   ) : null
 

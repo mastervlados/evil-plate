@@ -70,7 +70,7 @@ export const styles = StyleSheet.create({
     },
     textInfo: {
         color: itemSelf,
-        fontSize: 12,
+        fontSize: 9,
         fontWeight: '300',
         fontFamily: 'roboto-light',
     },
