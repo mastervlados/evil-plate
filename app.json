@@ -22,7 +22,8 @@
       "supportsTablet": true,
       "infoPlist": {
         "CFBundleAllowMixedLocalizations": true
-      }
+      },
+      "bundleIdentifier": "com.mastervlados.evilplate"
     },
     "android": {
       "adaptiveIcon": {
