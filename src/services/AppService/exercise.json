@@ -1,0 +1,71 @@
+{
+  "id": 1,
+  "title": "Legend",
+  "type": "mono",
+  "breakDuration": 150,
+  "colorNumber": "color-five",
+  "rowsCount": 1,
+  "records": {
+    "leaderboard": {
+      "isExist": true,
+      "headers": [
+        {
+          "header": "es0007",
+          "data": [
+            {
+              "content": "weight",
+              "prefix": null,
+              "weight": "13",
+              "reps": "10",
+              "lethal": false,
+              "performanceID": 2,
+              "measureUnit": "kg",
+              "date": "2024-01-24T11:00:28.622Z"
+            }
+          ]
+        },
+        {
+          "header": "es0008",
+          "data": [
+            {
+              "content": "tonnage",
+              "prefix": null,
+              "tonnage": 130,
+              "sets": 1,
+              "performanceID": 2,
+              "measureUnit": "kg",
+              "date": "2024-01-24T11:00:28.622Z"
+            }
+          ]
+        }
+      ]
+    },
+    "previous": {
+      "isExist": true,
+      "id": 2,
+      "measureUnit": "kg",
+      "date": "2024-01-24T11:00:28.621Z",
+      "headers": [
+        {
+          "header": "es0007",
+          "data": [
+            {
+              "content": "weight",
+              "prefix": null,
+              "weight": "13",
+              "reps": "10",
+              "lethal": false
+            }
+          ]
+        },
+        {
+          "header": "es0008",
+          "data": [
+            { "content": "tonnage", "prefix": null, "tonnage": 130, "sets": 1 }
+          ]
+        }
+      ]
+    }
+  },
+  "created": "2024-01-21 10:42:01"
+}

@@ -1,0 +1,62 @@
+{
+  "id": 1,
+  "exerciseID": 1,
+  "type": "mono",
+  "breakDuration": 150,
+  "measureUnit": "kg",
+  "workload": {
+    "rowsCount": 1,
+    "flows": [{ "tonnage": 490 }],
+    "sets": [
+      {
+        "visible": true,
+        "rows": [
+          {
+            "100": true,
+            "weight": "10",
+            "reps": "10",
+            "isLethal": false,
+            "tonnage": 0
+          }
+        ]
+      },
+      {
+        "visible": true,
+        "rows": [
+          {
+            "120": true,
+            "weight": "12",
+            "reps": "10",
+            "isLethal": false,
+            "tonnage": 0
+          }
+        ]
+      },
+      {
+        "visible": true,
+        "rows": [
+          {
+            "130": true,
+            "weight": "13",
+            "reps": "10",
+            "isLethal": false,
+            "tonnage": 0
+          }
+        ]
+      },
+      {
+        "visible": true,
+        "rows": [
+          {
+            "140": true,
+            "weight": "14",
+            "reps": "10",
+            "isLethal": false,
+            "tonnage": 0
+          }
+        ]
+      }
+    ]
+  },
+  "created": "2024-01-24 10:58:43"
+}

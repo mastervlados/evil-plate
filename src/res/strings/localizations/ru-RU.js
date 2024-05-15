@@ -125,17 +125,24 @@ const exerciseScreen = {
 	es0019: 'Вы собираетесь выполнять упражнение с собственным весом. Вы должны взвеситься и ввести результаты, прежде чем продолжить..',
 }
 
+const exportDataScreen = {
+	eds0001: 'Выгрузить данные в CSV файл',
+	eds0002: 'Все данные которые пользователь внес в программу будут дублированы во внешний CSV файл. Воспользуйтесь этой функцией если нужно сохранить данные или перенести их на новое устройство.'
+}
+
 
 const ru = {
     str0001: 'Мои Упражнения',
     str0002: 'Настройки',
 	str0003: 'Таймер',
+	str0004: 'Выгрузить данные',
 	...alerts,
 	...onboarding,
 	...myExercisesFormScreen,
 	...timerPickerComponent,
 	...appSettingsScreen,
 	...exerciseScreen,
+	...exportDataScreen
 }
 
 export default ru

@@ -125,16 +125,24 @@ const exerciseScreen = {
 	es0019: 'You\'re about doing an exercise with self weight. You have to weigh yourself and type results before you continue..',
 }
 
+const exportDataScreen = {
+	eds0001: 'Export data to a CSV file',
+	eds0002: 'All data which user records in the program will be duplicate into an external CSV file. Use this feature if you need to save data or transfer it to a new device.'
+}
+
+
 const en = {
     str0001: 'My Exercises',
     str0002: 'Settings',
 	str0003: 'Free Timer',
+	str0004: 'Export Data',
 	...alerts,
 	...onboarding,
 	...myExercisesFormScreen,
 	...timerPickerComponent,
 	...appSettingsScreen,
 	...exerciseScreen,
+	...exportDataScreen
 } 
 
 export default en

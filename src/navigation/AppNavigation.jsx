@@ -8,12 +8,13 @@ import MyTrainingScreen from '../screens/MyTrainingScreen'
 import SettingsScreen from '../screens/SettingsScreen'
 import ExerciseScreen from '../screens/ExerciseScreen/ExerciseScreen'
 import FreeTimerScreen from '../screens/FreeTimerScreen'
-import { BookmarkSvg, CogSvg, HumanBarbellSvg, TimerSandSvg } from '../res/svgs'
+import { BookmarkSvg, CogSvg, HumanBarbellSvg, TimerSandSvg, ExportDataSvg } from '../res/svgs'
 import { Theme } from '../styles'
 import AppLocalizationContext from '../../AppLocalizationContext'
 import { useSelector } from 'react-redux'
 import InputSelfWeightModal from '../components/InputSelfWeightModal'
 import MyExercisesForm from '../modules/MyExercisesForm'
+import ExportDataScreen from '../screens/ExportDataScreen'
 
 
 const Drawer = createDrawerNavigator()
@@ -61,6 +62,16 @@ function Root() {
                     title: i18n.t('str0002'),
                     drawerIcon: () => <CogSvg 
                                         size={24} 
+                                        fill={Theme.textCommon}/>
+                }}
+            />
+            <Drawer.Screen
+                name='ExportDataScreen'
+                component={ExportDataScreen}
+                options={{
+                    title: i18n.t('str0004'),
+                    drawerIcon: () => <ExportDataSvg
+                                        size={24}
                                         fill={Theme.textCommon}/>
                 }}
             />

@@ -6,6 +6,14 @@ export default class AppService {
     target = 'evil-plate.db'
     database
 
+    constructor() {
+        // const query = async () => {
+        //     console.log(await JSON.stringify(await this.getExercise(1)));
+        //     console.log(await JSON.stringify(await this.getPerformance(1)));
+        // }
+        // query()
+    }
+
     async sleep(seconds) {
         return await new Promise(resolve => setTimeout(resolve, seconds * 1000));
     }
