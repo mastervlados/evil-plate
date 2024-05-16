@@ -307,4 +307,23 @@ export default class AppService {
             )
         });
     }
+
+    async getAllDataFromDB() {
+        await this.initDatabase();
+        const data = await new Promise((resolve, reject) => {
+            this.database.transaction(tx => {
+                tx.executeSql(
+                    `SELECT exr_id, performance.id, exr_name, exr_color_number, exr_global_type, exr_global_break_duration, exr_global_rows_count, exr_best_results, exr_created, per_type, per_break_duration, per_measure_unit, per_work_load, per_created FROM exercise, performance WHERE exercise.id = performance.exr_id `, [],
+                    function(_, result) {
+                        resolve(result.rows._array);
+                    },
+                    function(_, error) {
+                        reject(error.message);
+                    }
+                )
+            })
+        });
+
+        return data
+    }
 }
