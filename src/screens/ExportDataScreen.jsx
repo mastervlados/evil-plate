@@ -6,7 +6,9 @@ import RoundedButton from "../UI/RoundedButton";
 import { ExportDataSvg, AcceptSvg, CancelSvg } from "../res/svgs";
 import AppContext from "../../AppContext";
 import { jsonToCSV } from "react-native-csv";
-import * as FileSystem from 'expo-file-system'
+import * as FileSystem from 'expo-file-system';
+import * as MediaLibrary from 'expo-media-library';
+import * as Permissions from 'expo-permissions';
 
 
 export default function ExportDataScreen() {
@@ -21,6 +23,13 @@ export default function ExportDataScreen() {
 
     const directoryUri = FileSystem.documentDirectory
     const fileUri = directoryUri + `evilplate_${Date.now()}.csv`
+
+    // Ask permission (if not granted)
+    const perm = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
+    if (perm.status != 'granted') {
+      console.log("Permission not Granted!")
+      return;
+    }
 
     try {
       await FileSystem.writeAsStringAsync(fileUri, csv)
@@ -41,9 +50,21 @@ export default function ExportDataScreen() {
         }, 3000)
       })
     } catch (error) {
-      console.log(error)
+      console.log('One: ' + error)
     }
-  
+
+    try {
+      const asset = await MediaLibrary.createAssetAsync(fileUri);
+      const album = await MediaLibrary.getAlbumAsync('Evil Plate');
+      console.log(album)
+      if (album == null) {
+        await MediaLibrary.createAlbumAsync('Evil Plate', asset, true);
+      } else {
+        await MediaLibrary.addAssetsToAlbumAsync([asset], album, true);
+      }
+    } catch (error) {
+      console.log('Two: ' + error);
+    }
   };
 
   return (
